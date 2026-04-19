@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantilla Base - Proyecto</title>
+    <link rel="stylesheet" href="base-presentacion.css">
+    <script src="../0.plantilla/back-button.js"></script>
+    <script src="../0.plantilla/lightbox.js"></script>
+</head>
+<body>
+    <div class="scene">
+        <div class="grid-overlay"></div>
+        <img src="assets/logo.svg" class="bg-icon" alt="">
+        <div class="prism-dispersion"></div>
+        <div class="prism-dispersion bottom"></div>
+    </div>
+    <div class="project-container">
+        <header class="project-header">
+            <div class="header-content">
+                <span class="tag">// HERRAMIENTA · AUTOMATIZACIÓN · E-COMMERCE</span>
+                <h1><span class="snap">Snap</span><span class="store">Store</span><span class="dot">.</span></h1>
+                <p style="color: var(--muted); max-width: 600px;">Descargador inteligente de activos visuales para tiendas online. Optimiza la recopilación de catálogos con precisión quirúrgica.</p>
+                <div class="header-actions">
+                    <a href="https://snapstore-4pk3.onrender.com/" target="_blank" rel="noopener noreferrer" class="btn-action" style="text-decoration: none;">
+                        <span>🚀</span> PROBAR SOLUCIÓN
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <main class="project-grid">
+            <section class="info-block">
+                <h2>EL CONCEPTO</h2>
+                <p>SnapStore resuelve el cuello de botella de la recopilación manual de imágenes en el comercio electrónico. En lugar de guardar una a una las fotos de productos, SnapStore utiliza motores de navegación automatizada para extraer, procesar y empaquetar catálogos completos en segundos, manteniendo la máxima calidad y estructura original.</p>
+            </section>
+
+            <section class="info-block specs">
+                <h2>ESPECIFICACIONES</h2>
+                <ul>
+                    <li><span>MOTOR CORE:</span> Puppeteer Core + Stealth Plugin (Navegación indetectable).</li>
+                    <li><span>ARQUITECTURA:</span> Desktop App híbrida basada en Electron y Node.js.</li>
+                    <li><span>EXTRACCIÓN:</span> Lógica adaptativa con Cheerio y selectores dinámicos.</li>
+                    <li><span>PROCESAMIENTO:</span> Descarga asíncrona por lotes y empaquetado ZIP.</li>
+                </ul>
+            </section>
+
+            <section class="info-block full-width">
+                <h2>PROCESO</h2>
+                <div class="steps">
+                    <div class="step">
+                        <h3>01. ANÁLISIS DOM</h3>
+                        <p>Investigación de estructuras y medidas anti-bot en plataformas líderes como Shopify o Inditex.</p>
+                    </div>
+                    <div class="step">
+                        <h3>02. BACKEND ASÍNCROMO</h3>
+                        <p>Implementación de un servidor Express interno para gestionar procesos pesados sin bloquear la UI.</p>
+                    </div>
+                    <div class="step">
+                        <h3>03. UI PRISMÁTICA</h3>
+                        <p>Diseño de una interfaz "Prism UI" minimalista y optimización de la velocidad de descarga masiva.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-block full-width conclusion">
+                <h2>RESUMEN Y CONCLUSIÓN</h2>
+                <p>SnapStore demuestra cómo el web scraping ético y la automatización pueden transformar tareas tediosas de horas en procesos automáticos de pocos segundos. Es una herramienta escalable que permite a los creadores de contenido y gestores de tiendas centrarse en la estrategia, no en la recolección manual de datos.</p>
+            </section>
+
+            <section class="info-block full-width">
+                <h2>GALERÍA DE INTERFAZ</h2>
+                <div class="media-grid">
+                    <div class="media-item">
+                        <img src="assets/portada.png" class="media-content" alt="Dashboard SnapStore">
+                        <p class="media-caption">// Dashboard Principal: Buscador de productos</p>
+                    </div>
+                    <div class="media-item">
+                        <img src="assets/monitor de descarga.png" class="media-content" alt="Monitor de descarga SnapStore">
+                        <p class="media-caption">// Monitor de Descarga: Gestión de activos asíncrona</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="project-footer">
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                ESTADO_PROYECTO_FINALIZADO
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const title = params.get('title');
+        if (title) {
+            document.title = 'Proyecto - ' + title;
+            const heroTitle = document.querySelector('.header-content h1');
+            if (heroTitle) heroTitle.innerHTML = title + '<span class="dot">.</span>';
+        }
+
+        function handleBack() {
+            if (window.parent !== window) {
+                window.parent.postMessage({ type: 'CLOSE_PROJECT' }, '*');
+            } else {
+                if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.close();
+                }
+            }
+        }
+    </script>
+</body>
+</html>

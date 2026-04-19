@@ -1,0 +1,164 @@
+.value-prop {
+  background-color: var(--color-bg);
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.value-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.value-card {
+  background: #111111; /* Ligeramente más claro que el fondo negro puro */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 3rem 2.5rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+  background: #151515;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.title-with-icon {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem; /* Espacio entre el ícono y el texto */
+  margin-bottom: 0.5rem;
+}
+
+.abstract-icon {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px; /* Alineación ligera con las mayúsculas (1ra linea de texto) */
+}
+
+.abstract-icon .shape {
+  position: absolute;
+  /* El color viene inyectado de .icon-blue, .icon-gold, etc. */
+  background-color: currentColor;
+  transition: all 0.5s ease;
+}
+
+/* 1. VISIÓN VISUAL: Cuadrado azul mutando a rombo */
+.abstract-icon-1 .shape {
+  width: 14px;
+  height: 14px;
+  animation: morph-square-rhombus 8s infinite cubic-bezier(0.8, 0, 0.2, 1);
+}
+
+@keyframes morph-square-rhombus {
+  0%, 35%, 100% { 
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    transform: scale(1);
+  }
+  50%, 85% { 
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    transform: scale(1.1);
+  }
+}
+
+/* 2. PENSAMIENTO UX: Triángulo amarillo mutando a cuadrado */
+.abstract-icon-2 .shape {
+  width: 15px;
+  height: 15px;
+  animation: morph-triangle-square 8s infinite cubic-bezier(0.8, 0, 0.2, 1);
+  animation-delay: -1ms;
+}
+
+@keyframes morph-triangle-square {
+  0%, 35%, 100% { 
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%, 100% 100%);
+    transform: rotate(0deg); 
+  }
+  50%, 85% { 
+    clip-path: polygon(100% 0, 0 0, 0 100%, 100% 100%);
+     
+  }
+}
+
+/* 3. EJECUCIÓN REAL: Pentágono naranja mutando a triángulo */
+.abstract-icon-3 .shape {
+  width: 16px;
+  height: 16px;
+  animation: morph-pentagon-triangle 8s infinite cubic-bezier(0.8, 0, 0.2, 1);
+  animation-delay: -100ms;
+}
+
+@keyframes morph-pentagon-triangle {
+  0%, 35%, 100% { 
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    transform: rotate(0deg); 
+  }
+  50%, 85% { 
+    clip-path: polygon(50% 18%, 100% 100%, 50% 100%, 0% 100%, 0% 100%);
+    
+  }
+}
+
+/* 4. INICIATIVA: Rombo crema mutando a pentágono */
+.abstract-icon-4 .shape {
+  width: 16px;
+  height: 16px;
+  animation: morph-rhombus-pentagon 8s infinite cubic-bezier(0.8, 0, 0.2, 1);
+  animation-delay: -200ms;
+}
+
+@keyframes morph-rhombus-pentagon {
+  0%, 35%, 100% { 
+    /* Rombo con un punto duplicado para morphing fluido a pentágono */
+    clip-path: polygon(50% 0%, 100% 50%, 100% 50%, 50% 100%, 0% 50%);
+    transform: scale(1);
+  }
+  50%, 85% { 
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    transform: scale(1.1);
+  }
+}
+
+.icon-blue { color: var(--color-accent-blue); }
+.icon-gold { color: var(--color-accent-gold); }
+/* Para la crema usamos el color de texto base apagado */
+.icon-cream { color: var(--color-text); } 
+/* Para el naranja usamos el rojo coral de la identidad visual */
+.icon-orange { color: var(--color-accent-red); }
+
+.value-title {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0; /* Quitado el margen ya que lo maneja el gap de title-with-icon */
+}
+
+.value-desc {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 1024px) {
+  .value-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .value-grid {
+    grid-template-columns: 1fr;
+  }
+}

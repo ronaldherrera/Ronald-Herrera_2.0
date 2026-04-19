@@ -1,0 +1,574 @@
+.lab-page {
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: var(--color-text);
+  font-family: var(--font-body), sans-serif;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body.project-open .lab-scrollbar-container {
+  display: none !important;
+}
+
+/* Hero Section del Lab */
+.lab-hero {
+  height: 60vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 12vh 5vw 0;
+  overflow: hidden; /* Mantenemos el clip del contenido */
+  background: #0a0a0a; /* Fondo base para evitar fugas */
+}
+
+/* Pseudo-elemento para el fondo animado */
+.lab-hero::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  background-image: inherit; /* Hereda la imagen del inline style */
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+  animation: floating-hero 40s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes floating-hero {
+  0%, 100% { transform: translate(0, 0) scale(1.02); }
+  25% { transform: translate(5px, -5px) scale(1.03); }
+  50% { transform: translate(-3px, -8px) scale(1.02); }
+  75% { transform: translate(-5px, -3px) scale(1.04); }
+}
+
+.lab-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; /* Un pixel extra para asegurar que tape cualquier rendija */
+  left: 0;
+  width: 100%;
+  height: 60%; /* Sombreado un poco más alto para mejorar la transición */
+  background: linear-gradient(to top, #0a0a0a 5%, transparent 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.lab-hero-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: none; /* Expandido al 100% */
+  margin: 0;
+}
+
+.lab-hero-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1200px; /* Anclamos a un ancho máximo para control tipográfico */
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lab-hero-tag {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-accent-gold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.1rem;
+  text-shadow: 0px 2px 2px #4b4b4b;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.lab-hero-tag::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1rem;
+  height: 1px;
+  background: var(--color-accent-gold);
+}
+
+.lab-hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(4rem, 15vw, 10rem); /* Tamaño masivo para el punch */
+  line-height: 0.9;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  display: flex;
+  flex-direction: column;
+}
+
+.lab-hero-title .text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(234, 229, 202, 0.4);
+  transition: -webkit-text-stroke 0.4s ease;
+}
+
+.lab-hero-title .text-solid {
+  color: var(--color-text-bright);
+  /* Sutil degradado para que se sienta más "vivo" */
+  background: linear-gradient(180deg, #ffffff 0%, #eae5ca 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding-bottom: 8px;
+}
+
+.lab-hero-title .dot {
+  color: var(--color-accent-red);
+  -webkit-text-fill-color: var(--color-accent-red); /* Reset para el gradiente */
+}
+
+.lab-hero-desc {
+  font-family: var(--font-body); /* Restaurada a Brother 1816 */
+  font-size: clamp(0.9rem, 1.3vw, 1.05rem); /* Un pelín más grande al ser minúscula */
+  font-weight: 500;
+  letter-spacing: 0.02em; /* Ajuste sutil de espaciado */
+  color: var(--color-text);
+  opacity: 0.7; 
+  margin-top: 0.8rem;
+  line-height: 1.6;
+  
+  border-left: 2px solid var(--color-accent-red); /* Detalle de 'punch' lateral */
+  padding-left: 1.5rem;
+}
+
+/* Filas de Contenido */
+.lab-rows {
+  padding: 4rem 0 10vh; /* Más espacio arriba de las filas separadas del hero */
+  position: relative;
+  z-index: 10;
+}
+
+.lab-row {
+  margin-bottom: 1rem;
+  width: 100%;
+  padding: 0 5vw;
+  position: relative; /* Para posicionar flechas relativo a la fila */
+}
+
+.lab-row-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.lab-row-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  
+  color: var(--color-text-bright);
+  letter-spacing: -0.02em;
+}
+
+.lab-cards-container {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5rem 5vw 2rem;
+  margin: 0 -5vw;
+  gap: 1.2rem;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  cursor: grab;
+  user-select: none; /* Evitar selección accidental al arrastrar */
+}
+
+.lab-cards-container.is-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto; /* Desactivar suave al arrastrar para respuesta instantánea */
+}
+
+.lab-cards-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Botones de Navegación */
+.nav-arrow {
+  position: absolute;
+  top: 0;
+  bottom: 2rem;
+  width: 5rem; /* Un poco más ancho para el degradado */
+  background: linear-gradient(to right, #0a0a0a 15%, transparent 100%);
+  border: none;
+  color: var(--color-text); /* Color cremita de la identidad */
+  z-index: 30;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.nav-arrow.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.nav-arrow:hover {
+  background: linear-gradient(to right, rgba(10,10,10,0.95), transparent);
+  transform: scaleY(1.1);
+}
+
+.nav-arrow.right {
+  right: -5vw;
+  background: linear-gradient(to left, #0a0a0a 15%, transparent 100%);
+}
+
+.nav-arrow.right:hover {
+  background: linear-gradient(to left, #0a0a0a 30%, transparent 100%);
+}
+
+.nav-arrow.left {
+  left: -5vw;
+}
+
+.nav-arrow.left:hover {
+  background: linear-gradient(to right, #0a0a0a 30%, transparent 100%);
+}
+
+.nav-arrow svg {
+  transition: transform 0.2s ease;
+  filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+}
+
+.nav-arrow:hover svg {
+  transform: scale(1.2);
+  /* Mantenemos el color original sin cambiar a dorado */
+}
+
+/* Tarjeta Estilo Netflix */
+.lab-card {
+  flex: 0 0 300px;
+  aspect-ratio: 16 / 9;
+  background: #1a1a1a;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.lab-card:hover {
+  transform: scale(1.08);
+  z-index: 20;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.lab-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.lab-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to top, 
+    rgba(0,0,0,0.9) 0%, 
+    rgba(0,0,0,0.5) 40%, 
+    transparent 80%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.2rem;
+  transition: all 0.4s ease;
+}
+
+.lab-card:hover .lab-card-overlay {
+  background: linear-gradient(
+    to top, 
+    rgba(0,0,0,0.95) 0%, 
+    rgba(0,0,0,0.7) 60%, 
+    rgba(0,0,0,0.4) 100%
+  );
+}
+
+.lab-card-header {
+  transition: transform 0.4s ease;
+}
+
+.lab-card:hover .lab-card-header {
+  transform: translateY(-5px);
+}
+
+.lab-card-body {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(10px);
+}
+
+.lab-card:hover .lab-card-body {
+  max-height: 100px;
+  opacity: 1;
+  transform: translateY(0);
+  margin-top: 0.8rem;
+}
+
+.lab-card-category {
+  font-size: 0.65rem;
+  color: var(--color-accent-blue);
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+  display: block;
+}
+
+.lab-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.lab-card-desc {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  opacity: 0.8;
+  color: #ccc;
+  margin-bottom: 0.8rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.lab-card-tags {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.lab-tag {
+  font-size: 0.6rem;
+  color: var(--color-text-muted);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* Visor de Proyectos (Iframe) */
+.project-viewer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--color-bg);
+  z-index: 20000;
+  display: flex;
+  flex-direction: column;
+  animation: fadeInViewer 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeInViewer {
+  from { opacity: 0; transform: scale(1.05); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.project-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: white;
+}
+
+.project-iframe.is-dragging-btn {
+  pointer-events: none;
+}
+
+/* Botón flotante Volver al LAB */
+.back-to-lab-btn {
+  position: fixed;
+  z-index: 20001;
+  background: rgba(16, 16, 16, 0.2);
+  backdrop-filter: blur(4px) saturate(180%) contrast(1.1);
+  -webkit-backdrop-filter: blur(4px) saturate(180%) contrast(1.1);
+  border: 0.5px solid #ffffff; /* Borde ultra-fino para máxima elegancia */
+  color: #ffffff;
+  padding: 0.8rem 1.6rem;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  cursor: grab;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Sombra mucho más ligera */
+  user-select: none;
+  touch-action: none;
+  mix-blend-mode: difference;
+}
+
+.back-to-lab-btn.dragging {
+  cursor: grabbing;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.back-to-lab-btn span {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}
+
+.back-to-lab-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), inset 0 1px 3px rgba(255, 255, 255, 0.1);
+  /* Eliminamos el cambio de background */
+}
+
+.back-to-lab-btn:hover span {
+  opacity: 1;
+}
+
+.back-to-lab-btn svg {
+  transition: transform 0.4s ease;
+}
+
+.back-to-lab-btn:hover svg {
+  transform: translateX(-3px);
+}
+
+.back-to-lab-btn.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-20px, 0) scale(0.8);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .lab-hero {
+    height: 60vh;
+    padding: 18vh 1.5rem 5vh;
+  }
+  
+  .lab-hero-content {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .lab-row {
+    padding: 0 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .lab-hero-title {
+    font-size: clamp(2rem, 12vw, 3rem);
+  }
+  
+  .lab-card {
+    flex: 0 0 260px;
+  }
+
+  .nav-arrow {
+    display: none !important;
+  }
+}
+
+/* Estados de Desarrollo y Placeholder */
+.lab-card.is-development {
+  cursor: default;
+  filter: grayscale(0.8);
+  opacity: 0.8;
+}
+
+.lab-card.is-development:hover {
+  transform: none !important;
+  z-index: 1 !important;
+  box-shadow: none !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.lab-card-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.2rem;
+}
+
+.dev-badge {
+  font-size: 0.55rem;
+  background: var(--color-accent-red);
+  color: white;
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  box-shadow: 0 0 10px rgba(255, 75, 43, 0.3);
+}
+
+/* Estilos de Placeholder "Próximamente" */
+.lab-card.is-placeholder {
+  flex: 0 0 300px;
+  aspect-ratio: 16 / 9;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  transition: border-color 0.4s ease, background 0.4s ease;
+}
+
+.lab-card.is-placeholder:hover {
+  transform: none !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  opacity: 0.3;
+  transition: opacity 0.4s ease;
+}
+
+.lab-card.is-placeholder:hover .placeholder-content {
+  opacity: 0.6;
+}
+
+.placeholder-icon {
+  color: var(--color-text);
+  transform: scale(1.2);
+}
+
+.placeholder-text {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--color-text);
+  text-transform: uppercase;
+}

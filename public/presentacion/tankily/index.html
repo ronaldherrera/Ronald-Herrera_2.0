@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantilla Base - Proyecto</title>
+    <link rel="stylesheet" href="base-presentacion.css">
+    <script src="back-button.js"></script>
+    <script src="lightbox.js"></script>
+</head>
+<body>
+    <div class="project-container">
+        <header class="project-header">
+            <div class="header-content">
+                <span class="tag">// NOMBRE DE CATEGORÍA</span>
+                <h1>TÍTULO DEL PROYECTO<span class="dot">.</span></h1>
+                <p style="color: var(--muted); max-width: 600px;">Descripción breve o subtítulo llamativo del proyecto. Utiliza este espacio para enganchar al usuario.</p>
+                <div class="header-actions">
+                    <a href="#" class="btn-action">
+                        <span>🚀</span> ACCIÓN PRINCIPAL
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <main class="project-grid">
+            <section class="info-block">
+                <h2>EL CONCEPTO</h2>
+                <p>Describe el problema o la inspiración principal que llevó a crear este proyecto. Este bloque es ideal para detallar el porqué de la solución y las metas iniciales marcadas antes del desarrollo.</p>
+            </section>
+
+            <section class="info-block specs">
+                <h2>ESPECIFICACIONES</h2>
+                <ul>
+                    <li><span>DATO 1:</span> Descripción de la característica o tecnología.</li>
+                    <li><span>DATO 2:</span> Descripción de la característica.</li>
+                    <li><span>DATO 3:</span> Otra tecnología clave utilizada.</li>
+                </ul>
+            </section>
+
+            <section class="info-block full-width">
+                <h2>PROCESO</h2>
+                <div class="steps">
+                    <div class="step">
+                        <h3>01. FASE UNO</h3>
+                        <p>Descripción de la primera parte del proceso de trabajo o metodología utilizada.</p>
+                    </div>
+                    <div class="step">
+                        <h3>02. FASE DOS</h3>
+                        <p>Desarrollo técnico o pasos intermedios críticos para lograr la solución.</p>
+                    </div>
+                    <div class="step">
+                        <h3>03. RESULTADO</h3>
+                        <p>El cierre del ciclo de producto y qué conclusiones o hitos se alcanzaron.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-block full-width conclusion">
+                <h2>RESUMEN Y CONCLUSIÓN</h2>
+                <p>Un texto destacado para cerrar la narración del proyecto, resaltando el aprendizaje o el impacto generado por el producto final desarrollado en el Laboratorio.</p>
+            </section>
+
+            <section class="info-block full-width">
+                <h2>GALERÍA / RECURSOS</h2>
+                <div class="media-grid">
+                    <div class="media-item">
+                        <div class="media-content"></div>
+                        <p class="media-caption">// Descripción de la imagen 1</p>
+                    </div>
+                    <div class="media-item">
+                        <div class="media-content"></div>
+                        <p class="media-caption">// Descripción de la imagen 2</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="project-footer">
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                ESTADO_PROYECTO_FINALIZADO
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const title = params.get('title');
+        if (title) {
+            document.title = 'Proyecto - ' + title;
+            const heroTitle = document.querySelector('.header-content h1');
+            if (heroTitle) heroTitle.innerHTML = title + '<span class="dot">.</span>';
+        }
+
+        function handleBack() {
+            if (window.parent !== window) {
+                window.parent.postMessage({ type: 'CLOSE_PROJECT' }, '*');
+            } else {
+                if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.close();
+                }
+            }
+        }
+    </script>
+</body>
+</html>

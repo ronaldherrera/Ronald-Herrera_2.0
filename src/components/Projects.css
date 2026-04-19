@@ -1,0 +1,249 @@
+.projects {
+  background-color: var(--color-bg);
+  position: relative;
+  z-index: 1;
+}
+
+.projects-header-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.projects-header-subtitle {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  margin-bottom: 6rem;
+  position: relative;
+  display: inline-block;
+}
+
+.projects-header-subtitle::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background-color: var(--color-accent-red);
+}
+
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+}
+
+.project-card {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 5rem;
+  align-items: flex-start;
+}
+
+.project-card.img-right {
+  grid-template-columns: 0.8fr 1.2fr;
+}
+
+.project-card.img-right .project-image-container {
+  order: 2;
+}
+
+.project-card.img-right .project-content {
+  order: 1;
+}
+
+.project-image-container {
+  width: 100%;
+  aspect-ratio: 16/10;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #0a0a0a;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  position: relative;
+}
+
+/* Estética Blueprint / Rejilla Técnica */
+.project-image-placeholder {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-image-placeholder::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+.project-image-container:hover .project-image-placeholder {
+  transform: scale(1.02);
+  background-size: 50px 50px;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.bg-gold { background-color: #0d0c08; border: 1px solid rgba(212, 175, 55, 0.1); }
+.bg-blue { background-color: #080a0d; border: 1px solid rgba(0, 122, 255, 0.1); }
+.bg-red { background-color: #0d0808; border: 1px solid rgba(255, 59, 48, 0.1); }
+
+.project-real-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-image-container:hover .project-real-image {
+  transform: scale(1.04);
+}
+
+.project-category {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: var(--color-text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.project-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 100px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  width: fit-content;
+  background: rgba(255,255,255,0.03);
+}
+
+.project-link-btn:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
+  gap: 0.9rem;
+}
+
+.color-cyan { color: #00d2ff; }
+.color-gold { color: var(--color-accent-gold); }
+.color-blue { color: var(--color-accent-blue); }
+.color-red { color: var(--color-accent-red); }
+
+.project-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.project-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 1.1;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem 2.5rem;
+}
+
+.project-grid-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.technical-mark {
+  font-family: var(--font-body);
+  font-size: 5rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.03);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  letter-spacing: -0.05em;
+  z-index: 1;
+}
+
+.project-grid-item h4 {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--color-text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.project-grid-item h4::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.project-grid-item p {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  margin: 0;
+  opacity: 0.8;
+}
+
+@media (max-width: 1200px) {
+  .project-card, .project-card.img-right {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+  
+  .project-card.img-right .project-image-container {
+    order: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .projects-list {
+    gap: 8rem;
+  }
+}
+

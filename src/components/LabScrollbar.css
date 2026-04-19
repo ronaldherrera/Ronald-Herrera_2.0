@@ -1,0 +1,53 @@
+.lab-scrollbar-container {
+  position: fixed;
+  top: 10vh;
+  right: 2px; /* Pegado al máximo a la derecha */
+  width: 10px; /* Más estrecho para pegarse al borde */
+  height: 80vh;
+  z-index: 10001;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end; /* Alinear pista al borde derecho del contenedor */
+  pointer-events: all;
+}
+
+.lab-scrollbar-container.is-dragging {
+  cursor: grabbing;
+}
+
+.lab-scrollbar-track {
+  position: relative;
+  width: 1px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1px;
+}
+
+.lab-scrollbar-thumb {
+  position: absolute;
+  left: 50%;
+  width: 2px;
+  height: 60px;
+  background: var(--color-text);
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+.lab-scrollbar-container:hover .lab-scrollbar-thumb,
+.lab-scrollbar-container.is-dragging .lab-scrollbar-thumb {
+  width: 4px;
+  background: var(--color-accent-blue);
+}
+
+.lab-scrollbar-container:hover .lab-scrollbar-track {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .lab-scrollbar-container {
+    right: 0;
+    width: 6px;
+  }
+}

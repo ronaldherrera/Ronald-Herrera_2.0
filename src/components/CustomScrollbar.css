@@ -1,0 +1,47 @@
+.custom-scrollbar-container {
+  position: fixed;
+  top: 0;
+  right: -10px;
+  width: 40px;
+  height: 100vh; /* Fallback */
+  height: 100dvh;
+  z-index: 10001;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.custom-scrollbar-container.is-dragging {
+  cursor: grabbing;
+}
+
+.custom-scrollbar-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.scrollbar-guide {
+  stroke: rgba(255, 255, 255, 0.05);
+  stroke-width: 1px;
+}
+
+.scrollbar-path {
+  fill: none;
+  stroke: var(--color-text);
+  stroke-width: 1px;
+  stroke-linecap: round;
+  transition: stroke 0.3s ease;
+  opacity: 0.3; /* Aún más sutil */
+}
+
+.scrollbar-thumb-circle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-text);
+  border: 1px solid var(--color-bg);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}

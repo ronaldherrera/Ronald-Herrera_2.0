@@ -1,0 +1,262 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem 5vw;
+  z-index: 1000;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  justify-content: center;
+}
+
+.navbar.scrolled {
+  padding: 1rem 5vw;
+}
+
+.navbar.scrolled .navbar-container {
+  background: rgba(16, 16, 16, 0.4);
+  /* Unificamos con el efecto de cristal profundo del menú móvil */
+  backdrop-filter: blur(12px) saturate(200%) contrast(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(200%) contrast(1.2);
+  border: 1px solid rgba(234, 229, 202, 0.1);
+  border-radius: 100px;
+  padding: 0.8rem 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.05);
+}
+
+.navbar-container {
+  max-width: 1400px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid transparent; 
+  border-radius: 100px;
+  padding: 0.8rem 0; 
+}
+
+.navbar-logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-desktop {
+  height: 24px;   /* Ajustar a un tamaño proporcionado */
+  display: block; /* Visible por defecto */
+}
+
+.logo-mobile {
+  height: 32px;   /* Ligeramente más grande el icono */
+  display: none;  /* Oculto en desktop */
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.nav-home-link {
+  display: none; /* Oculto en desktop por defecto */
+}
+
+/* Lógica específica para la ruta de THE LAB */
+.navbar.is-lab-route {
+  padding: 1rem 5vw;
+}
+
+.navbar.is-lab-route .navbar-container {
+  background: rgba(16, 16, 16, 0.4);
+  backdrop-filter: blur(12px) saturate(200%) contrast(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(200%) contrast(1.2);
+  border: 1px solid rgba(234, 229, 202, 0.1);
+  border-radius: 30px;
+  padding: 0.8rem 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.05);
+}
+
+.is-lab-route .nav-home-link {
+  display: block !important;
+}
+
+.is-lab-route .nav-link-anchor {
+  display: none !important;
+}
+
+.nav-link {
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover {
+  opacity: 1;
+}
+
+.btn-nav-contact {
+  color: var(--color-accent-gold);
+  border: 1px solid var(--color-accent-gold);
+  padding: 0.6rem 1.2rem;
+  border-radius: 40px;
+  opacity: 1;
+}
+
+.btn-nav-contact:hover {
+  background: var(--color-accent-gold);
+  color: var(--color-bg);
+}
+
+/* Botón Hamburguesa SVG */
+.nav-toggle {
+  display: none;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-toggle svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.nav-toggle line {
+  stroke: var(--color-text);
+  stroke-linecap: round;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: 12px 12px; /* Centro absoluto del SVG */
+}
+
+.line-1 { stroke-width: 0.8px; }
+.line-2 { stroke-width: 1.6px; }
+.line-3 { stroke-width: 2.6px; }
+
+.nav-toggle.active .line-1 {
+  transform: translateY(5px) rotate(45deg);
+}
+
+.nav-toggle.active .line-2 {
+  opacity: 0;
+  transform: translateX(5px);
+}
+
+.nav-toggle.active .line-3 {
+  transform: translateY(-5px) rotate(-45deg);
+}
+
+@media (max-width: 950px) {
+  .navbar {
+    padding: 1rem 5vw;
+  }
+
+  .navbar-container {
+    padding: 0.8rem 1.5rem;
+    flex-wrap: wrap;
+    background: rgba(16, 16, 16, 0.4);
+    backdrop-filter: blur(12px) saturate(200%) contrast(1.2);
+    -webkit-backdrop-filter: blur(12px) saturate(200%) contrast(1.2);
+    border: 1px solid rgba(234, 229, 202, 0.1);
+    border-radius: 30px; 
+    max-height: 60px; 
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* CIERRE SUAVE */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .navbar.scrolled .navbar-container {
+    background: rgba(16, 16, 16, 0.6);
+    border-radius: 30px; /* RESTAURADO: Mantener forma de cápsula */
+    
+  }
+
+  .menu-open .navbar-container,
+  .navbar.scrolled.menu-open .navbar-container {
+    max-height: 320px; /* Sincronizado para ambos estados */
+    padding-bottom: 4rem !important; /* Forzar el espacio inferior incluso en scroll */
+    transition: all 0.6s cubic-bezier(0.3, 1.5, 0.5, 1);
+  }
+
+  /* El botón hamburguesa aparece en móvil */
+  .nav-toggle {
+    display: flex;
+  }
+
+  .logo-desktop {
+    display: none;
+  }
+
+  .logo-mobile {
+    display: block;
+  }
+
+  /* Menú Móvil Transformado DENTRO del contenedor */
+  .navbar-menu {
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem; /* Reducido de 2.5rem para evitar exceso de separación */
+    padding-top: 2rem; /* Menos espacio por arriba */
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* Cierre suave */
+    transform: translateY(-20px) scale(0.95);
+  }
+
+  .nav-home-link {
+    display: block !important;
+  }
+
+  /* Selector ultra-específico para asegurar la ocultación */
+  .navbar-menu.is-open .nav-link.nav-link-anchor {
+    display: none !important;
+  }
+
+  .navbar-menu.is-open {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0) scale(1);
+    transition: all 0.6s cubic-bezier(0.3, 1.5, 0.5, 1); /* Rebote apertura */
+  }
+
+  .nav-link {
+    display: block !important;
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* Salida suave */
+  }
+
+  .navbar-menu.is-open .nav-link {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.5s cubic-bezier(0.3, 1.5, 0.5, 1); /* Entrada con rebote */
+  }
+
+  /* Delays para la apertura fluida - Ajustados para los elementos visibles */
+  .navbar-menu.is-open .nav-home-link { transition-delay: 0.1s; }
+  .is-lab-route .navbar-menu.is-open .nav-home-link { transition-delay: 0.1s; } 
+  .navbar-menu.is-open .nav-link-lab { transition-delay: 0.2s; }
+  .navbar-menu.is-open .btn-nav-contact { transition-delay: 0.3s; }
+
+  .btn-nav-contact {
+    border: 1px solid var(--color-accent-gold);
+    width: auto;
+    padding: 0.8rem 2rem;
+    font-size: 0.9rem;
+  }
+}
