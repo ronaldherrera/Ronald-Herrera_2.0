@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lámpara Aquarium LED - Proyecto</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="../0.plantilla/back-button.js"></script>
+    <script src="../0.plantilla/lightbox.js"></script>
+</head>
+<body>
+    <div class="project-container">
+
+        <header class="project-header">
+            <div class="header-content">
+
+                <h1>Lámpara<br>Aquarium<span class="dot">.</span></h1>
+                <p class="header-desc">Sistema inteligente de iluminación LED para acuarios controlado mediante ESP32, con interfaz web en tiempo real para programar ciclos de luz personalizados.</p>
+                <div class="header-actions">
+                    <a href="/public/proyectos/demo-lampara-led/index.html" target="_blank" rel="noopener noreferrer" class="btn-action">
+                        <span class="btn-icon">🕹️</span>
+                        Probar Demo
+                    </a>
+                </div>
+            </div>
+
+            <div class="header-image-container" id="header-3d">
+                <div id="custom-loader" class="loader-overlay">
+                    <div class="loader-content">
+                        <div class="loader-text">// CARGANDO MODELO 3D</div>
+                        <div class="loader-bar-container">
+                            <div class="loader-bar-fill" id="loader-bar-fill"></div>
+                        </div>
+                        <div class="loader-percentage">0%</div>
+                    </div>
+                </div>
+                <model-viewer
+                    id="lamp-model"
+                    src="assets/lampara pecera.glb"
+                    camera-controls
+                    shadow-intensity="2.0"
+                    exposure="0.5"
+                    environment-image="neutral"
+                    camera-orbit="45deg 70deg 2.5m"
+                    min-camera-orbit="auto auto 1m"
+                    max-camera-orbit="auto auto 5m"
+                    style="width: 100%; height: 100%; background: transparent;"
+                    interaction-prompt="none"
+                >
+                    <div class="model-hints">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;"><path d="M12 1v22M5 12h14"></path><path d="M12 23l-4-4m8 0l-4 4M12 1l4 4m-8 0l4-4"></path></svg>
+                        ARRASTRA PARA ROTAR · ZOOM CON Rueda
+                    </div>
+                </model-viewer>
+            </div>
+        </header>
+
+        <main>
+            <div class="project-grid">
+
+                <section class="info-block">
+                    <h2>EL RETO</h2>
+                    <p>Los sistemas de iluminación LED para acuarios disponibles en el mercado son caros, propietarios y no permiten personalización. El objetivo era construir una solución desde cero que permitiera control total del espectro lumínico adaptado a las necesidades de cada especie acuática.</p>
+                </section>
+
+                <section class="info-block">
+                    <h2>STACK TÉCNICO</h2>
+                    <ul>
+                        <li><span>Hardware</span>ESP32 + Módulos LED PWM de alta potencia</li>
+                        <li><span>Firmware</span>Arduino IDE (C++)</li>
+                        <li><span>Interfaz</span>App móvil React Native</li>
+                        <li><span>Protocolo</span>WebSocket en tiempo real</li>
+                        <li><span>Diseño 3D</span>Fusion 360 + Impresión FDM</li>
+                    </ul>
+                </section>
+
+                <section class="info-block">
+                    <h2>SOLUCIÓN</h2>
+                    <p>Diseño y fabricación de una lámpara LED de espectro completo controlada por ESP32 con comunicación WiFi. La interfaz web permite configurar ciclos de amanecer/atardecer, intensidad por canal RGB+W y perfiles personalizados guardados en memoria.</p>
+                </section>
+
+                <section class="info-block">
+                    <h2>APRENDIZAJE</h2>
+                    <ul>
+                        <li><span>01</span>Control PWM multi-canal con ESP32</li>
+                        <li><span>02</span>Diseño e impresión 3D de disipador de calor</li>
+                        <li><span>03</span>Comunicación WebSocket hardware-software</li>
+                        <li><span>04</span>Gestión térmica en electrónica de potencia</li>
+                    </ul>
+                </section>
+
+            </div>
+
+            <section class="info-block full-width" id="galeria">
+                <h2>REGISTRO VISUAL</h2>
+                <div class="media-grid">
+                    <div class="media-item">
+                        <img src="assets/esquema electrico.svg" alt="Esquema eléctrico original" class="media-content">
+                        <p class="media-caption">// Boceto inicial: Lógica del sistema</p>
+                    </div>
+                    <div class="media-item">
+                        <img src="assets/lampara encendida.JPG" alt="Lámpara real en funcionamiento" class="media-content">
+                        <p class="media-caption">// Resultado: Iluminación de alto rendimiento</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-block full-width conclusion">
+                <h2>CONCLUSIÓN</h2>
+                <p>Este proyecto demostró que es posible construir hardware profesional de alta precisión con componentes de bajo coste y código abierto. La combinación de ESP32 con PWM multi-canal y una interfaz web reactiva ofrece una experiencia de usuario comparable a productos comerciales de gama alta, a una fracción del precio.</p>
+            </section>
+        </main>
+
+        <footer class="project-footer">
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                COMPILACIÓN_ESTABLE_V2.0
+            </div>
+        </footer>
+    </div>
+
+    <!-- Soporte 3D Diferido -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <script>
+        const modelViewer = document.getElementById('lamp-model');
+        const loader = document.getElementById('custom-loader');
+        const percentageText = loader.querySelector('.loader-percentage');
+        const textElement = loader.querySelector('.loader-text');
+
+        let targetProgress = 0;
+        let animatedProgress = 0;
+        let lastTime = performance.now();
+        let isLoaded = false;
+
+        function animate() {
+            const now = performance.now();
+            const delta = (now - lastTime) / 1000;
+            lastTime = now;
+
+            // Suavizamos el avance del progreso animado hacia el target
+            // Pero lo limitamos a 99 si el modelo aún no se ha cargado totalmente
+            const limit = isLoaded ? 100 : 99;
+            
+            if (animatedProgress < limit) {
+                const diff = targetProgress - animatedProgress;
+                // Si la descarga va más rápida que la animación, aceleramos
+                // Si ya estamos cerca del target, deceleramos
+                animatedProgress += Math.max(0.1, diff * 0.1); 
+            }
+
+            // Forzar 100 si ya está cargado y la animación está cerca
+            if (isLoaded && animatedProgress > 99.5) {
+                animatedProgress = 100;
+            }
+
+            const displayValue = Math.floor(animatedProgress);
+            percentageText.textContent = `${displayValue}%`;
+            loader.style.setProperty('--progress', `${animatedProgress}%`);
+
+            if (animatedProgress < 100) {
+                requestAnimationFrame(animate);
+            } else {
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                }, 800);
+            }
+        }
+
+        modelViewer.addEventListener('progress', (event) => {
+            const p = event.detail.totalProgress * 100;
+            if (p > targetProgress) {
+                targetProgress = p;
+            }
+        });
+
+        modelViewer.addEventListener('load', () => {
+            isLoaded = true;
+            targetProgress = 100;
+        });
+
+        requestAnimationFrame(animate);
+    </script>
+
+    <!-- Scripts Universales -->
+    <script src="../0.plantilla/back-button.js"></script>
+    <script src="../0.plantilla/lightbox.js"></script>
+
+    <script>
+        // Notificar al padre que NO estamos en modo prototipo interactivo (para mostrar el botón LAB)
+        if (window.parent !== window) {
+            window.parent.postMessage({ type: 'AQUARIUM_PROTOTYPE_STATE', active: false }, '*');
+        }
+    </script>
+</body>
+</html>

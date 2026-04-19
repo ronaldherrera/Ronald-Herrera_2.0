@@ -1,0 +1,297 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>LED'S ACUARIO v5.3 (Simulado)</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="brand">
+      <svg width="72" height="37" viewBox="0 0 72 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0.686 1.12H6.446V15.136H13.902V19.36H0.686V1.12Z" fill="#3498DB"/>
+        <path d="M15.8088 1.12H29.0888V4.96H21.5688V8.288H27.9048V11.744H21.5688V15.456H29.0568V19.36H15.8088V1.12Z" fill="#3498DB"/>
+        <path d="M37.9313 1.12C40.4273 1.12 42.4646 1.35467 44.0433 1.824C45.6433 2.29333 46.8806 3.17867 47.7553 4.48C48.6513 5.78133 49.0993 7.648 49.0993 10.08C49.0993 12.6827 48.6299 14.6667 47.6912 16.032C46.7526 17.376 45.4939 18.272 43.9152 18.72C42.3366 19.1467 40.3419 19.36 37.9313 19.36H31.5312V1.12H37.9313ZM42.2192 15.008C42.4753 14.752 42.6566 14.0907 42.7633 13.024C42.8699 11.9573 42.9233 10.976 42.9233 10.08C42.9233 8.94933 42.8379 8.05333 42.6673 7.392C42.5179 6.70933 42.2406 6.16533 41.8353 5.76C41.1953 5.056 40.0966 4.704 38.5392 4.704C38.2619 4.704 37.8459 4.72533 37.2912 4.768V15.392C37.6539 15.4347 38.2193 15.456 38.9873 15.456C39.7766 15.456 40.4699 15.424 41.0672 15.36C41.6859 15.2747 42.0699 15.1573 42.2192 15.008Z" fill="#3498DB"/>
+        <path d="M50.3763 6.848C50.8883 5.26933 51.1656 2.99733 51.2083 0.0319996C51.3576 0.0106665 51.5923 0 51.9123 0C52.4669 0 53.0109 0.0746663 53.5443 0.223999C54.0776 0.373333 54.5362 0.597333 54.9202 0.896C54.8136 1.96267 54.6003 3.14667 54.2803 4.448C53.9603 5.74933 53.5016 6.76267 52.9043 7.488C52.4989 7.50933 52.0509 7.456 51.5602 7.328C51.0909 7.2 50.6963 7.04 50.3763 6.848Z" fill="#3498DB"/>
+        <path d="M62.7168 6.048C62.7168 6.496 62.9408 6.848 63.3888 7.104C63.8581 7.36 64.5834 7.63733 65.5648 7.936C66.7381 8.32 67.6981 8.69333 68.4447 9.056C69.2127 9.41867 69.8741 9.984 70.4287 10.752C71.0047 11.52 71.2927 12.5227 71.2927 13.76C71.2927 17.728 68.7114 19.712 63.5488 19.712C62.6954 19.712 61.6501 19.6373 60.4128 19.488C59.1968 19.3387 58.0874 19.1467 57.0848 18.912C57.1274 18.464 57.2128 17.8133 57.3408 16.96C57.4901 16.0853 57.6288 15.4347 57.7568 15.008C58.5034 15.1147 59.6234 15.2427 61.1167 15.392C62.6314 15.5413 63.7727 15.616 64.5407 15.616C64.9887 15.616 65.2554 15.584 65.3408 15.52C65.4688 15.4347 65.5648 15.296 65.6288 15.104C65.7141 14.8907 65.7568 14.7093 65.7568 14.56C65.7568 14.1333 65.5541 13.8133 65.1488 13.6C64.7434 13.3653 64.0501 13.088 63.0687 12.768C61.8954 12.4053 60.9247 12.032 60.1567 11.648C59.3887 11.264 58.7168 10.6667 58.1408 9.856C57.5648 9.04533 57.2767 7.97867 57.2767 6.656C57.2767 5.71733 57.4901 4.8 57.9168 3.904C58.3434 2.98667 58.7807 2.368 59.2287 2.048C59.5701 1.81333 60.2741 1.58933 61.3408 1.376C62.4074 1.16267 63.4101 1.056 64.3487 1.056C66.7381 1.056 68.6901 1.28 70.2048 1.728C70.1834 2.15467 70.1088 2.74133 69.9808 3.488C69.8741 4.23467 69.7568 4.91733 69.6288 5.536L68.8928 5.504C66.1194 5.312 64.3487 5.216 63.5807 5.216C63.2607 5.216 63.0794 5.22667 63.0368 5.248C62.9514 5.29067 62.8768 5.38667 62.8128 5.536C62.7488 5.68533 62.7168 5.856 62.7168 6.048Z" fill="#3498DB"/>
+        <path d="M6.29 28.243C7.06067 28.3337 7.61033 28.5943 7.939 29.025C8.26767 29.4443 8.432 29.9543 8.432 30.555C8.432 30.929 8.37533 31.286 8.262 31.626C8.14867 31.9547 8.01267 32.238 7.854 32.476C7.69533 32.7027 7.55933 32.85 7.446 32.918C6.99267 33.2127 5.61 33.36 3.298 33.36H0V23.67H3.995C4.90167 23.67 5.63267 23.721 6.188 23.823C6.75467 23.9137 7.21367 24.129 7.565 24.469C7.91633 24.7977 8.092 25.302 8.092 25.982C8.092 26.5713 7.94467 27.0473 7.65 27.41C7.36667 27.7727 6.91333 28.022 6.29 28.158V28.243ZM4.93 25.727C4.81667 25.6137 4.68067 25.5457 4.522 25.523C4.37467 25.489 4.13667 25.472 3.808 25.472C3.47933 25.472 3.23 25.4777 3.06 25.489V27.563H3.23C3.28667 27.563 3.52467 27.563 3.944 27.563C4.36333 27.563 4.641 27.5347 4.777 27.478C4.879 27.4327 4.96967 27.3137 5.049 27.121C5.13967 26.9283 5.185 26.7187 5.185 26.492C5.185 26.152 5.1 25.897 4.93 25.727ZM5.219 31.405C5.29833 31.337 5.36067 31.2123 5.406 31.031C5.46267 30.8383 5.491 30.6457 5.491 30.453C5.491 30.215 5.457 29.994 5.389 29.79C5.33233 29.5747 5.253 29.4217 5.151 29.331C5.049 29.229 4.90167 29.161 4.709 29.127C4.52767 29.093 4.216 29.076 3.774 29.076C3.49067 29.076 3.25267 29.0817 3.06 29.093V31.558C3.59267 31.5693 4.06867 31.5637 4.488 31.541C4.90733 31.507 5.151 31.4617 5.219 31.405Z" fill="#AFD3EB"/>
+        <path d="M17.6509 25.54L15.6109 32.085C15.2142 33.343 14.8572 34.2553 14.5399 34.822C14.2226 35.4 13.9052 35.8023 13.5879 36.029C13.4066 36.1537 13.1176 36.25 12.7209 36.318C12.3356 36.386 11.9162 36.42 11.4629 36.42C10.7829 36.42 10.2389 36.3577 9.83091 36.233C9.81958 35.961 9.83091 35.6267 9.86491 35.23C9.89891 34.8447 9.94425 34.516 10.0009 34.244C10.4769 34.2667 10.9416 34.278 11.3949 34.278C11.7349 34.278 11.9899 34.2723 12.1599 34.261C12.3299 33.9323 12.4886 33.5867 12.6359 33.224L11.4629 33.156L8.84491 25.54H11.9219L13.2819 31.014L13.2989 31.337H13.3499L14.5739 25.54H17.6509Z" fill="#AFD3EB"/>
+        <path d="M29.8572 33.36H26.6442L26.0662 30.912C26.0435 30.8213 26.0038 30.6683 25.9472 30.453C25.9018 30.2263 25.8452 30.062 25.7772 29.96C25.7092 29.8467 25.6128 29.773 25.4882 29.739C25.1708 29.7503 24.7062 29.756 24.0942 29.756V33.36H21.0342V23.755C22.4055 23.653 23.6862 23.602 24.8762 23.602C25.9528 23.602 26.8255 23.6927 27.4942 23.874C28.1628 24.044 28.6615 24.3443 28.9902 24.775C29.3302 25.1943 29.5002 25.7723 29.5002 26.509C29.5002 27.2003 29.3415 27.7443 29.0242 28.141C28.7068 28.5263 28.1968 28.7587 27.4942 28.838V28.94C27.8908 28.974 28.2195 29.1043 28.4802 29.331C28.7522 29.5463 28.9335 29.824 29.0242 30.164L29.8572 33.36ZM24.0942 27.835C24.1962 27.8463 24.3945 27.852 24.6892 27.852C25.5618 27.852 26.0718 27.7783 26.2192 27.631C26.3552 27.495 26.4232 27.1777 26.4232 26.679C26.4232 26.2143 26.2985 25.897 26.0492 25.727C25.8112 25.557 25.4145 25.472 24.8592 25.472C24.7345 25.472 24.4795 25.4833 24.0942 25.506V27.835Z" fill="#AFD3EB"/>
+        <path d="M34.5165 33.581C33.1565 33.581 32.1365 33.2637 31.4565 32.629C30.7878 31.983 30.4535 30.9687 30.4535 29.586C30.4535 28.8267 30.5215 28.1637 30.6575 27.597C30.8048 27.019 30.9805 26.6167 31.1845 26.39C31.4452 26.0953 31.9212 25.8517 32.6125 25.659C33.3152 25.4663 33.9725 25.37 34.5845 25.37C36.0465 25.37 37.0892 25.6817 37.7125 26.305C38.3358 26.9283 38.6475 27.9257 38.6475 29.297C38.6475 30.7703 38.3132 31.8527 37.6445 32.544C36.9758 33.2353 35.9332 33.581 34.5165 33.581ZM34.5675 31.592C35.0095 31.592 35.2985 31.439 35.4345 31.133C35.5705 30.8157 35.6385 30.2603 35.6385 29.467C35.6385 28.9117 35.6102 28.4867 35.5535 28.192C35.4968 27.886 35.3892 27.665 35.2305 27.529C35.0832 27.3817 34.8508 27.308 34.5335 27.308C34.0802 27.308 33.8195 27.3477 33.7515 27.427C33.6608 27.5063 33.5872 27.7557 33.5305 28.175C33.4738 28.5943 33.4455 29.0307 33.4455 29.484C33.4455 30.2547 33.5192 30.7987 33.6665 31.116C33.8252 31.4333 34.1255 31.592 34.5675 31.592Z" fill="#AFD3EB"/>
+        <path d="M47.3222 26.033C47.4242 26.1577 47.4978 26.4693 47.5432 26.968C47.5998 27.4667 47.6282 28.226 47.6282 29.246V33.36H44.7212V28.583C44.7212 28.2203 44.6928 27.9937 44.6362 27.903C44.5455 27.7897 44.3358 27.733 44.0072 27.733C43.8485 27.733 43.7295 27.7387 43.6502 27.75C43.3328 27.7613 43.0042 27.835 42.6642 27.971V33.36H39.7572V25.54H42.1202L42.4432 26.849C43.2592 25.863 44.2338 25.37 45.3672 25.37C45.7752 25.37 46.1548 25.4267 46.5062 25.54C46.8688 25.6533 47.1408 25.8177 47.3222 26.033Z" fill="#AFD3EB"/>
+        <path d="M53.629 33.36L53.357 32.289C52.8357 33.139 52.1104 33.564 51.181 33.564C50.4217 33.564 49.7984 33.3543 49.311 32.935C48.835 32.5043 48.597 31.9037 48.597 31.133C48.597 30.657 48.733 30.2433 49.005 29.892C49.2884 29.5293 49.6737 29.2743 50.161 29.127C50.7957 28.9457 51.776 28.8437 53.102 28.821C53.102 28.073 53.068 27.6763 53 27.631C52.9434 27.5857 52.762 27.563 52.456 27.563C52.2634 27.563 51.997 27.5743 51.657 27.597C51.113 27.6197 50.3764 27.682 49.447 27.784C49.3564 27.172 49.2884 26.5147 49.243 25.812C49.8437 25.6873 50.4727 25.5853 51.13 25.506C51.7874 25.4153 52.3767 25.37 52.898 25.37C53.8047 25.37 54.4847 25.523 54.938 25.829C55.3914 26.1237 55.686 26.5147 55.822 27.002C55.958 27.4893 56.0204 28.107 56.009 28.855L55.992 31.354L56.043 33.36H53.629ZM52.167 31.66C52.4617 31.66 52.7734 31.6033 53.102 31.49V30.232H52.966C52.1274 30.232 51.6627 30.2773 51.572 30.368C51.5154 30.4247 51.47 30.5097 51.436 30.623C51.4134 30.7363 51.402 30.844 51.402 30.946C51.402 31.218 51.4644 31.405 51.589 31.507C51.7137 31.609 51.9064 31.66 52.167 31.66Z" fill="#AFD3EB"/>
+        <path d="M57.3726 23.16L60.2796 23.041V33.36H57.3726V23.16Z" fill="#AFD3EB"/>
+        <path d="M69.507 23.041V33.36H67.11L66.872 32.051C66.6454 32.493 66.311 32.8443 65.869 33.105C65.427 33.3657 64.9284 33.496 64.373 33.496C63.489 33.496 62.7807 33.1787 62.248 32.544C61.7267 31.9093 61.466 30.9573 61.466 29.688C61.466 28.7247 61.5794 27.9313 61.806 27.308C62.0327 26.6847 62.299 26.237 62.605 25.965C62.7977 25.795 63.1887 25.6533 63.778 25.54C64.3787 25.4267 64.9114 25.37 65.376 25.37C65.784 25.37 66.2034 25.4097 66.634 25.489C66.6 24.945 66.583 24.6447 66.583 24.588V23.16L69.507 23.041ZM65.648 31.218C65.954 31.218 66.2714 31.167 66.6 31.065V27.376C66.2714 27.3307 65.9087 27.308 65.512 27.308C65.172 27.308 64.9567 27.3363 64.866 27.393C64.7414 27.4837 64.6394 27.7443 64.56 28.175C64.492 28.5943 64.458 29.0363 64.458 29.501C64.458 30.1923 64.56 30.6513 64.764 30.878C64.9794 31.1047 65.274 31.218 65.648 31.218Z" fill="#AFD3EB"/>
+      </svg>
+    </div>
+    <div class="settings-icon" onclick="toggleMenu()">
+      <svg viewBox="0 0 24 24"><path d="M12 2 L21 7 L21 17 L12 22 L3 17 L3 7 Z" /><circle cx="12" cy="12" r="5" style="fill: none; stroke: black; stroke-width: 3;" /></svg>
+    </div>
+  </nav>
+
+  <div class="system-container">
+    <div class="system-card-mini">
+        <div style="display: flex; align-items: center;">
+            <div class="system-dot"></div>
+            <span style="color:#aaa; font-size:0.8rem;">Sistema Online</span>
+        </div>
+    </div>
+    <div class="system-card-divided">
+        <div class="card-part fan-icon-btn" onclick="openVentModal()">
+            <svg id="fan_svg" viewBox="0 0 394 394" width="16" height="16" fill="#bbb"><path d="M169.133 393.333C152.417 393.333 139.719 388.331 131.039 378.328C122.359 368.324 118.013 356.937 118 344.167C118 335.644 119.888 327.365 123.664 319.328C127.44 311.291 133.255 304.656 141.108 299.425C148.319 294.836 154.141 288.936 158.572 281.725C163.004 274.514 166.033 266.811 167.658 258.617L161.758 255.667C159.792 254.683 157.989 253.536 156.35 252.225L111.117 268.45C105.544 270.417 100.136 272.056 94.8917 273.367C89.6472 274.678 84.2389 275.333 78.6667 275.333C58.0167 275.333 39.7398 266.319 23.836 248.292C7.93224 230.264 -0.0130949 203.878 1.61999e-05 169.133C1.61999e-05 152.417 5.00191 139.719 15.0057 131.039C25.0095 122.359 36.2326 118.013 48.675 118C57.1972 118 65.5556 119.888 73.75 123.664C81.9445 127.44 88.6639 133.255 93.9084 141.108C98.4972 148.319 104.397 154.134 111.608 158.553C118.819 162.971 126.522 166.006 134.717 167.658L137.667 161.758C138.65 159.792 139.797 157.989 141.108 156.35L124.883 111.117C122.917 105.544 121.278 100.136 119.967 94.8917C118.656 89.6472 118 84.4028 118 79.1584C118 58.1806 127.014 39.7398 145.042 23.836C163.069 7.93224 189.456 -0.0130949 224.2 1.61999e-05C240.917 1.61999e-05 253.621 5.00191 262.314 15.0057C271.007 25.0095 275.346 36.2326 275.333 48.675C275.333 57.1972 273.445 65.5556 269.669 73.75C265.893 81.9445 260.079 88.6639 252.225 93.9084C245.014 98.4972 239.199 104.397 234.781 111.608C230.362 118.819 227.327 126.522 225.675 134.717L231.575 137.667C233.542 138.65 235.344 139.797 236.983 141.108L282.217 124.392C287.789 122.425 293.119 120.871 298.206 119.731C303.293 118.59 308.616 118.013 314.175 118C340.725 118 360.556 128.981 373.667 150.942C386.778 172.903 393.333 197.322 393.333 224.2C393.333 240.917 388.089 253.621 377.6 262.314C367.111 271.007 355.475 275.346 342.692 275.333C334.497 275.333 326.545 273.445 318.836 269.669C311.127 265.893 304.656 260.079 299.425 252.225C294.836 245.014 288.936 239.199 281.725 234.781C274.514 230.362 266.811 227.327 258.617 225.675L255.667 231.575C254.683 233.542 253.536 235.344 252.225 236.983L268.45 282.217C270.417 287.461 272.056 292.463 273.367 297.222C274.678 301.982 275.333 306.977 275.333 312.208C275.661 333.514 266.811 352.361 248.783 368.75C230.756 385.139 204.206 393.333 169.133 393.333ZM196.667 226.167C204.861 226.167 211.823 223.302 217.553 217.572C223.282 211.843 226.154 204.874 226.167 196.667C226.18 188.459 223.315 181.497 217.572 175.781C211.83 170.064 204.861 167.193 196.667 167.167C188.472 167.14 181.51 170.012 175.781 175.781C170.051 181.55 167.18 188.512 167.167 196.667C167.154 204.822 170.025 211.79 175.781 217.572C181.536 223.354 188.498 226.219 196.667 226.167Z"/></svg>
+            <span id="sys_fan" style="color:#aaa; font-size: 0.8rem;">0%</span>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-part fan-icon-btn" onclick="openSafetyModal()" style="cursor:pointer;">
+            <svg id="temp_svg" viewBox="0 0 214 428" width="8" height="16" fill="#ffbb00"><path d="M171.2 235.4V64.2C171.2 47.1731 164.436 30.8436 152.396 18.8037C140.356 6.76391 124.027 0 107 0C89.9731 0 73.6436 6.76391 61.6037 18.8037C49.5639 30.8436 42.8 47.1731 42.8 64.2V235.4C24.8341 248.874 11.5631 267.66 4.86705 289.096C-1.82903 310.532 -1.61077 333.531 5.49089 354.836C12.5926 376.141 26.2176 394.672 44.436 407.803C62.6544 420.934 84.5426 428 107 428C129.457 428 151.346 420.934 169.564 407.803C187.782 394.672 201.407 376.141 208.509 354.836C215.611 333.531 215.829 310.532 209.133 289.096C202.437 267.66 189.166 248.874 171.2 235.4ZM107 42.8C112.676 42.8 118.119 45.0546 122.132 49.0679C126.145 53.0812 128.4 58.5244 128.4 64.2V128.4H85.6V64.2C85.6 58.5244 87.8546 53.0812 91.8679 49.0679C95.8812 45.0546 101.324 42.8 107 42.8Z"/></svg>
+            <span id="sys_temp">--°C</span>
+        </div>
+    </div>
+  </div>
+
+  <div id="menuOverlay" class="menu-overlay-bg" onclick="toggleMenu()"></div>
+  <div id="mainMenu" class="menu-dropdown">
+    <div class="menu-item">
+        <span class="menu-title">Transición</span>
+        <div class="label-row" style="display: flex; justify-content: space-between; color: #aaa; font-size: 0.8rem;">
+            <span>Modo</span>
+            <span id="speed_text" class="speed-val">Normal</span>
+        </div>
+        <input type="range" min="0" max="2" step="1" value="1" class="slider-speed" id="speedRange" oninput="updateSpeedName(this.value)" onchange="sendSpeed(this.value)">
+        <div class="speed-labels">
+            <span>Rápido</span>
+            <span>Normal</span>
+            <span>Lento</span>
+        </div>
+    </div>
+    <div class="menu-item">
+        <span class="menu-title">WiFi Casa</span>
+        <div id="wifi_disconnected" style="display:none;">
+             <div style="display:flex; gap:5px; margin-bottom:5px;">
+                <select id="wifi_ssid" class="input-text" style="flex:1;">
+                    <option value="">Buscar redes...</option>
+                </select>
+                <button id="btn_search" onclick="scanNetworks()" class="btn" style="width:40px; padding:5px; background:#3498db; display:flex; align-items:center; justify-content:center;">
+                    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#fff"/></svg>
+                </button>
+             </div>
+             <input type="password" id="wifi_pass" class="input-text" placeholder="Contraseña" style="margin-bottom:10px">
+             <button onclick="saveWifi()" class="btn btn-save" style="width:100%">Conectar</button>
+        </div>
+        <div id="wifi_connected" style="display:none;">
+             <div class="wifi-info" style="margin-bottom:10px; color:#4caf50;">
+                ✓ Conectado a: <b><span id="curr_ssid"></span></b>
+             </div>
+             <div class="wifi-info" style="margin-bottom:10px;">
+                IP: <a id="wifi_ip" href="#" target="_blank" style="color:#3498db; text-decoration:none; font-weight:bold;">---</a>
+             </div>
+             <button onclick="forgetWifi()" class="btn btn-cancel" style="width:100%; background:#d32f2f; color:#fff;">Desconectar / Olvidar</button>
+        </div>
+    </div>
+  </div>
+
+  <div id="ventModal" class="modal-overlay" onclick="closeVentModal()">
+    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 320px;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+          <svg viewBox="0 0 394 394" width="24" height="24" fill="#eee"><path d="M169.133 393.333C152.417 393.333 139.719 388.331 131.039 378.328C122.359 368.324 118.013 356.937 118 344.167C118 335.644 119.888 327.365 123.664 319.328C127.44 311.291 133.255 304.656 141.108 299.425C148.319 294.836 154.141 288.936 158.572 281.725C163.004 274.514 166.033 266.811 167.658 258.617L161.758 255.667C159.792 254.683 157.989 253.536 156.35 252.225L111.117 268.45C105.544 270.417 100.136 272.056 94.8917 273.367C89.6472 274.678 84.2389 275.333 78.6667 275.333C58.0167 275.333 39.7398 266.319 23.836 248.292C7.93224 230.264 -0.0130949 203.878 1.61999e-05 169.133C1.61999e-05 152.417 5.00191 139.719 15.0057 131.039C25.0095 122.359 36.2326 118.013 48.675 118C57.1972 118 65.5556 119.888 73.75 123.664C81.9445 127.44 88.6639 133.255 93.9084 141.108C98.4972 148.319 104.397 154.134 111.608 158.553C118.819 162.971 126.522 166.006 134.717 167.658L137.667 161.758C138.65 159.792 139.797 157.989 141.108 156.35L124.883 111.117C122.917 105.544 121.278 100.136 119.967 94.8917C118.656 89.6472 118 84.4028 118 79.1584C118 58.1806 127.014 39.7398 145.042 23.836C163.069 7.93224 189.456 -0.0130949 224.2 1.61999e-05C240.917 1.61999e-05 253.621 5.00191 262.314 15.0057C271.007 25.0095 275.346 36.2326 275.333 48.675C275.333 57.1972 273.445 65.5556 269.669 73.75C265.893 81.9445 260.079 88.6639 252.225 93.9084C245.014 98.4972 239.199 104.397 234.781 111.608C230.362 118.819 227.327 126.522 225.675 134.717L231.575 137.667C233.542 138.65 235.344 139.797 236.983 141.108L282.217 124.392C287.789 122.425 293.119 120.871 298.206 119.731C303.293 118.59 308.616 118.013 314.175 118C340.725 118 360.556 128.981 373.667 150.942C386.778 172.903 393.333 197.322 393.333 224.2C393.333 240.917 388.089 253.621 377.6 262.314C367.111 271.007 355.475 275.346 342.692 275.333C334.497 275.333 326.545 273.445 318.836 269.669C311.127 265.893 304.656 260.079 299.425 252.225C294.836 245.014 288.936 239.199 281.725 234.781C274.514 230.362 266.811 227.327 258.617 225.675L255.667 231.575C254.683 233.542 253.536 235.344 252.225 236.983L268.45 282.217C270.417 287.461 272.056 292.463 273.367 297.222C274.678 301.982 275.333 306.977 275.333 312.208C275.661 333.514 266.811 352.361 248.783 368.75C230.756 385.139 204.206 393.333 169.133 393.333ZM196.667 226.167C204.861 226.167 211.823 223.302 217.553 217.572C223.282 211.843 226.154 204.874 226.167 196.667C226.18 188.459 223.315 181.497 217.572 175.781C211.83 170.064 204.861 167.193 196.667 167.167C188.472 167.14 181.51 170.012 175.781 175.781C170.051 181.55 167.18 188.512 167.167 196.667C167.154 204.822 170.025 211.79 175.781 217.572C181.536 223.354 188.498 226.219 196.667 226.167Z"/></svg>
+          <h3 style="margin:0; color:#3498db; font-size:1.1rem;">Ventilación</h3>
+      </div>
+
+      <div class="form-group" style="margin-bottom:15px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <label class="input-label" style="margin:0;">Activar a</label>
+            <span id="v_th_val" style="color: #3498db; font-weight: bold; font-size: 0.85rem;">40°C</span>
+        </div>
+        <input type="range" min="20" max="60" value="40" class="slider-speed" id="v_th" oninput="document.getElementById('v_th_val').innerText=this.value+'°C'; markChanged()">
+      </div>
+
+      <div class="form-group" style="margin-bottom:15px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <label class="input-label" style="margin:0;">Apagar a</label>
+            <span id="v_hyst_val" style="color: #3498db; font-weight: bold; font-size: 0.85rem;">35°C</span>
+        </div>
+        <input type="range" min="15" max="55" value="35" class="slider-speed" id="v_hyst" oninput="document.getElementById('v_hyst_val').innerText=this.value+'°C'; markChanged()">
+      </div>
+
+      <div class="form-group" style="margin-bottom:15px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <label class="input-label" style="margin:0;">Máximo (100%) a</label>
+            <span id="v_max_val" style="color: #3498db; font-weight: bold; font-size: 0.85rem;">38°C</span>
+        </div>
+        <input type="range" min="30" max="70" value="38" class="slider-speed" id="v_max" oninput="document.getElementById('v_max_val').innerText=this.value+'°C'; markChanged()">
+      </div>
+
+      <div class="form-group" style="margin-bottom:15px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <label class="input-label" style="margin:0;">Arranque mín.</label>
+            <span id="v_min_val" style="color: #3498db; font-weight: bold; font-size: 0.85rem;">60%</span>
+        </div>
+        <input type="range" min="20" max="100" value="60" class="slider-speed" id="v_min" oninput="document.getElementById('v_min_val').innerText=this.value+'%'; markChanged()">
+      </div>
+
+      <div class="form-group" style="margin-bottom:20px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <label class="input-label" style="margin:0;">Frecuencia (PWM)</label>
+            <span id="v_freq_val" style="color: #3498db; font-weight: bold; font-size: 0.85rem;">30 Hz</span>
+        </div>
+        <input type="range" min="30" max="25000" step="10" value="30" class="slider-speed" id="v_freq" oninput="document.getElementById('v_freq_val').innerText=this.value+' Hz'; markChanged()">
+        <div style="display: flex; justify-content: space-between; font-size: 0.6rem; color: #666; margin-top: 4px;">
+            <span>30Hz (Bajo)</span>
+            <span>25kHz (Audio)</span>
+        </div>
+      </div>
+
+      <button id="btn_fan_manual" onclick="toggleFanManual()" style="width:100%; padding:12px; border-radius:10px; border:none; background:#333; color:#eee; font-weight:700; margin-bottom:20px; cursor:pointer; transition:all 0.3s;">Encender manual</button>
+
+      <div class="modal-buttons">
+        <button onclick="closeVentModal()" class="btn btn-cancel" style="background:#222; color:#aaa; font-size:0.8rem; padding:10px;">Cerrar</button>
+        <button onclick="saveVent()" class="btn btn-save" style="background:#444; color:#fff; font-size:0.8rem; padding:10px;">Aplicar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="manual-view" class="view-section">
+      <div id="channels_root">
+        <h3 style="text-align:center; color:#666; padding:20px;">Cargando Canales...</h3>
+      </div>
+  </div>
+
+  <div id="auto-view" class="view-section hidden">
+      <div class="canvas-container">
+          <canvas id="masterCanvas"></canvas>
+          <div id="time-marker-label" style="position: absolute; top: -22px; transform: translateX(-50%); font-size: 0.75rem; color: #fff; background: #e74c3c; padding: 2px 6px; border-radius: 4px; white-space: nowrap;">--:--</div>
+      </div>
+      <div style="padding: 0 15px;">
+          <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+              <button id="btn_profile_name" class="btn" onclick="openRenameProfileModal()" style="flex: 1; background: #2a2a35;">Principal</button>
+              <button class="btn btn-save" onclick="openGlobalSched()" style="flex: 1; background: #3498db;">EDITAR</button>
+          </div>
+          <div id="profile_grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;"></div>
+      </div>
+  </div>
+
+  <!-- Modal para Programación -->
+  <div id="schedModal" class="modal-overlay" onclick="closeSchedModal()">
+    <div class="modal-content sched-modal" onclick="event.stopPropagation()">
+        <div class="sched-header">
+            <h3 style="margin:0; color:#00d2ff;">Configurar Programación</h3>
+            <div class="cloud-toggle">
+                <svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:#aaa;"><path d="M17.5,19c-3.5,0-6.3-2.6-6.5-6c-0.1,0-0.3,0-0.4,0c-2.3,0-4.1-1.8-4.1-3.9c0-2.2,1.8-4,4.1-4c0.8,0,1.5,0.2,2.2,0.6C13.6,4.6,15.4,4,17.4,4c3.1,0,5.6,2.5,5.6,5.5C23,12.5,20.5,15,17.5,15z"/></svg>
+                <input type="checkbox" id="clouds_check" onchange="markChanged()">
+            </div>
+        </div>
+
+        <div class="canvas-container" style="margin-top:0; height:150px; background:#000; border-radius:12px; border:1px solid #222;">
+            <canvas id="schedCanvas"></canvas>
+            <div id="sched_marker_badge" style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #e74c3c; color: white; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.5);">12:00</div>
+        </div>
+
+        <p style="font-size:0.7rem; color:#666; text-transform:uppercase; margin: 15px 0 8px 5px;">Selección y Previsualización</p>
+        <div id="chan_select_root" class="chan-select-grid">
+            <!-- Se llena dinámicamente -->
+        </div>
+
+        <div class="control-labels">
+            <span>Hora</span>
+            <span>Intensidad</span>
+        </div>
+        <div class="control-values">
+            <span id="sched_hour_lbl" class="label-big">12:00</span>
+            <span id="sched_perc_lbl" class="label-perc-big">28%</span>
+        </div>
+        
+        <input type="range" min="0" max="100" value="28" class="edit-slider-styled" id="sched_val_slider" oninput="updateSchedUI(true)" style="--edit-color:#00d2ff; margin-top: 10px;">
+
+        <div class="modal-buttons" style="margin-top:30px;">
+            <button class="btn btn-cancel" onclick="closeSchedModal()" style="flex:1; height:45px; border-radius:12px;">Cancelar</button>
+            <button class="btn btn-save" onclick="saveSched()" style="flex:1; height:45px; border-radius:12px; background:#3498db;">Guardar</button>
+        </div>
+    </div>
+  </div>
+
+  <div class="mode-selector-container">
+      <div id="mode-pill" class="mode-indicator"></div>
+      <div id="btn-manual" class="mode-btn active" onclick="setAppMode('manual')">
+          <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+          MANUAL
+      </div>
+      <div id="btn-auto" class="mode-btn" onclick="setAppMode('auto')">
+          <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+          AUTO
+      </div>
+  </div>
+
+  <div id="safetyModal" class="modal-overlay" onclick="closeSafetyModal()">
+    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 320px;">
+      <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+          <div style="background:#f1c40f; width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; box-shadow: 0 0 15px rgba(241,196,15,0.3);">
+            <svg viewBox="0 0 214 428" width="12" height="24" fill="#000"><path d="M171.2 235.4V64.2C171.2 47.1731 164.436 30.8436 152.396 18.8037C140.356 6.76391 124.027 0 107 0C89.9731 0 73.6436 6.76391 61.6037 18.8037C49.5639 30.8436 42.8 47.1731 42.8 64.2V235.4C24.8341 248.874 11.5631 267.66 4.86705 289.096C-1.82903 310.532 -1.61077 333.531 5.49089 354.836C12.5926 376.141 26.2176 394.672 44.436 407.803C62.6544 420.934 84.5426 428 107 428C129.457 428 151.346 420.934 169.564 407.803C187.782 394.672 201.407 376.141 208.509 354.836C215.611 333.531 215.829 310.532 209.133 289.096C202.437 267.66 189.166 248.874 171.2 235.4ZM107 42.8C112.676 42.8 118.119 45.0546 122.132 49.0679C126.145 53.0812 128.4 58.5244 128.4 64.2V128.4H85.6V64.2C85.6 58.5244 87.8546 53.0812 91.8679 49.0679C95.8812 45.0546 101.324 42.8 107 42.8Z"/></svg>
+          </div>
+          <h3 style="margin:0; color:#3498db; font-size:1.2rem;">Prot. Térmica</h3>
+      </div>
+      
+      <p style="color:#aaa; font-size:0.75rem; line-height:1.4; margin-bottom:20px; text-align:left;">
+        Limita el brillo máximo si hace mucho calor para proteger los LEDs.
+      </p>
+
+      <div class="form-group" style="margin-bottom:20px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <label class="input-label" style="margin:0; font-size:0.8rem;">Activar a</label>
+            <span id="s_th_val" style="color: #3498db; font-weight: bold; font-size: 0.85rem;">40°C</span>
+        </div>
+        <input type="range" min="30" max="60" value="40" class="slider-speed" id="s_th" oninput="document.getElementById('s_th_val').innerText=this.value+'°C'; markChanged()">
+      </div>
+
+      <div class="form-group" style="margin-bottom:20px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <label class="input-label" style="margin:0; font-size:0.8rem;">Recuperar a</label>
+            <span id="s_rec_val" style="color: #3498db; font-weight: bold; font-size: 0.85rem;">30°C</span>
+        </div>
+        <input type="range" min="20" max="50" value="30" class="slider-speed" id="s_rec" oninput="document.getElementById('s_rec_val').innerText=this.value+'°C'; markChanged()">
+      </div>
+
+      <div class="form-group" style="margin-bottom:25px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <label class="input-label" style="margin:0; font-size:0.8rem;">Brillo máx. (Protección)</label>
+            <span id="s_max_val" style="color: #3498db; font-weight: bold; font-size: 0.85rem;">30%</span>
+        </div>
+        <input type="range" min="0" max="100" value="30" class="slider-speed" id="s_max" oninput="document.getElementById('s_max_val').innerText=this.value+'%'; markChanged()">
+      </div>
+
+      <div class="modal-buttons">
+        <button onclick="closeSafetyModal()" class="btn btn-cancel" style="background:#222; color:#aaa; flex:1;">Cerrar</button>
+        <button onclick="saveSafety()" class="btn btn-save" style="background:#444; color:#fff; flex:1.2;">Aplicar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reutilizamos el modal de editar canal -->
+  <div id="editModal" class="modal-overlay" onclick="closeEditModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <h3>Personalizar Canal</h3>
+      <input type="hidden" id="editId">
+      <div class="input-group">
+        <label class="input-label">Nombre</label>
+        <input type="text" id="editName" class="input-text">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Color</label>
+        <div class="color-picker-row">
+            <input type="color" id="editColor" class="input-color" oninput="updateColorHex(this.value)">
+            <input type="text" id="colorHex" class="input-text hex-code" oninput="updateColorPicker(this.value)">
+        </div>
+      </div>
+      <div class="modal-buttons">
+        <button onclick="closeEditModal()" class="btn btn-cancel">Cancelar</button>
+        <button onclick="saveEdit()" class="btn btn-save">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simulador de Hardware -->
+  <script src="simulator.js"></script>
+  <!-- Script Original -->
+  <script src="script.js"></script>
+</body>
+</html>
