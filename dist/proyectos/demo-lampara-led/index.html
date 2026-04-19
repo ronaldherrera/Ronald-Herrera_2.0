@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Aquarium LED | THE LAB</title>
+    <link rel="stylesheet" href="demo-viewer.css">
+</head>
+<body>
+    <div class="demo-wrapper">
+        <!-- Contenedor del Acuario -->
+        <div class="aquarium-container">
+            <div class="aquarium-view">
+                <!-- SVG Base: Lámpara y Pecera -->
+                <img src="assets/svg acuario.svg" alt="Pecera" class="aquarium-svg">
+
+                <!-- Capa de Simulación (Overlays) -->
+                <div class="simulation-layer">
+                    <!-- Barras de LED (en la lámpara) -->
+                    <div class="led-bars">
+                        <div class="led-bar" id="led-0"></div>
+                        <div class="led-bar" id="led-1"></div>
+                        <div class="led-bar" id="led-2"></div>
+                        <div class="led-bar" id="led-3"></div>
+                        <div class="led-bar" id="led-4"></div>
+                    </div>
+
+                    <!-- Haces de luz Trapezoidales -->
+                    <div class="trapezoid-beams">
+                        <div class="t-beam" id="t-beam-0"></div>
+                        <div class="t-beam" id="t-beam-1"></div>
+                        <div class="t-beam" id="t-beam-2"></div>
+                        <div class="t-beam" id="t-beam-3"></div>
+                        <div class="t-beam" id="t-beam-4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mockup del Smartphone -->
+        <div class="mockup-container">
+            <div class="smartphone-mockup">
+                <iframe id="app-iframe" src="app.html" title="App Control LED"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de Sincronización Real -->
+    <script>
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'AQUARIUM_UPDATE') {
+                const channels = event.data.channels;
+                channels.forEach(ch => {
+                    const brightness = ch.brightness / 100;
+                    
+                    // Actualizar Barras de LED de la lámpara
+                    const led = document.getElementById(`led-${ch.id}`);
+                    if (led) {
+                        led.style.backgroundColor = ch.color;
+                        led.style.opacity = brightness; // Brillo directo 0.0 - 1.0
+                    }
+
+                    // Actualizar Haces Trapezoidales
+                    const beam = document.getElementById(`t-beam-${ch.id}`);
+                    if (beam) {
+                        beam.style.setProperty('--beam-color', ch.color);
+                        beam.style.opacity = brightness * 0.7; // Intensidad máxima 70%
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
