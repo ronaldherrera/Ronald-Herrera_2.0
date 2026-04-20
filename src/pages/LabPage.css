@@ -530,8 +530,6 @@ body.project-open .lab-scrollbar-container {
 
 /* Estilos de Placeholder "Próximamente" */
 .lab-card.is-placeholder {
-  flex: 0 0 300px;
-  aspect-ratio: 16 / 9;
   background: rgba(255, 255, 255, 0.02);
   border: 1px dashed rgba(255, 255, 255, 0.1);
   display: flex;
