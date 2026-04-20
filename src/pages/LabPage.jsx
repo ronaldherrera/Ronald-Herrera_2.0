@@ -303,6 +303,15 @@ const LabPage = () => {
       title: "PROTOTIPOS Y HERRAMIENTAS",
       items: [
         { 
+          id: 30, 
+          title: "Protecciones Eléctricas", 
+          category: "HERRAMIENTA / FORMACIÓN", 
+          tags: ["HTML5", "UX/UI", "GAMIFICACIÓN"], 
+          description: "Aplicación interactiva de The Lab diseñada para la formación interna sobre protecciones eléctricas y cuadros eléctricos.", 
+          url: "/presentacion/formacion-protecciones-electricas/index.html", 
+          image: "/presentacion/formacion-protecciones-electricas/assets/portada.webp" 
+        },
+        { 
           id: 21, 
           title: "SnapStore", 
           category: "HERRAMIENTA / AUTOMATIZACIÓN", 

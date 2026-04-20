@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto - Protecciones Eléctricas</title>
+    <link rel="stylesheet" href="base-presentacion.css">
+    <script src="back-button.js"></script>
+    <script src="lightbox.js"></script>
+    <style>
+        .media-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+        .media-content img:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+    <div class="project-container">
+        <header class="project-header" style="background-image: linear-gradient(to bottom, rgba(10,10,12,0.3), var(--bg)), url('assets/portada.webp'); background-size: cover; background-position: center; padding-top: 6rem; padding-bottom: 4rem; border-radius: 16px;">
+            <div class="header-content" style="background: rgba(10,10,12,0.8); padding: 2rem; border-radius: 12px; backdrop-filter: blur(8px); display: inline-block;">
+                <span class="tag">// HERRAMIENTA DE FORMACIÓN</span>
+                <h1>PROTECCIONES ELÉCTRICAS<span class="dot">.</span></h1>
+                <p style="color: rgba(255, 255, 255, 0.85); max-width: 600px; margin-top: 1rem;">Una aplicación interactiva diseñada para transformar conceptos eléctricos abstractos y normativas complejas en una experiencia gamificada y visual para equipos de ventas.</p>
+                <div class="header-actions" style="margin-top: 2rem;">
+                    <a href="https://formacion-proteciones-electricas.vercel.app/" target="_blank" class="btn-action">
+                        <span>⚡</span> ACCEDER A LA FORMACIÓN
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <main class="project-grid">
+            <section class="info-block">
+                <h2>EL CONCEPTO</h2>
+                <p>El reto era simplificar la enseñanza técnica sobre cuadros eléctricos y protecciones (magnetotérmicos, diferenciales, sobretensiones) para vendedores sin necesariamente formación técnica previa. La solución: una web-app interactiva optimizada para tablets que desglosa las funciones de cada módulo usando animaciones, analogías visuales y un cuestionario gamificado como evaluación. Además, el sistema destaca por la impartición presencial de clases: se puede operar con el teléfono móvil enlazado como "Control Remoto", desde el cual el instructor maneja los controles de la clase, revisa sus notas privadas y temporiza la sesión.</p>
+            </section>
+
+            <section class="info-block specs">
+                <h2>ESPECIFICACIONES</h2>
+                <ul>
+                    <li><span>TARGET:</span> Formación interna para equipos de ventas de la sección electricidad.</li>
+                    <li><span>MODO INSTRUCTOR:</span> Interfaz dedicada de control remoto a través de smartphone, con controles de paso, acceso a diapositivas y lectura de notas de clase en privado.</li>
+                    <li><span>FEATURES:</span> Infografías interactivas, curvas de disparo dinámicas y validación de conocimiento (Quiz).</li>
+                    <li><span>UX/UI:</span> Diseño Dark Mode, táctil-first optimizado para la retención visual visual de normativas (REBT).</li>
+                </ul>
+            </section>
+
+            <section class="info-block full-width">
+                <h2>PROCESO</h2>
+                <div class="steps">
+                    <div class="step">
+                        <h3>01. ANÁLISIS DE LA FRICCIÓN</h3>
+                        <p>Identificación de los conceptos que más dificultaban a los nuevos vendedores: distinguir tipos de diferenciales, polaridades y poderes de corte de acuerdo a la normativa REBT.</p>
+                    </div>
+                    <div class="step">
+                        <h3>02. DISEÑO Y METÁFORAS VISUALES</h3>
+                        <p>Se crearon diagramas desde cero con analogías (como usar dinámicas hidráulicas para explicar tensión e intensidad) y se mapearon secciones de un cuadro eléctrico hiperrealista.</p>
+                    </div>
+                    <div class="step">
+                        <h3>03. DESARROLLO E IMPLEMENTACIÓN</h3>
+                        <p>Desarrollo front-end nativo asegurando rendimiento perfecto en dispositivos de baja gama. Se integró una navegación lineal como si de "historias" interactivas se tratara.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-block full-width conclusion">
+                <h2>RESUMEN Y CONCLUSIÓN</h2>
+                <p>Al transformar densos documentos técnicos en una ruta visual interactiva, se ha logrado reducir drásticamente el tiempo necesario para que un nuevo colaborador entienda la estructura de un cuadro eléctrico de vivienda. Gamificar la enseñanza sigue siendo una de las vías de asimilación de información técnica más efectivas.</p>
+            </section>
+
+            <section class="info-block full-width">
+                <h2>GALERÍA / RECURSOS</h2>
+                <div class="media-grid">
+                    <div class="media-item">
+                        <div class="media-content">
+                            <img src="assets/analogia tension.png" alt="Analogía Hidráulica de Magnitudes Eléctricas">
+                        </div>
+                        <p class="media-caption">// Uso de metáforas visuales para Tensión e Intensidad</p>
+                    </div>
+                    <div class="media-item">
+                        <div class="media-content">
+                            <img src="assets/Cuadro_ IGA.png" alt="Detalle del IGA en el cuadro eléctrico">
+                        </div>
+                        <p class="media-caption">// Diagramas detallados del panel general de protecciones</p>
+                    </div>
+                    <div class="media-item">
+                        <div class="media-content">
+                            <img src="assets/grafica_curvas.png" alt="Gráfica de curvas de disparo">
+                        </div>
+                        <p class="media-caption">// Visualización de datos técnicos complejos (Curvas B, C, D)</p>
+                    </div>
+                    <div class="media-item">
+                        <div class="media-content">
+                            <img src="assets/rebt_seal.png" alt="Sello y contexto de normativa REBT">
+                        </div>
+                        <p class="media-caption">// Material didáctico aplicado a normativas vigentes</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="project-footer">
+            <div class="status-badge">
+                <span class="status-dot" style="background-color: var(--warning-alt, #f39c12); box-shadow: 0 0 10px rgba(243, 156, 18, 0.4);"></span>
+                ESTADO_PROYECTO_BETA
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
