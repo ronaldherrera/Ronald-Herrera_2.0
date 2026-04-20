@@ -257,6 +257,7 @@ body.project-open .lab-scrollbar-container {
 /* Tarjeta Estilo Netflix */
 .lab-card {
   flex: 0 0 300px;
+  min-width: 300px;
   aspect-ratio: 16 / 9;
   background: #1a1a1a;
   border-radius: 8px;
@@ -489,6 +490,7 @@ body.project-open .lab-scrollbar-container {
   
   .lab-card {
     flex: 0 0 260px;
+    min-width: 260px;
   }
 
   .nav-arrow {
