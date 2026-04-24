@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Hero.css';
 
 const Hero = () => {
@@ -12,19 +13,19 @@ const Hero = () => {
       
       <div className="container hero-container relative-z">
         <div className="hero-content">
-          <p className="text-accent hero-greeting">RONALD HERRERA — CREATIVIDAD, TECNOLOGÍA & UX.</p>
+          <p className="text-accent hero-greeting">RONALD HERRERA — PRODUCTO, DISEÑO & FRONT-END</p>
           <h1 className="hero-title">
             Diseño y construyo <br/>
-            <span className="text-outline">experiencias digitales</span> <br/>
-            <span className="text-highlight-blue">con criterio visual.</span>
+            <span className="text-outline">productos digitales que</span> <br/>
+            <span className="text-highlight-blue">funcionan de verdad.</span>
           </h1>
           <p className="text-body-large hero-subtitle">
-            Combino arte y ciencia de los entornos digitales para estructurar <br/> estrategias que "conectan" ideas con alta calidad y resultados <br/> de negocio.
+            Híbrido entre diseño UX/UI y Front-end. Creo interfaces que <br/> no solo se ven bien: se usan, convierten y resuelven problemas <br/> de negocio reales.
           </p>
           
           <div className="hero-actions">
             <a href="#proyectos" className="btn btn-primary">VER PROYECTOS</a>
-            <a href="#contacto" className="btn btn-secondary">TE CUENTO</a>
+            <Link to="/contacto" className="btn btn-secondary">CONTACTAR</Link>
           </div>
         </div>
       </div>

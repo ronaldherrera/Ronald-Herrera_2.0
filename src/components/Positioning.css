@@ -1,0 +1,84 @@
+.positioning-section {
+  background-color: var(--color-bg);
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Rejilla técnica muy tenue de fondo (Estilo Cascada) */
+.positioning-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background-image: 
+    linear-gradient(var(--color-accent-gold) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-accent-gold) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.2; /* Igualado al Hero */
+  pointer-events: none;
+  animation: waterfallMove 3s linear infinite;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 5%, rgba(0,0,0,0) 90%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 5%, rgba(0,0,0,0) 90%);
+}
+
+@keyframes waterfallMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 60px; }
+}
+
+.positioning-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.positioning-label {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--color-accent-red);
+  text-transform: uppercase;
+}
+
+.positioning-text {
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: var(--color-text);
+  text-transform: uppercase;
+}
+
+.positioning-subtext {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 700px;
+  font-weight: 400;
+}
+
+.hide-mobile {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .positioning-text {
+    font-size: 1.8rem;
+  }
+  .hide-mobile {
+    display: none;
+  }
+}

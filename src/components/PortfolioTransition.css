@@ -1,0 +1,24 @@
+.portfolio-transition {
+  padding: var(--spacing-xl) 0 0 0;
+  text-align: center;
+  background-color: var(--color-bg);
+}
+
+.transition-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.transition-text {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.3;
+}
+
+@media (max-width: 768px) {
+  .portfolio-transition {
+    padding: var(--spacing-lg) 0 0 0;
+  }
+}

@@ -3,27 +3,27 @@ import './ValueProposition.css';
 
 const features = [
   {
-    title: 'VISIÓN VISUAL',
-    description: 'Cuido mucho el detalle, la consistencia y la jerarquía. Desarrollo interfaces que son limpias con una estética muy cuidada.',
-    iconClass: 'abstract-icon-1', /* Cuadrado a Rombo */
+    title: 'DISEÑO ENFOCADO AL USO REAL',
+    description: 'Interfaces intuitivas sin fricciones. Priorizo la funcionalidad y la experiencia de usuario por encima de modas estéticas.',
+    iconClass: 'abstract-icon-1',
     iconColor: 'icon-blue'
   },
   {
-    title: 'PENSAMIENTO UX',
-    description: 'Si algo no se entiende o precisa de largos manuales, hay un problema. Priorizo siempre la utilidad y la usabilidad funcional.',
-    iconClass: 'abstract-icon-2', /* Triángulo a Cuadrado */
+    title: 'DESARROLLO FRONT-END',
+    description: 'Paso del diseño a código limpio y escalable. Construyo componentes funcionales que respetan la visión original del producto.',
+    iconClass: 'abstract-icon-2',
     iconColor: 'icon-gold'
   },
   {
-    title: 'EJECUCIÓN REAL',
-    description: 'Paso del lienzo a la vida. Tengo capacidad de construir mediante front-end lo que diseño sin que el concepto original se pierda.',
-    iconClass: 'abstract-icon-3', /* Pentágono a Triángulo */
+    title: 'VISIÓN DE PRODUCTO',
+    description: 'Alineo las necesidades del usuario con los objetivos de negocio. Cada decisión técnica o de diseño tiene un porqué estratégico.',
+    iconClass: 'abstract-icon-3',
     iconColor: 'icon-orange'
   },
   {
-    title: 'INICIATIVA',
-    description: 'La proactividad en el equipo, ser capaz de dar un paso adelante que traiga resoluciones con rapidez y sin cuellos de botella.',
-    iconClass: 'abstract-icon-4', /* Rombo a Pentágono */
+    title: 'RESOLUCIÓN DE PROBLEMAS',
+    description: 'Detección de cuellos de botella y enfoque en la mejora continua. Me gusta entender el reto técnico para proponer soluciones simples.',
+    iconClass: 'abstract-icon-4',
     iconColor: 'icon-cream'
   }
 ];

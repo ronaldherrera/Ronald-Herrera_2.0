@@ -1,18 +1,22 @@
 import React from 'react';
 import Hero from '../components/Hero';
+import Positioning from '../components/Positioning';
 import ValueProposition from '../components/ValueProposition';
-import AboutMe from '../components/AboutMe';
-import Quote from '../components/Quote';
+import PortfolioTransition from '../components/PortfolioTransition';
 import Projects from '../components/Projects';
+import AboutMe from '../components/AboutMe';
+import FinalCTA from '../components/FinalCTA';
 
 const Home = () => {
   return (
     <>
       <Hero />
+      <Positioning />
       <ValueProposition />
-      <AboutMe />
-      <Quote />
+      <PortfolioTransition />
       <Projects />
+      <AboutMe />
+      <FinalCTA />
     </>
   );
 };
