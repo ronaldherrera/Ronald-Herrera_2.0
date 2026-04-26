@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AR CV · Ronald Herrera — Próximamente</title>
+  <meta name="description" content="Una experiencia de Realidad Aumentada única para explorar el CV de Ronald Herrera. Próximamente disponible." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #040810;
+      --surface:   rgba(255,255,255,0.04);
+      --border:    rgba(255,255,255,0.08);
+      --accent1:   #6C63FF;
+      --accent2:   #00D4FF;
+      --accent3:   #FF6B9D;
+      --text:      #F0F0F8;
+      --muted:     rgba(240,240,248,0.45);
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── FONDO ANIMADO ── */
+    .bg-canvas {
+      position: fixed; inset: 0; z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    /* Grid de puntos */
+    .bg-canvas::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(108,99,255,0.15) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: gridDrift 20s linear infinite;
+    }
+
+    @keyframes gridDrift {
+      0%   { background-position: 0 0; }
+      100% { background-position: 40px 40px; }
+    }
+
+    /* Orbs de color */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      animation: orbFloat 12s ease-in-out infinite alternate;
+    }
+    .orb-1 {
+      width: 500px; height: 500px;
+      background: var(--accent1);
+      top: -150px; left: -100px;
+      animation-delay: 0s;
+    }
+    .orb-2 {
+      width: 400px; height: 400px;
+      background: var(--accent2);
+      bottom: -100px; right: -80px;
+      animation-delay: -4s;
+    }
+    .orb-3 {
+      width: 300px; height: 300px;
+      background: var(--accent3);
+      top: 50%; left: 55%;
+      animation-delay: -8s;
+    }
+
+    @keyframes orbFloat {
+      0%   { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, -40px) scale(1.1); }
+    }
+
+    /* ── LAYOUT ── */
+    .page {
+      position: relative; z-index: 1;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      gap: 2.5rem;
+      text-align: center;
+    }
+
+    /* ── ICONO AR ── */
+    .ar-icon-wrap {
+      position: relative;
+      width: 120px; height: 120px;
+    }
+
+    .ar-ring {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      background:
+        linear-gradient(var(--bg), var(--bg)) padding-box,
+        linear-gradient(135deg, var(--accent1), var(--accent2)) border-box;
+      animation: spinRing 8s linear infinite;
+    }
+    .ar-ring-2 {
+      position: absolute;
+      inset: 12px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,212,255,0.3);
+      animation: spinRing 5s linear infinite reverse;
+    }
+
+    @keyframes spinRing {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .ar-icon-inner {
+      position: absolute;
+      inset: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(108,99,255,0.25), rgba(0,212,255,0.15));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+    }
+
+    .ar-icon-inner svg {
+      width: 38px; height: 38px;
+    }
+
+    /* ── BADGE ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.9rem;
+      background: rgba(108,99,255,0.12);
+      border: 1px solid rgba(108,99,255,0.35);
+      border-radius: 99px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent1);
+    }
+
+    .badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent2);
+      box-shadow: 0 0 8px var(--accent2);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.7); }
+    }
+
+    /* ── TÍTULOS ── */
+    .headline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .headline .grad {
+      background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: gradShift 4s linear infinite;
+    }
+
+    @keyframes gradShift {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .sub-headline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.6;
+    }
+
+    /* ── FEATURES ── */
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      max-width: 520px;
+    }
+
+    .feature-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      backdrop-filter: blur(10px);
+      transition: border-color 0.3s, color 0.3s;
+    }
+
+    .feature-chip:hover {
+      border-color: rgba(108,99,255,0.4);
+      color: var(--text);
+    }
+
+    .feature-chip span:first-child { font-size: 1rem; }
+
+    /* ── CTA BUTTON ── */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 2rem;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 30px rgba(108,99,255,0.4);
+    }
+
+    .cta-btn::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--accent2), var(--accent1));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 0 45px rgba(108,99,255,0.55); }
+    .cta-btn:hover::before { opacity: 1; }
+    .cta-btn:active { transform: translateY(0); }
+
+    .cta-btn svg { position: relative; z-index: 1; }
+    .cta-btn span { position: relative; z-index: 1; }
+
+    /* ── SCAN CORNERS ── */
+    .scan-frame {
+      position: relative;
+      width: 160px; height: 160px;
+      margin: 0 auto;
+    }
+
+    .scan-corner {
+      position: absolute;
+      width: 28px; height: 28px;
+      border-color: var(--accent2);
+      border-style: solid;
+      opacity: 0.7;
+    }
+
+    .scan-corner.tl { top: 0; left: 0;  border-width: 2px 0 0 2px; }
+    .scan-corner.tr { top: 0; right: 0; border-width: 2px 2px 0 0; }
+    .scan-corner.bl { bottom: 0; left: 0;  border-width: 0 0 2px 2px; }
+    .scan-corner.br { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
+
+    .scan-line {
+      position: absolute;
+      left: 4px; right: 4px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent2), transparent);
+      animation: scanAnim 2.5s ease-in-out infinite;
+      box-shadow: 0 0 8px var(--accent2);
+    }
+
+    @keyframes scanAnim {
+      0%   { top: 4px;   opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { top: calc(100% - 5px); opacity: 0; }
+    }
+
+    .scan-inner {
+      position: absolute;
+      inset: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scan-phone-icon {
+      font-size: 3.5rem;
+      filter: grayscale(0.3);
+      animation: phoneFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes phoneFloat {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-6px); }
+    }
+
+    /* ── FOOTER ── */
+    .footer-note {
+      font-size: 0.75rem;
+      color: rgba(240,240,248,0.25);
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fondo -->
+  <div class="bg-canvas">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Contenido -->
+  <main class="page">
+
+    <!-- Icono AR animado -->
+    <div class="ar-icon-wrap">
+      <div class="ar-ring"></div>
+      <div class="ar-ring-2"></div>
+      <div class="ar-icon-inner">
+        <!-- Icono AR (visor) -->
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="14" width="40" height="20" rx="6" stroke="url(#g1)" stroke-width="2"/>
+          <circle cx="16" cy="24" r="5" stroke="url(#g1)" stroke-width="2"/>
+          <circle cx="32" cy="24" r="5" stroke="url(#g1)" stroke-width="2"/>
+          <path d="M21 24h6" stroke="url(#g1)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M4 22h4M40 22h4" stroke="url(#g1)" stroke-width="2" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="g1" x1="4" y1="14" x2="44" y2="34" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#6C63FF"/>
+              <stop offset="1" stop-color="#00D4FF"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Badge estado -->
+    <div class="badge">
+      <span class="badge-dot"></span>
+      En desarrollo
+    </div>
+
+    <!-- Título -->
+    <div>
+      <h1 class="headline">
+        CV en<br/><span class="grad">Realidad Aumentada</span>
+      </h1>
+      <p class="sub-headline" style="margin-top: 1rem;">
+        Estoy construyendo una experiencia inmersiva para explorar mi perfil profesional. Apunta tu cámara y sumérgete.
+      </p>
+    </div>
+
+    <!-- Frame de escáner -->
+    <div class="scan-frame">
+      <div class="scan-corner tl"></div>
+      <div class="scan-corner tr"></div>
+      <div class="scan-corner bl"></div>
+      <div class="scan-corner br"></div>
+      <div class="scan-line"></div>
+      <div class="scan-inner">
+        <span class="scan-phone-icon">📱</span>
+      </div>
+    </div>
+
+    <!-- Features de lo que vendrá -->
+    <div class="features">
+      <div class="feature-chip"><span>🧠</span><span>Perfil profesional en 3D</span></div>
+      <div class="feature-chip"><span>🚀</span><span>Proyectos interactivos</span></div>
+      <div class="feature-chip"><span>🎨</span><span>Diseño UX/UI</span></div>
+      <div class="feature-chip"><span>📊</span><span>Skills & habilidades</span></div>
+    </div>
+
+    <!-- CTA -->
+    <a href="https://www.ronaldherrera.es" class="cta-btn" id="btn-portfolio">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/>
+        <path d="M3 12h4M17 12h4"/>
+        <path d="M12 3v4M12 17v4"/>
+      </svg>
+      <span>Ver mi portfolio</span>
+    </a>
+
+    <p class="footer-note">Ronald Herrera · UX/UI Designer & Front-end Developer</p>
+
+  </main>
+
+</body>
+</html>

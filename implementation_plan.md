@@ -1,59 +1,38 @@
-# Rediseño de la Home: Perfil Híbrido UX/UI & Front-end
+# Plan de Iteración: Copy "Directo y Real"
 
-Este plan detalla la reestructuración y mejora del copy de la página principal (Home) para transmitir claramente tu perfil híbrido (Diseñador UX/UI + Front-end), enfocándose en la resolución de problemas reales y el pensamiento de producto.
+Este plan es una segunda iteración sobre la estructura que ya hemos montado, afinando el texto para que sea aún más tajante, escaneable y con cero "humo", siguiendo el nuevo brief.
 
 ## Cambios Propuestos
 
-### Componentes Actualizados y Nuevos
+### 1. `Hero.jsx` (Hero Ultra Importante)
+- **Titular:** Diseño interfaces. Construyo soluciones.
+- **Subtítulo:** "Soy UX/UI y Front-end. No me quedo en la teoría visual: ejecuto ideas y construyo productos digitales preparados para el mundo real."
+- **CTAs:** Mantener "VER PROYECTOS" y "CONTACTAR".
 
-#### [MODIFY] `src/components/Hero.jsx`
-- **Cambio:** Actualizar el titular y subtítulo para hacerlos más directos y potentes, evitando textos genéricos.
-- **Copy:** 
-  - Titular: "Diseño y construyo productos digitales que funcionan de verdad." (o variante impactante)
-  - Subtítulo: "Híbrido entre diseño UX/UI y Front-end. Creo interfaces que no solo se ven bien: se usan, convierten y resuelven problemas de negocio."
-  - CTAs: "VER PROYECTOS" y "CONTACTAR".
+### 2. `Positioning.jsx` (Bloque de Diferenciación)
+- **Etiqueta:** "CÓMO TRABAJO"
+- **Titular:** "Pienso en producto. Ejecuto en código."
+- **Subtexto:** "Vengo de un entorno donde los problemas no son teóricos. Si algo no funciona o no se entiende, se nota al instante. Y se soluciona. Mi trabajo es acortar la distancia entre una buena idea y algo que la gente realmente pueda usar."
 
-#### [NEW] `src/components/Positioning.jsx` (Reemplaza la idea de `Quote.jsx`)
-- **Objetivo:** Un bloque conciso tras el Hero que ancle tu posicionamiento.
-- **Copy:** Explicar qué haces (pensamiento de producto), cómo trabajas (enfoque práctico) y qué te diferencia (capacidad de ejecutar). "Pienso como diseñador, construyo como desarrollador."
+### 3. `ValueProposition.jsx` (Qué hago / Qué aporto)
+- **Ajuste de Cards:**
+  1. **UX/UI para uso real:** "Interfaces funcionales por encima de estéticas de moda. Si hay que explicarlo, está mal diseñado."
+  2. **Front-end funcional:** "Del concepto a código real, limpio y escalable. Construyo exactamente lo que diseño."
+  3. **Herramientas & Procesos:** "Creación de herramientas internas y digitalización que eliminan cuellos de botella."
+  4. **Resolución de problemas:** "Capacidad para detectar fallos en la experiencia y convertirlos en soluciones técnicas viables."
 
-#### [MODIFY] `src/components/ValueProposition.jsx`
-- **Cambio:** Transformar este bloque en "QUÉ PUEDO APORTAR".
-- **Items:**
-  1. **Diseño enfocado al uso real:** Interfaces intuitivas sin fricciones.
-  2. **Desarrollo Front-end funcional:** Del diseño a código limpio y escalable.
-  3. **Visión de Producto:** Alineando necesidades del usuario con objetivos de negocio.
-  4. **Resolución de problemas:** Detección de cuellos de botella y mejora continua.
+### 4. `PortfolioTransition.jsx` (Transición a Proyectos)
+- **Copy:** "Cada proyecto nace de una necesidad concreta. Y acaba en algo que funciona."
 
-#### [NEW] `src/components/PortfolioTransition.jsx`
-- **Objetivo:** Pequeña franja de texto antes de los proyectos.
-- **Copy:** "No son solo diseños. Son soluciones a problemas reales."
+### 5. `AboutMe.jsx` (Sobre Mí Diferencial)
+- **Ajuste de tono:** 
+  "Mi camino no empezó en el código, sino en lo visual. Pero pronto entendí que una pantalla bonita no sirve de nada si no resuelve un problema. Me mueve la curiosidad por destripar procesos complejos y hacerlos simples. No diseño por inercia; analizo, cuestiono y construyo soluciones prácticas."
 
-#### [MODIFY] `src/components/AboutMe.jsx`
-- **Cambio:** Resumir y hacer el texto más humano, eliminando clichés ("me apasiona").
-- **Enfoque:** Contar brevemente el background, mostrar curiosidad por construir cosas útiles y tener una mentalidad de mejora continua. Mantener la foto.
+### 6. `FinalCTA.jsx` (CTA Final)
+- **Titular:** "Si buscas a alguien que no solo diseñe, sino que lo construya..."
+- **Subtítulo:** "Escríbeme y vemos cómo mi enfoque puede encajar en tu próximo proyecto."
 
-#### [NEW] `src/components/FinalCTA.jsx`
-- **Objetivo:** Bloque de cierre en la Home para invitar al contacto.
-- **Copy:** "¿Buscas a alguien que no solo diseñe, sino que sea capaz de construirlo?" o "Si te interesa mi enfoque pragmático para tu próximo proyecto..."
-- **CTA:** Botón claro a "HABLEMOS" o "CONTACTAR".
+---
 
-#### [MODIFY] `src/pages/Home.jsx`
-- **Cambio:** Reordenar e importar los nuevos componentes para que la estructura sea:
-  1. Hero
-  2. Positioning
-  3. ValueProposition (Qué puedo aportar)
-  4. PortfolioTransition
-  5. Projects (Sin tocar su código interno)
-  6. AboutMe
-  7. FinalCTA
-
-### Archivos Eliminados
-#### [DELETE] `src/components/Quote.jsx`
-#### [DELETE] `src/components/Quote.css`
-
-## Plan de Verificación
-- Revisar que la Home cargue correctamente con el servidor de desarrollo `npm run dev`.
-- Comprobar que los textos suenan naturales, directos y cumplen con el posicionamiento híbrido.
-- Verificar en responsivo (Mobile-first) que los nuevos bloques mantienen el estilo minimalista, moderno y con espacios adecuados.
-- Asegurar que la sección de Proyectos se mantiene intacta.
+## Revisión requerida
+¿Qué te parecen estos textos? Son más secos, directos y con mucha menos "pelusa". Si me das luz verde, aplico esta segunda capa de pulido al código.
