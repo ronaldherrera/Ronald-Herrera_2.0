@@ -739,7 +739,7 @@ h1, h2, h3, p { font-family: var(--font-main); }
     transform: none;
     top: auto;
     bottom: 0;
-    padding: 12px 12px max(56px, calc(env(safe-area-inset-bottom, 16px) + 36px)) 12px;
+    padding: 12px 12px max(95px, calc(env(safe-area-inset-bottom, 20px) + 70px)) 12px;
     background: rgba(10, 10, 10, 0.85); /* Fondo base oscuro */
     border: none;
     border-top: 1px solid rgba(186, 0, 124, 0.6); /* Borde fino rosa premium */
