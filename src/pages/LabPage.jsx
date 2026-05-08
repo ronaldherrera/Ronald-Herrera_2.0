@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import setupImg from '../assets/setup.png';
 import portfolioV1Img from '../assets/portfolio-v1.png';
 import tankilyConceptImg from '../assets/tankily-concept.png';
+import imagymPortadaImg from '../assets/imagym-portada.png';
 import './LabPage.css';
 
 const LabRow = ({ title, items, onProjectClick }) => {
@@ -333,7 +334,17 @@ const LabPage = () => {
     },
     {
       title: "DISEÑO Y SISTEMAS",
-      items: []
+      items: [
+        {
+          id: 60,
+          title: "IMAGYM",
+          category: "UX/UI · ESTUDIO DE CASO",
+          tags: ["FIGMA", "UX RESEARCH", "MOBILE"],
+          description: "Rediseño completo de la app de una cadena de gimnasios low cost. Research real, Tree Testing, sistema de diseño y prototipo de alta fidelidad.",
+          url: "/presentacion/Imagym/index.html",
+          image: imagymPortadaImg
+        }
+      ]
     },
     {
       title: "PATIO DE EXPERIMENTACIÓN",
