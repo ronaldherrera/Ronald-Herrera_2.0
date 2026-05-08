@@ -727,22 +727,23 @@ h1, h2, h3, p { font-family: var(--font-main); }
 /* --- Tablet pequeña (≤ 767px) ------------------------------ */
 @media screen and (max-width: 767px) {
 
-  /* Nav: Píldora flotante elegante (evita el notch) */
+  /* Nav: Tarjeta que sale de abajo */
   .navMain {
     flex-wrap: nowrap;
     overflow-x: auto;
     justify-content: space-between;
-    border-radius: 100px;
+    border-radius: 24px 24px 0 0; /* Curvo solo arriba */
     width: 100%;
-    max-width: calc(100% - 16px);
-    left: 50%;
-    transform: translateX(-50%);
+    max-width: 100%;
+    left: 0;
+    transform: none;
     top: auto;
-    bottom: max(45px, calc(env(safe-area-inset-bottom, 24px) + 20px));
-    padding: 4px;
-    background: rgba(10, 10, 10, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    bottom: 0;
+    padding: 12px 12px max(16px, env(safe-area-inset-bottom, 16px)) 12px;
+    background: rgba(10, 10, 10, 0.85); /* Fondo base oscuro */
+    border: none;
+    border-top: 1px solid rgba(186, 0, 124, 0.6); /* Borde fino rosa premium */
+    box-shadow: 0 -4px 24px rgba(186, 0, 124, 0.15), 0 -12px 32px rgba(0, 0, 0, 0.6); /* Glow rosa + sombra de profundidad */
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
   }
