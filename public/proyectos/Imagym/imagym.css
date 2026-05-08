@@ -727,24 +727,44 @@ h1, h2, h3, p { font-family: var(--font-main); }
 /* --- Tablet pequeña (≤ 767px) ------------------------------ */
 @media screen and (max-width: 767px) {
 
-  /* Nav: scroll horizontal en lugar de wrap */
+  /* Nav: Píldora flotante elegante (evita el notch) */
   .navMain {
     flex-wrap: nowrap;
     overflow-x: auto;
     justify-content: flex-start;
-    border-radius: 0;
-    width: 100%;
-    max-width: 100%;
-    left: 0;
-    transform: none;
-    padding: 8px 16px;
+    border-radius: 100px;
+    width: auto;
+    max-width: calc(100% - 32px);
+    left: 50%;
+    transform: translateX(-50%);
+    top: auto;
+    bottom: max(24px, env(safe-area-inset-bottom, 24px));
+    padding: 6px;
+    background: rgba(10, 10, 10, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
   }
   .navMain::-webkit-scrollbar { display: none; }
   .navMain a {
     flex-shrink: 0;
-    font-size: 0.72rem;
-    padding: 5px 12px;
+    font-size: 0.7rem;
+    padding: 6px 14px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .navMain a:hover {
+    box-shadow: none;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+  }
+  .navMain a.activo {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    box-shadow: none;
+    border: none;
   }
 
   /* Sections: compensar nav de una sola fila con scroll */
@@ -798,12 +818,18 @@ h1, h2, h3, p { font-family: var(--font-main); }
   .secciones.guion,
   .secciones.tareas               { width: 100%; }
 
-  /* Prototipo */
+  /* Prototipo: Alineado en altura y top con el botón LAB */
   #prototipo {
-    right: 16px;
-    bottom: 16px;
-    padding: 10px 18px;
-    font-size: 0.78rem;
+    bottom: unset !important;
+    top: 32px;
+    right: 24px;
+    height: auto; /* Dejamos que el padding defina la altura */
+    padding: 0.8rem 1.6rem; /* Padding calcado al botón LAB */
+    font-size: 0.85rem;
+    border: 0.5px solid transparent; /* Compensamos el grosor del borde de LAB */
+    box-shadow: 0 4px 16px rgba(186,0,124,0.4);
+    box-sizing: border-box;
+    justify-content: center;
   }
 }
 
@@ -855,7 +881,7 @@ h1, h2, h3, p { font-family: var(--font-main); }
   #prototipo {
     right: 12px;
     bottom: 12px;
-    padding: 9px 14px;
+    padding: 15px 14px;
     font-size: 0.72rem;
     gap: 6px;
   }
