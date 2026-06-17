@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto - Fycheo</title>
+    <link rel="stylesheet" href="../0.plantilla/base-presentacion.css">
+    <script src="../0.plantilla/back-button.js"></script>
+    <script src="../0.plantilla/lightbox.js"></script>
+    <style>
+        /* Personalización de colores prisma y acentos para Fycheo */
+        :root {
+            --accent: #9b51e0; /* Violeta principal */
+            --accent-rgb: 155, 81, 224;
+            --accent-alt: #00f2fe; /* Cian / Azul reactivo */
+        }
+        
+        body {
+            overflow-y: auto;
+        }
+
+        .tag {
+            color: var(--accent-alt);
+        }
+
+        /* Imagen de fondo en la cabecera */
+        .project-header {
+            background-image: linear-gradient(to bottom, rgba(13, 13, 13, 0.4) 0%, rgba(13, 13, 13, 0.85) 100%), url('assets/portada.webp');
+            background-size: cover;
+            background-position: center;
+            border: 1px solid rgba(155, 81, 224, 0.25);
+            border-radius: 20px;
+            padding: 8rem 3rem 6rem 3rem;
+            min-height: 420px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fycheo-logo {
+            max-height: 65px;
+            width: auto;
+            margin: 1.5rem 0;
+            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.6));
+            display: inline-block;
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, var(--accent-alt) 0%, var(--accent) 100%);
+            color: #0d0d0d !important;
+            font-weight: 700;
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
+            filter: brightness(1.1);
+        }
+
+        /* Secciones del Ecosistema */
+        .ecosystem-section {
+            grid-column: span 2;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            padding-top: 4rem;
+        }
+
+        .ecosystem-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .ecosystem-title span {
+            background: linear-gradient(135deg, var(--accent-alt) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ecosystem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 5rem;
+        }
+
+        .ecosystem-grid.reversed {
+            direction: rtl;
+        }
+
+        .ecosystem-grid.reversed .ecosystem-content {
+            direction: ltr; /* Restaurar dirección del texto */
+        }
+
+        .ecosystem-grid.reversed .media-item {
+            direction: ltr;
+        }
+
+        .ecosystem-content h3 {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-alt);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .ecosystem-content h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .ecosystem-content p {
+            font-size: 1rem;
+            line-height: 1.8;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .ecosystem-specs {
+            list-style: none;
+            margin-top: 1.5rem;
+            padding-left: 0;
+        }
+
+        .ecosystem-specs li {
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .ecosystem-specs li::before {
+            content: "→";
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .ecosystem-specs li span {
+            font-family: var(--font-mono);
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        @media (max-width: 900px) {
+            .ecosystem-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .ecosystem-grid.reversed {
+                direction: ltr;
+            }
+        }
+
+        /* Mockup de Navegador Web (Browser Mockup) - Ultra Discreto */
+        .mockup-browser {
+            background: #0b0b0c;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.65);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .mockup-browser-header {
+            background: #111113;
+            padding: 0.4rem 0.6rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            height: 24px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .mockup-browser-dots {
+            display: flex;
+            gap: 4px;
+            position: absolute;
+            left: 10px;
+        }
+
+        .mockup-browser-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+            opacity: 0.6;
+        }
+        .mockup-browser-dot.red { background: #ff5f56; }
+        .mockup-browser-dot.yellow { background: #ffbd2e; }
+        .mockup-browser-dot.green { background: #27c93f; }
+
+        .mockup-browser-address {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            color: rgba(255, 255, 255, 0.25);
+            margin: 0 auto;
+            letter-spacing: 0.05em;
+            user-select: none;
+        }
+
+        /* Mockup de Móvil (Phone Mockup) */
+        .mockup-phone {
+            background: #09090b;
+            border: 10px solid #1a1a1f;
+            border-radius: 36px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 9 / 19;
+            width: 270px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Notch superior del móvil */
+        .mockup-phone::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 110px;
+            height: 18px;
+            background: #1a1a1f;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            z-index: 10;
+        }
+
+        /* Mockup de Tableta (Tablet Mockup) */
+        .mockup-tablet {
+            background: #09090b;
+            border: 14px solid #1a1a1f;
+            border-radius: 28px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            max-width: 520px;
+            margin: 0 auto;
+            aspect-ratio: 4 / 3;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Ajuste de media-item para mockups vectoriales */
+        .media-item {
+            padding: 0 !important;
+            background: transparent !important;
+            border: none !important;
+            gap: 0.5rem !important;
+            cursor: zoom-in;
+            overflow: visible !important;
+            box-shadow: none !important;
+        }
+
+        .media-item:hover {
+            transform: scale(1.02);
+        }
+
+        .media-caption {
+            padding: 0 0.5rem;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+        
+        .mockup-browser img,
+        .mockup-phone img,
+        .mockup-tablet img {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Asegurar que las imágenes de ordenador se muestren completas sin recortar */
+        .mockup-browser img.media-content {
+            width: 100% !important;
+            height: auto !important;
+            aspect-ratio: auto !important;
+            object-fit: contain !important;
+            display: block !important;
+        }
+
+        .media-item:hover img {
+            transform: scale(1.06);
+        }
+    </style>
+</head>
+<body>
+    <div class="project-container">
+        <header class="project-header">
+            <div class="header-content">
+                <span class="tag">// ECOSISTEMA B2B SAAS · CONTROL HORARIO & WALLET</span>
+                <h1><img src="assets/logotipo.svg" alt="Fycheo" class="fycheo-logo" /></h1>
+                <p style="color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.8); max-width: 600px; font-weight: 500;">Solución empresarial de control horario multiplataforma automatizada. Estructura un monedero virtual (Wallet) prepago y reactivo en tiempo real con Supabase y Stripe.</p>
+                <div class="header-actions">
+                    <a href="https://fycheo.es/" target="_blank" rel="noopener noreferrer" class="btn-action">
+                        <span>🚀</span> VISITAR WEB
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <main class="project-grid">
+            <section class="info-block">
+                <h2>EL CONCEPTO SAAS</h2>
+                <p>Fycheo no es un software de registro de jornada aislado; es un robusto ecosistema de aplicaciones que interactúa de manera reactiva en tiempo real sobre la misma base de datos. Está diseñado bajo un modelo de facturación asíncrono basado en consumo: las organizaciones disponen de un monedero de prepago (Wallet) del cual la plataforma descuenta automáticamente las tarifas y suscripciones de acuerdo con la cantidad de empleados activos, congelando el acceso si el saldo se agota.</p>
+            </section>
+
+            <section class="info-block specs">
+                <h2>INFRAESTRUCTURA TÉCNICA</h2>
+                <ul>
+                    <li><span>TECNOLOGÍAS WEB:</span> React (v18 y v19), TypeScript, Tailwind CSS (v3 y v4) y Vite.</li>
+                    <li><span>TECNOLOGÍAS APP:</span> Capacitor CLI para generar y empaquetar ejecutables nativos Android/iOS.</li>
+                    <li><span>BASE DE DATOS:</span> Supabase PostgreSQL con disparadores (Triggers) relacionales asíncronos y WebSockets en tiempo real.</li>
+                    <li><span>PASARELA DE PAGO:</span> Stripe API asíncrona mediante Supabase Edge Functions con firmas JWT.</li>
+                </ul>
+            </section>
+
+            <!-- Sección: Fycheo Web -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid">
+                    <div class="ecosystem-content">
+                        <h3>01 / PORTAL WEB & ADMINISTRACIÓN WALLET</h3>
+                        <h4>Fycheo Web</h4>
+                        <p>La puerta de entrada a la plataforma. Consiste en la landing page informativa, los flujos de registro del cliente y el portal de administración financiera de la cuenta empresarial. El propietario de la cuenta gestiona desde aquí los límites y recargas a la Wallet de la organización.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Bono de Registro:</span> Al crear una cuenta se otorgan 50€ de saldo de bienvenida de manera automática.</li>
+                            <li><span>Gestión de Wallet:</span> Recarga de saldo con tarjeta de crédito mediante Stripe Elements o visualización de transferencias bancarias pendientes.</li>
+                            <li><span>Tarifas por Consumo:</span> Descuentos dinámicos de saldo según el plan (Básico 29€ hasta 8 empleados, Pro 59€ hasta 18 empleados, etc.) y cobros por cada empleado adicional.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-header">
+                                <div class="mockup-browser-dots">
+                                    <span class="mockup-browser-dot red"></span>
+                                    <span class="mockup-browser-dot yellow"></span>
+                                    <span class="mockup-browser-dot green"></span>
+                                </div>
+                                <div class="mockup-browser-address">fycheo.es/login</div>
+                            </div>
+                            <img src="assets/fycheo-web.webp" class="media-content" alt="Fycheo Web - Portal principal de administración">
+                        </div>
+                        <p class="media-caption">// Pantalla: Portal web principal y login de empresas.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección: Fycheo App -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid reversed">
+                    <div class="ecosystem-content">
+                        <h3>02 / APLICACIÓN MÓVIL EMPLEADOS</h3>
+                        <h4>Fycheo App</h4>
+                        <p>La aplicación móvil nativa diseñada específicamente para que los empleados registren sus jornadas laborales (entradas, salidas y descansos) estén donde estén. La app móvil aprovecha el empaquetado nativo para interactuar con APIs de hardware y posee una capa de notificaciones y recordatorios de jornada.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Módulo de Productividad:</span> Generación de consejos motivadores personalizados y resúmenes de jornada de acuerdo con las horas trabajadas del día.</li>
+                            <li><span>Capacitor Core Plugins:</span> Captura de geolocalización GPS asociada al fichaje (`@capacitor/geolocation`) y suscripción a notificaciones push (`@capacitor/push-notifications`).</li>
+                            <li><span>Fichajes en 2 Clics:</span> Interfaz ultrarrápida diseñada en modo oscuro nativo para reducir la fricción del marcaje.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-phone">
+                            <img src="assets/fycheo-app.webp" class="media-content" style="height: 100%; width: 100%; object-fit: cover; object-position: top;" alt="Fycheo App - Interfaz móvil del empleado">
+                        </div>
+                        <p class="media-caption">// Pantalla: App móvil nativa (Capacitor) con módulo de productividad.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección: Fycheo Manager -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid">
+                    <div class="ecosystem-content">
+                        <h3>03 / CONTROL DE RECURSOS HUMANOS</h3>
+                        <h4>Fycheo Manager</h4>
+                        <p>El centro administrativo web enfocado a la gerencia y al departamento de RR.HH. Construido sobre React 19 y Tailwind CSS v4, este panel provee gráficos detallados sobre asistencia y control de incidencias, así como la gestión documental de la plantilla.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Exportaciones Legales:</span> Generación e informes de jornada en PDF con `jspdf` y `jspdf-autotable`, listos para inspecciones laborales.</li>
+                            <li><span>Firma de Nóminas y Contratos:</span> Visualización y revisión integrada de contratos y nóminas en PDF con `react-pdf`.</li>
+                            <li><span>Importación Masiva:</span> Procesamiento y carga masiva de datos de empleados mediante archivos CSV utilizando `papaparse`.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-header">
+                                <div class="mockup-browser-dots">
+                                    <span class="mockup-browser-dot red"></span>
+                                    <span class="mockup-browser-dot yellow"></span>
+                                    <span class="mockup-browser-dot green"></span>
+                                </div>
+                                <div class="mockup-browser-address">manager.fycheo.es/attendance</div>
+                            </div>
+                            <img src="assets/fycheo-manager.webp" class="media-content" alt="Fycheo Manager - Panel de control web">
+                        </div>
+                        <p class="media-caption">// Pantalla: Cuadrante horario y control de presencia en vivo.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección: Fycheo Kiosko -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid reversed">
+                    <div class="ecosystem-content">
+                        <h3>04 / DISPOSITIVO FÍSICO DE ENTRADA</h3>
+                        <h4>Fycheo Kiosko</h4>
+                        <p>Aplicación web empaquetada con Capacitor para ejecutarse en terminales táctiles tipo tablet fijadas en el acceso de las oficinas o locales físicos. Su objetivo es actuar como un reloj de fichar común para toda la plantilla, sincronizado al instante con la base de datos en la nube.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Fichajes Rápidos:</span> Marcaje en segundos introduciendo el código PIN único de empleado o escaneando un código QR personal.</li>
+                            <li><span>Robustez de Red:</span> Sincronización continua de datos asíncronos con Supabase para prevenir colas y pérdidas de datos.</li>
+                            <li><span>Adaptación a Tableta:</span> Interfaz robusta y limpia diseñada para evitar toques involuntarios y facilitar el fichaje ágil.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-tablet">
+                            <img src="assets/fycheo-kiosko.webp" class="media-content" style="height: 100%; width: 100%; object-fit: cover;" alt="Fycheo Kiosko - Tablet de fichaje en pared">
+                        </div>
+                        <p class="media-caption">// Pantalla: Aplicación en modo tableta fija para accesos.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección: Fycheo Maestro -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid">
+                    <div class="ecosystem-content">
+                        <h3>05 / PANEL CONTROLADOR MAESTRO SAAS</h3>
+                        <h4>Fycheo Maestro</h4>
+                        <p>El centro de control administrativo global de la plataforma multi-inquilino (*multi-tenant*). Diseñado de forma exclusiva para el administrador maestro del SaaS de Fycheo y sus distribuidores autorizados.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Control de Colaboradores:</span> Habilitación, registro y limitaciones operativas de los colaboradores/partners comerciales.</li>
+                            <li><span>Métricas B2B:</span> Monitorización de consumo de bases de datos, volúmenes de facturación acumulados y número de organizaciones activas.</li>
+                            <li><span>Gestión de Licencias:</span> Aprovisionamiento asíncrono y control de licencias y tarifas asignadas a cada distribuidor.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-header">
+                                <div class="mockup-browser-dots">
+                                    <span class="mockup-browser-dot red"></span>
+                                    <span class="mockup-browser-dot yellow"></span>
+                                    <span class="mockup-browser-dot green"></span>
+                                </div>
+                                <div class="mockup-browser-address">maestro.fycheo.es/partners</div>
+                            </div>
+                            <img src="assets/fycheo-maestro.webp" class="media-content" alt="Fycheo Maestro - Panel de administración SaaS">
+                        </div>
+                        <p class="media-caption">// Pantalla: Panel de control maestro B2B para revendedores.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección: Wallet y Pagos -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid reversed">
+                    <div class="ecosystem-content">
+                        <h3>06 / PROCESAMIENTO FINANCIERO REACTIVO</h3>
+                        <h4>Wallet & Cobros Asíncronos</h4>
+                        <p>El motor financiero del SaaS. Fycheo calcula y actualiza los saldos (tanto a nivel de empresa en `companies` como personal a nivel de perfiles en `profiles`) a través de un sistema transaccional automatizado en base de datos.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>PostgreSQL Triggers:</span> Disparador asíncrono `on_transaction_change` que recalcula el `wallet_balance` de la empresa o usuario de inmediato al insertar, modificar o eliminar transacciones financieras.</li>
+                            <li><span>Supabase Edge Functions:</span> Funciones del servidor `create-payment-intent` y `stripe-webhook` que se comunican de forma segura con Stripe para confirmar las recargas y reflejarlas en tiempo real en la base de datos.</li>
+                            <li><span>Seguridad Row Level (RLS):</span> Políticas estrictas de Supabase que garantizan que el propietario de la organización solo acceda a su propia wallet e historial de facturación.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-header">
+                                <div class="mockup-browser-dots">
+                                    <span class="mockup-browser-dot red"></span>
+                                    <span class="mockup-browser-dot yellow"></span>
+                                    <span class="mockup-browser-dot green"></span>
+                                </div>
+                                <div class="mockup-browser-address">fycheo.es/billing/wallet</div>
+                            </div>
+                            <img src="assets/fycheo-wallet-cobros.webp" class="media-content" alt="Gestión de pagos e integración con Stripe">
+                        </div>
+                        <p class="media-caption">// Pantalla: Wallet de la empresa y recargas de saldo.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección: Demo del Sistema -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid">
+                    <div class="ecosystem-content">
+                        <h3>07 / EVALUACIÓN CON DATOS SEMILLA</h3>
+                        <h4>Fycheo Demo</h4>
+                        <p>Un entorno de demostración independiente configurado con datos simulados. Está diseñado para que potenciales clientes y reclutadores interactúen con la plataforma a nivel de pruebas sin necesidad de registrarse o introducir datos financieros reales.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Reset Automático:</span> Funciones programadas en la base de datos para borrar registros de pruebas y restaurar el set de datos inicial.</li>
+                            <li><span>Roles Simulados:</span> Capacidad de alternar instantáneamente entre la vista de un empleado en la app móvil y el administrador de RR.HH. en el manager.</li>
+                            <li><span>Simulador de Fichajes:</span> Generación de datos de fichajes semilla para evidenciar de forma inmediata la reactividad y actualizaciones en vivo de los paneles.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-header">
+                                <div class="mockup-browser-dots">
+                                    <span class="mockup-browser-dot red"></span>
+                                    <span class="mockup-browser-dot yellow"></span>
+                                    <span class="mockup-browser-dot green"></span>
+                                </div>
+                                <div class="mockup-browser-address">demo.fycheo.es/sandbox</div>
+                            </div>
+                            <img src="assets/fycheo-demo.webp" class="media-content" alt="Fycheo Demo - Entorno interactivo de pruebas">
+                        </div>
+                        <p class="media-caption">// Pantalla: Sandbox precargado con turnos y fichajes semilla.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resumen final y conclusión -->
+            <section class="info-block full-width conclusion" style="margin-top: 4rem;">
+                <h2>RESUMEN DEL IMPACTO TÉCNICO</h2>
+                <p>El ecosistema de Fycheo es un caso de estudio real sobre el diseño e implementación de un producto SaaS multiplataforma robusto. La integración asíncrona de cobros en una Wallet reactiva gestionada con disparadores de PostgreSQL y Webhooks de Stripe, junto con las apps nativas compiladas mediante Capacitor (Kiosko y App) y la sincronización de datos en tiempo real mediante Supabase, demuestra un dominio integral de las tecnologías de frontend moderno y el diseño de sistemas distribuidos.</p>
+            </section>
+        </main>
+
+        <footer class="project-footer">
+            <div class="status-badge">
+                <span class="status-dot" style="background-color: #2ecc71; box-shadow: 0 0 10px rgba(46, 204, 113, 0.4);"></span>
+                ESTADO_PROYECTO_ACTIVO
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const title = params.get('title');
+        if (title) {
+            document.title = 'Proyecto - ' + title;
+        }
+
+        function handleBack() {
+            if (window.parent !== window) {
+                window.parent.postMessage({ type: 'CLOSE_PROJECT' }, '*');
+            } else {
+                if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.close();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
