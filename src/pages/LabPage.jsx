@@ -4,6 +4,7 @@ import setupImg from '../assets/setup.png';
 import portfolioV1Img from '../assets/portfolio-v1.png';
 import tankilyConceptImg from '../assets/tankily-concept.png';
 import imagymPortadaImg from '../assets/imagym-portada.png';
+import fycheoPortadaImg from '../assets/fycheo-portada.webp';
 import './LabPage.css';
 
 const LabRow = ({ title, items, onProjectClick }) => {
@@ -287,8 +288,17 @@ const LabPage = () => {
   // Memorizar categorías para evitar recreaciones innecesarias y loops en useEffect
   const categories = useMemo(() => [
     {
-      title: "CREACIONES DEL MUNDO REAL",
+      title: "PRODUCTOS REALES",
       items: [
+        { 
+          id: 10, 
+          title: "FYCHEO", 
+          category: "SaaS / MULTIPLATAFORMA", 
+          tags: ["REACT", "CAPACITOR", "SUPABASE", "SaaS"], 
+          description: "Ecosistema integral para control de jornada laboral y gestión de equipos en tiempo real. Compuesto por aplicación móvil (iOS/Android), kiosco de fichaje físico y panel de administración avanzado.", 
+          url: "/presentacion/fycheo/index.html", 
+          image: fycheoPortadaImg 
+        },
         { 
           id: 0, 
           title: "LÁMPARA AQUARIUM LED", 

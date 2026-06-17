@@ -50,12 +50,19 @@
   grid-template-columns: 0.8fr 1.2fr;
 }
 
-.project-card.img-right .project-image-container {
+.project-card.img-right .project-image-col {
   order: 2;
 }
 
 .project-card.img-right .project-content {
   order: 1;
+}
+
+.project-image-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
 }
 
 .project-image-container {
@@ -66,6 +73,12 @@
   background: #0a0a0a;
   border: 1px solid rgba(255, 255, 255, 0.03);
   position: relative;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-image-container:hover {
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 60px -25px var(--project-color);
 }
 
 /* Estética Blueprint / Rejilla Técnica */
@@ -103,6 +116,7 @@
 .bg-gold { background-color: #0d0c08; border: 1px solid rgba(212, 175, 55, 0.1); }
 .bg-blue { background-color: #080a0d; border: 1px solid rgba(0, 122, 255, 0.1); }
 .bg-red { background-color: #0d0808; border: 1px solid rgba(255, 59, 48, 0.1); }
+.bg-purple { background-color: #0c080d; border: 1px solid rgba(155, 81, 224, 0.1); }
 
 .project-real-image {
   width: 100%;
@@ -120,7 +134,8 @@
   font-family: var(--font-body);
   font-size: 0.65rem;
   letter-spacing: 0.25em;
-  color: var(--color-text-muted);
+  color: var(--project-color);
+  opacity: 0.85;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -145,7 +160,8 @@
 
 .project-link-btn:hover {
   background: rgba(255,255,255,0.08);
-  border-color: rgba(255,255,255,0.3);
+  border-color: var(--project-color);
+  color: var(--project-color);
   transform: translateY(-2px);
   gap: 0.9rem;
 }
@@ -154,6 +170,7 @@
 .color-gold { color: var(--color-accent-gold); }
 .color-blue { color: var(--color-accent-blue); }
 .color-red { color: var(--color-accent-red); }
+.color-purple { color: #9b51e0; }
 
 .project-content {
   display: flex;
@@ -213,7 +230,7 @@
   content: '';
   width: 4px;
   height: 4px;
-  background: currentColor;
+  background: var(--project-color);
   border-radius: 50%;
 }
 
@@ -232,7 +249,7 @@
     gap: 4rem;
   }
   
-  .project-card.img-right .project-image-container {
+  .project-card.img-right .project-image-col {
     order: 1;
   }
 }
