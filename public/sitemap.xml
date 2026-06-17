@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Página de Inicio -->
+  <url>
+    <loc>https://ronaldherrera.es/</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Skills y Experiencia -->
+  <url>
+    <loc>https://ronaldherrera.es/skills</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- El Laboratorio (Proyectos) -->
+  <url>
+    <loc>https://ronaldherrera.es/lab</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Formulario de Contacto -->
+  <url>
+    <loc>https://ronaldherrera.es/contacto</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Presentación: Fycheo SaaS -->
+  <url>
+    <loc>https://ronaldherrera.es/presentacion/fycheo/index.html</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Presentación: Lámpara Aquarium LED -->
+  <url>
+    <loc>https://ronaldherrera.es/presentacion/aquarium-led/index.html</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Presentación: SnapStore Tool -->
+  <url>
+    <loc>https://ronaldherrera.es/presentacion/Snapstore/index.html</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Presentación: Imagym Case Study -->
+  <url>
+    <loc>https://ronaldherrera.es/presentacion/Imagym/index.html</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Presentación: Formación Protecciones Eléctricas -->
+  <url>
+    <loc>https://ronaldherrera.es/presentacion/formacion-protecciones-electricas/index.html</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>
