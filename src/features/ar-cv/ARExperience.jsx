@@ -73,7 +73,7 @@ const NOTICES = {
 };
 
 const SLOW_SCAN_MS = 20000;
-const TAP_HINT_MS = 3500;
+const TAP_HINT_MS = 5000;
 
 const isDesktop = () =>
   typeof window !== 'undefined' &&
@@ -89,6 +89,7 @@ const ARExperience = () => {
   const [progress, setProgress] = useState(0);
   const [targetSrc, setTargetSrc] = useState(null);
   const [panel, setPanel] = useState(null);
+  const [panelFocus, setPanelFocus] = useState(null);
   const [slow, setSlow] = useState(false);
   const [tapHint, setTapHint] = useState(false);
   const sessionRef = useRef(0);
@@ -190,10 +191,36 @@ const ARExperience = () => {
     window.scrollTo(0, 0);
   };
 
-  const openPanel = (id) => {
+  const openPanel = (id, focusId = null) => {
     setPanel(id);
+    setPanelFocus(focusId);
     setTapHint(false);
     trackArEvent('ar_cv_section_open', { section: id, mode });
+  };
+
+  // Acciones de la escena 3D: paneles, fichas de proyecto y enlaces directos.
+  const handleSceneAction = (action) => {
+    if (action.type === 'panel') {
+      openPanel(action.id);
+    } else if (action.type === 'project') {
+      openPanel(action.section, action.id);
+      trackArEvent('ar_cv_project_open', { project: action.id, action: 'carousel' });
+    } else if (action.type === 'link') {
+      setTapHint(false);
+      trackArEvent('ar_cv_contact', { channel: action.id });
+      if (action.download) {
+        const link = document.createElement('a');
+        link.href = action.href;
+        link.download = action.href.split('/').pop();
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      } else if (/^https?:/.test(action.href)) {
+        window.open(action.href, '_blank', 'noopener,noreferrer');
+      } else {
+        window.location.href = action.href;
+      }
+    }
   };
 
   const handleCameraReady = () => {
@@ -258,7 +285,7 @@ const ARExperience = () => {
               onFound={handleFound}
               onLost={handleLost}
               onError={handleSceneError}
-              onSelect={openPanel}
+              onSelect={handleSceneAction}
             />
           )}
           <TrackingGuide
@@ -278,7 +305,7 @@ const ARExperience = () => {
             accent={panelColor}
             onClose={() => setPanel(null)}
           >
-            {ActivePanel && <ActivePanel />}
+            {ActivePanel && <ActivePanel focusId={panelFocus} />}
           </BottomSheet>
         </div>
       )}

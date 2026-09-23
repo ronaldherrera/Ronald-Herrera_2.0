@@ -190,3 +190,50 @@ export const PALETTE = {
   blue: '#A7D5F5',
   gold: '#C4AB57',
 };
+
+// --------------------------------------------------------------------------
+// Escena 3D (modo cámara)
+// --------------------------------------------------------------------------
+
+const LAB_ACCENTS = ['blue', 'coral', 'gold', 'cream'];
+const socialHref = (id) => SOCIAL_LINKS.find((s) => s.id === id)?.href || null;
+
+// Carrusel: proyectos destacados + Ronald Lab. Al tocar el del centro se abre
+// su ficha en el panel correspondiente.
+export const CAROUSEL_ITEMS = [
+  ...FEATURED_PROJECTS.map((p) => ({
+    id: p.id,
+    section: 'projects',
+    name: p.name,
+    caption: p.tags.join(' · '),
+    image: p.image,
+    accent: p.accent,
+  })),
+  ...LAB_PROJECTS.map((p, i) => ({
+    id: p.id,
+    section: 'lab',
+    name: p.name,
+    caption: p.status ? `${p.category} · ${p.status}` : p.category,
+    image: p.image,
+    accent: LAB_ACCENTS[i % LAB_ACCENTS.length],
+  })),
+];
+
+// Sólidos 3D que abren paneles (formas de la sección «Valor»):
+// triangle → pirámide, square → cubo, rhombus → octaedro.
+export const WORLD_TILES = [
+  { id: 'about', label: 'Sobre mí', color: 'gold', shape: 'triangle' },
+  { id: 'lab', label: 'Ronald Lab', color: 'blue', shape: 'square' },
+  { id: 'contact', label: 'Hablemos', color: 'cream', shape: 'rhombus' },
+];
+
+// Botones flotantes: acción directa al tocarlos. `null` en href lo oculta.
+export const LINK_BUTTONS = [
+  { id: 'phone', label: 'Llamar', icon: 'phone', href: CONTACT.phoneHref, color: 'coral' },
+  { id: 'whatsapp', label: 'WhatsApp', icon: 'chat', href: CONTACT.whatsappHref, color: 'blue' },
+  { id: 'email', label: 'Correo', icon: 'mail', href: CONTACT.emailHref, color: 'gold' },
+  { id: 'vcard', label: 'Guardar', icon: 'contact', href: CONTACT.vcard, download: true, color: 'cream' },
+  { id: 'linkedin', label: 'LinkedIn', icon: 'linkedin', href: socialHref('linkedin'), color: 'blue' },
+  { id: 'github', label: 'GitHub', icon: 'github', href: socialHref('github'), color: 'cream' },
+  { id: 'web', label: 'Web', icon: 'globe', href: CONTACT.web, color: 'coral' },
+].filter((b) => b.href);

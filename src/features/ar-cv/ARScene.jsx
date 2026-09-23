@@ -1,43 +1,15 @@
 import { useEffect, useEffectEvent, useRef } from 'react';
-import { CONTACT, PALETTE, SECTIONS, AR_TARGET } from './arCvData';
 
-// Posiciones sobre la hoja (ancho = 1). `fy` es la fracción de media altura
-// del CV, así el diseño se adapta a la proporción real del target.
-const HEADER = { fy: 0.52, width: 0.8, height: 0.21, lift: 0.05 };
-const GRID = [
-  { x: -0.2, fy: 0.1, lift: 0.085 },
-  { x: 0.2, fy: 0.1, lift: 0.1 },
-  { x: -0.2, fy: -0.3, lift: 0.095 },
-  { x: 0.2, fy: -0.3, lift: 0.11 },
-];
-const CARD = { width: 0.37, height: 0.21 };
-const TAP_SLOP = 14; // px de movimiento tolerado para considerar un toque
+const TAP_SLOP = 12; // px de movimiento tolerado para considerar un toque
 const TAP_WINDOW = 700; // ms máximos entre soltar el dedo y el click
+// main.jsx cancela los toques seguidos (<300 ms) para bloquear el zoom y con ello
+// el click; si no llega, se activa igualmente tras este margen.
+const CLICK_FALLBACK = 350;
 
-// Los valores se insertan en atributos A-Frame («clave: valor; …»).
-const attr = (value) => String(value).replace(/[;:]/g, ' ');
-
-const buildSceneMarkup = () => {
-  const half = AR_TARGET.fallbackAspect / 2;
-  const cards = SECTIONS.map((section, i) => {
-    const slot = GRID[i];
-    const accent = PALETTE[section.color] || PALETTE.gold;
-    return `<a-entity data-fy="${slot.fy}" position="${slot.x} ${slot.fy * half} 0"
-      rh-card="section: ${section.id}; index: ${i + 1}; title: ${attr(section.title)}; hint: ${attr(section.hint)};
-      accent: ${accent}; shape: ${section.shape}; width: ${CARD.width}; height: ${CARD.height}; lift: ${slot.lift}"></a-entity>`;
-  }).join('');
-
-  return `
-    <a-camera position="0 0 0" look-controls="enabled: false" wasd-controls="enabled: false"></a-camera>
-    <a-entity id="rh-anchor" mindar-image-target="targetIndex: 0"></a-entity>
-    <a-entity id="rh-follow" rh-follow="anchor: #rh-anchor; hold: 800">
-      <a-entity position="0 0 0.003" rh-outline="aspect: ${AR_TARGET.fallbackAspect}"></a-entity>
-      <a-entity data-fy="${HEADER.fy}" position="0 ${HEADER.fy * half} 0"
-        rh-card="variant: header; title: ${attr(CONTACT.name)}; hint: ${attr(CONTACT.tagline)};
-        width: ${HEADER.width}; height: ${HEADER.height}; lift: ${HEADER.lift}"></a-entity>
-      ${cards}
-    </a-entity>`;
-};
+const SCENE_MARKUP = `
+  <a-camera position="0 0 0" look-controls="enabled: false" wasd-controls="enabled: false"></a-camera>
+  <a-entity id="rh-anchor" mindar-image-target="targetIndex: 0"></a-entity>
+  <a-entity id="rh-follow" rh-follow="anchor: #rh-anchor; hold: 800" rh-world></a-entity>`;
 
 const ARScene = ({ targetSrc, disabled, onCameraReady, onReady, onFound, onLost, onError, onSelect }) => {
   const containerRef = useRef(null);
@@ -52,7 +24,7 @@ const ARScene = ({ targetSrc, disabled, onCameraReady, onReady, onFound, onLost,
   const emitFound = useEffectEvent((detail) => onFound?.(detail));
   const emitLost = useEffectEvent(() => onLost?.());
   const emitError = useEffectEvent((detail) => onError?.(detail));
-  const emitSelect = useEffectEvent((section) => onSelect?.(section));
+  const emitSelect = useEffectEvent((action) => onSelect?.(action));
 
   useEffect(() => {
     const container = containerRef.current;
@@ -70,10 +42,13 @@ const ARScene = ({ targetSrc, disabled, onCameraReady, onReady, onFound, onLost,
     scene.setAttribute('vr-mode-ui', 'enabled: false');
     scene.setAttribute('device-orientation-permission-ui', 'enabled: false');
     scene.setAttribute('loading-screen', 'enabled: false');
-    scene.innerHTML = buildSceneMarkup();
+    // La escena 3D trae su propia luz, fija respecto a la hoja.
+    scene.setAttribute('light', 'defaultLightsEnabled: false');
+    scene.innerHTML = SCENE_MARKUP;
     container.appendChild(scene);
 
     const getSystem = () => scene.systems?.['mindar-image-system'];
+    const getWorld = () => scene.querySelector('#rh-follow')?.components['rh-world'];
     let disposed = false;
 
     const start = () => {
@@ -88,9 +63,7 @@ const ARScene = ({ targetSrc, disabled, onCameraReady, onReady, onFound, onLost,
       // Proporción real del CV (alto/ancho) a partir de la matriz del marcador.
       const anchor = scene.querySelector('#rh-anchor')?.components['mindar-image-target'];
       const m = anchor?.postMatrix?.elements;
-      if (m && m[12] > 0) {
-        scene.querySelector('#rh-follow')?.components['rh-follow']?.setAspect(m[13] / m[12]);
-      }
+      if (m && m[12] > 0) getWorld()?.setAspect(m[13] / m[12]);
       emitReady();
     };
     const handleCamera = () => emitCameraReady();
@@ -107,67 +80,116 @@ const ARScene = ({ targetSrc, disabled, onCameraReady, onReady, onFound, onLost,
     if (scene.hasLoaded) start();
     else scene.addEventListener('loaded', start, { once: true });
 
-    // Toques: pointer events para el estado pulsado y `click` para activar.
-    // El navegador emite un único click tanto con toque como con ratón, y como
-    // llega después del toque no puede caer sobre el panel recién abierto.
+    // Interacción: pointer events para pulsar y arrastrar, y `click` para
+    // activar (un único click por toque en Android e iOS, sin dobles activaciones).
     const raycaster = new THREE.Raycaster();
     const ndc = new THREE.Vector2();
-    let press = null;
+    let gesture = null;
     let tap = null;
 
-    const cardAt = (event) => {
+    const targetAt = (event) => {
       const camera = scene.camera;
-      if (!camera) return null;
+      const world = getWorld();
+      if (!camera || !world) return null;
       const rect = container.getBoundingClientRect();
       ndc.set(
         ((event.clientX - rect.left) / rect.width) * 2 - 1,
         -((event.clientY - rect.top) / rect.height) * 2 + 1
       );
       raycaster.setFromCamera(ndc, camera);
-      const cards = Array.from(scene.querySelectorAll('[rh-card]'))
-        .map((el) => el.components['rh-card'])
-        .filter((card) => card?.data.section && card.isInteractive());
-      const hits = raycaster.intersectObjects(cards.map((card) => card.hitMesh), false);
-      return hits[0]?.object.userData.card || null;
+      return world.hitTest(raycaster);
     };
 
     const releasePress = () => {
-      press?.card.setPressed(false);
-      press = null;
+      if (gesture?.target) getWorld()?.setPressed(gesture.target, false);
+    };
+
+    const clearTap = () => {
+      if (tap) window.clearTimeout(tap.timer);
+      tap = null;
+    };
+
+    const activateTap = () => {
+      const current = tap;
+      clearTap();
+      if (!current || disabledRef.current || performance.now() - current.time > TAP_WINDOW) return;
+      const action = getWorld()?.activate(current.target);
+      if (action) emitSelect(action);
     };
 
     const onPointerDown = (event) => {
-      tap = null;
+      clearTap();
       if (disabledRef.current || !event.isPrimary) return;
-      const card = cardAt(event);
-      if (!card) return;
-      card.setPressed(true);
-      press = { card, x: event.clientX, y: event.clientY };
+      getWorld()?.touch();
+      const target = targetAt(event);
+      if (target) getWorld()?.setPressed(target, true);
+      gesture = {
+        target,
+        startX: event.clientX,
+        startY: event.clientY,
+        lastX: event.clientX,
+        lastT: performance.now(),
+        velocity: 0,
+        dragging: false,
+      };
     };
 
     const onPointerMove = (event) => {
-      if (press && Math.hypot(event.clientX - press.x, event.clientY - press.y) > TAP_SLOP) releasePress();
+      if (!gesture || !event.isPrimary) return;
+      const world = getWorld();
+      const dx = event.clientX - gesture.startX;
+      const dy = event.clientY - gesture.startY;
+      if (!gesture.dragging) {
+        if (Math.hypot(dx, dy) <= TAP_SLOP) return;
+        releasePress();
+        gesture.target = null;
+        // Solo los gestos horizontales giran el carrusel.
+        if (Math.abs(dx) < Math.abs(dy)) {
+          gesture = null;
+          return;
+        }
+        gesture.dragging = true;
+        world?.beginDrag();
+      }
+      const width = container.clientWidth || 1;
+      const now = performance.now();
+      const step = (event.clientX - gesture.lastX) / width;
+      const elapsed = Math.max(1, now - gesture.lastT);
+      gesture.velocity = gesture.velocity * 0.6 + (step / elapsed) * 0.4;
+      gesture.lastX = event.clientX;
+      gesture.lastT = now;
+      world?.dragBy(step);
     };
 
     const onPointerUp = (event) => {
-      if (!press) return;
-      const { card } = press;
-      releasePress();
-      if (cardAt(event) === card) tap = { card, time: performance.now() };
+      if (!gesture) return;
+      const current = gesture;
+      gesture = null;
+      if (current.dragging) {
+        getWorld()?.endDrag(current.velocity);
+        return;
+      }
+      if (current.target) {
+        getWorld()?.setPressed(current.target, false);
+        if (targetAt(event) === current.target) {
+          tap = { target: current.target, time: performance.now(), timer: window.setTimeout(activateTap, CLICK_FALLBACK) };
+        }
+      }
     };
 
-    const onClick = () => {
-      const current = tap;
-      tap = null;
-      if (!current || disabledRef.current || performance.now() - current.time > TAP_WINDOW) return;
-      emitSelect(current.card.data.section);
+    const onPointerCancel = () => {
+      if (gesture?.dragging) getWorld()?.endDrag(0);
+      releasePress();
+      gesture = null;
     };
+
+    const onClick = () => activateTap();
 
     container.addEventListener('pointerdown', onPointerDown);
     container.addEventListener('pointermove', onPointerMove);
     container.addEventListener('pointerup', onPointerUp);
-    container.addEventListener('pointercancel', releasePress);
-    container.addEventListener('pointerleave', releasePress);
+    container.addEventListener('pointercancel', onPointerCancel);
+    container.addEventListener('pointerleave', onPointerCancel);
     container.addEventListener('click', onClick);
 
     // Pausa de la pestaña y regreso.
@@ -194,6 +216,7 @@ const ARScene = ({ targetSrc, disabled, onCameraReady, onReady, onFound, onLost,
 
     return () => {
       disposed = true;
+      clearTap();
       window.clearTimeout(resizeTimer);
       document.removeEventListener('visibilitychange', onVisibility);
       window.removeEventListener('orientationchange', onOrientation);
@@ -202,8 +225,8 @@ const ARScene = ({ targetSrc, disabled, onCameraReady, onReady, onFound, onLost,
       container.removeEventListener('pointerdown', onPointerDown);
       container.removeEventListener('pointermove', onPointerMove);
       container.removeEventListener('pointerup', onPointerUp);
-      container.removeEventListener('pointercancel', releasePress);
-      container.removeEventListener('pointerleave', releasePress);
+      container.removeEventListener('pointercancel', onPointerCancel);
+      container.removeEventListener('pointerleave', onPointerCancel);
       container.removeEventListener('click', onClick);
       scene.removeEventListener('loaded', start);
       scene.removeEventListener('rh-camera-ready', handleCamera);

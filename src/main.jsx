@@ -26,6 +26,8 @@ document.addEventListener('gestureend', (e) => {
 // Bloqueo de zoom por doble toque
 let lastTouchEnd = 0;
 document.addEventListener('touchend', (e) => {
+  // El CV interactivo (/cv) gestiona sus propios gestos y necesita toques rápidos seguidos.
+  if (e.target.closest?.('.arcv')) return;
   const now = (new Date()).getTime();
   if (now - lastTouchEnd <= 300) {
     e.preventDefault();

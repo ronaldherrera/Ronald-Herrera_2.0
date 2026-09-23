@@ -58,7 +58,7 @@ const TrackingGuide = ({ phase, progress, slow, lost, tapHint, onClose, onSwitch
           </div>
           <div className="arcv-scan__msg" role="status">
             <h2>Apunta la cámara hacia el CV</h2>
-            <p>Procura que la hoja completa aparezca dentro del encuadre.</p>
+            <p>Procura que la hoja completa aparezca dentro del encuadre, con algo de espacio alrededor.</p>
             {slow && (
               <p className="arcv-scan__tip">
                 ¿No lo detecta? Busca buena luz, deja la hoja plana y aléjate un poco.
@@ -70,7 +70,7 @@ const TrackingGuide = ({ phase, progress, slow, lost, tapHint, onClose, onSwitch
 
       <div className="arcv-hud__bottom" aria-live="polite">
         {lost && <p className="arcv-pill">Vuelve a enfocar el CV</p>}
-        {!lost && tapHint && <p className="arcv-pill">Toca una tarjeta para abrirla</p>}
+        {!lost && tapHint && <p className="arcv-pill">Aléjate para verlo todo · Desliza los proyectos</p>}
       </div>
     </div>
   );

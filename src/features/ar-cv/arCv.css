@@ -607,7 +607,7 @@
 
 .arcv-scan__frame {
   position: relative;
-  width: min(74vw, calc(56dvh * 0.707));
+  width: min(60vw, calc(46dvh * 0.707));
   aspect-ratio: 210 / 297;
 }
 
@@ -862,6 +862,14 @@
     background: var(--arcv-surface-hover);
     border-color: rgba(255, 255, 255, 0.1);
   }
+}
+
+/* Elemento abierto desde el carrusel 3D */
+.arcv-project.is-focus,
+.arcv-lab__card.is-focus {
+  border-color: var(--accent, var(--arcv-gold));
+  box-shadow: 0 0 0 1px var(--accent, var(--arcv-gold));
+  scroll-margin-top: 12px;
 }
 
 /* Proyectos destacados */
