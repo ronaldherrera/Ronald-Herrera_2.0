@@ -32,6 +32,14 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- CV interactivo -->
+  <url>
+    <loc>https://ronaldherrera.es/cv</loc>
+    <lastmod>2026-09-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Presentación: Fycheo SaaS -->
   <url>
     <loc>https://ronaldherrera.es/presentacion/fycheo/index.html</loc>

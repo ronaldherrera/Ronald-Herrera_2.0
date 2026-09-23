@@ -1,0 +1,12 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Herrera;Ronald;;;
+FN:Ronald Herrera
+TITLE:Diseño de producto digital\, UX/UI y Front-end
+TEL;TYPE=CELL,VOICE:+34671987372
+EMAIL;TYPE=INTERNET,PREF:hola@ronaldherrera.es
+URL:https://ronaldherrera.es
+ADR;TYPE=WORK:;;;Santander;Cantabria;;España
+X-SOCIALPROFILE;TYPE=github:https://github.com/ronaldherrera
+NOTE:CV interactivo: https://ronaldherrera.es/cv
+END:VCARD

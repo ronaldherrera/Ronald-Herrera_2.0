@@ -1,9 +1,15 @@
+# Tarjeta de contacto descargable (Guardar contacto)
+AddType text/vcard .vcf
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
   # Servir páginas estáticas independientes (AR, QR, etc.)
   RewriteRule ^Qr/cv/?$ /Qr/cv/index.html [L]
+
+  # CV interactivo (QR del CV impreso): SPA con metadatos propios
+  RewriteRule ^(cv|ar-cv)/?$ /cv/index.html [L]
 
   # SPA fallback
   RewriteRule ^index\.html$ - [L]
