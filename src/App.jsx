@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
 import CustomScrollbar from './components/CustomScrollbar';
@@ -9,13 +10,18 @@ import ContactPage from './pages/ContactPage';
 import LabScrollbar from './components/LabScrollbar';
 import Footer from './components/Footer';
 
+// Experiencia AR del CV impreso: se carga solo al visitar /cv o /ar-cv.
+const ARExperience = lazy(() => import('./features/ar-cv/ARExperience'));
+const AR_CV_PATHS = ['/cv', '/ar-cv'];
+
 // Componente para manejar la visibilidad condicional de elementos comunes
 const AppContent = () => {
   const location = useLocation();
   const isSkillsPage = location.pathname === '/skills';
   const isLabPage = location.pathname === '/lab';
   const isContactPage = location.pathname === '/contacto';
-  const hideUiElements = isSkillsPage;
+  const isArCvPage = AR_CV_PATHS.includes(location.pathname.replace(/\/+$/, '') || '/');
+  const hideUiElements = isSkillsPage || isArCvPage;
 
   return (
     <>
@@ -27,6 +33,13 @@ const AppContent = () => {
         <Route path="/skills" element={<SkillsPage />} />
         <Route path="/lab" element={<LabPage />} />
         <Route path="/contacto" element={<ContactPage />} />
+        {AR_CV_PATHS.map((path) => (
+          <Route
+            key={path}
+            path={path}
+            element={<Suspense fallback={<div style={{ minHeight: '100dvh', background: '#101010' }} />}><ARExperience /></Suspense>}
+          />
+        ))}
       </Routes>
     </>
   );
