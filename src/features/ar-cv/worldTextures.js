@@ -115,32 +115,34 @@ const slabFace = (wPx, hPx, radiusPx) => {
   return { canvas, ctx, done: () => ctx.restore() };
 };
 
-// Hoja oscura que tapa el CV impreso (#101010, como el fondo del hero).
-export const drawCover = (aspect) => {
-  const W = 1024;
-  const H = Math.round(W * aspect);
-  const { canvas, ctx } = canvasOf(W, H);
-  ctx.fillStyle = PALETTE.bg;
-  ctx.fillRect(0, 0, W, H);
+// Pared del portal: del borde (arriba, #141414) a la oscuridad del fondo (abajo).
+export const drawTunnelWall = () => {
+  const { canvas, ctx } = canvasOf(8, 512);
+  const g = ctx.createLinearGradient(0, 0, 0, 512);
+  g.addColorStop(0, '#161616');
+  g.addColorStop(0.45, '#0b0b0b');
+  g.addColorStop(1, '#000000');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, 8, 512);
+  return canvas;
+};
 
-  // Antetítulo sobre el logotipo 3D y lema bajo él, impresos en la hoja.
+// Antetítulo y lema flotando en la boca del portal.
+export const drawTagline = () => {
+  const { canvas, ctx } = canvasOf(1024, 170);
+  const W = canvas.width;
   ctx.textBaseline = 'middle';
   ctx.fillStyle = PALETTE.gold;
   ctx.font = `800 26px ${FONT}`;
-  const kickerW = spacedText(ctx, 'CV INTERACTIVO', W / 2 + 22, H * 0.045, 8, 'center');
-  ctx.fillRect(W / 2 - kickerW / 2 - 26, H * 0.045 - 1, 30, 3);
-  const y = H * 0.25;
-  ctx.fillStyle = 'rgba(234, 229, 202, 0.78)';
+  const kickerW = spacedText(ctx, 'CV INTERACTIVO', W / 2 + 22, 30, 8, 'center');
+  ctx.fillRect(W / 2 - kickerW / 2 - 26, 29, 30, 3);
+  ctx.fillStyle = PALETTE.cream;
   ctx.textAlign = 'center';
-  fitFont(ctx, CONTACT.tagline, 400, 40, W * 0.84, 'italic');
-  ctx.fillText(CONTACT.tagline, W / 2, y);
+  fitFont(ctx, CONTACT.tagline, 400, 44, W * 0.9, 'italic');
+  ctx.fillText(CONTACT.tagline, W / 2, 104);
   ctx.textAlign = 'left';
   ctx.fillStyle = PALETTE.coral;
-  ctx.fillRect(W / 2 - 30, y + 38, 60, 3);
-
-  ctx.strokeStyle = 'rgba(234, 229, 202, 0.14)';
-  ctx.lineWidth = 3;
-  ctx.strokeRect(1.5, 1.5, W - 3, H - 3);
+  ctx.fillRect(W / 2 - 30, 150, 60, 3);
   return canvas;
 };
 
@@ -148,8 +150,8 @@ export const drawCover = (aspect) => {
 export const drawGridCell = () => {
   const { canvas, ctx } = canvasOf(128, 128);
   ctx.fillStyle = PALETTE.gold;
-  ctx.fillRect(0, 0, 128, 3);
-  ctx.fillRect(0, 0, 3, 128);
+  ctx.fillRect(0, 0, 128, 7);
+  ctx.fillRect(0, 0, 7, 128);
   return canvas;
 };
 
@@ -158,9 +160,9 @@ export const drawGridFade = () => {
   const { canvas, ctx } = canvasOf(4, 256);
   const g = ctx.createLinearGradient(0, 0, 0, 256);
   g.addColorStop(0, '#fff');
-  g.addColorStop(0.05, '#fff');
-  g.addColorStop(0.9, '#000');
-  g.addColorStop(1, '#000');
+  g.addColorStop(0.35, '#fff');
+  g.addColorStop(0.8, '#555');
+  g.addColorStop(1, '#111');
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, 4, 256);
   return canvas;
@@ -291,33 +293,21 @@ export const drawButton = (button, sizePx) => {
   return canvas;
 };
 
-// Etiqueta bajo cada botón flotante.
+// Etiqueta bajo cada botón flotante (grande para leerse a distancia).
 export const drawButtonLabel = (label) => {
-  const { canvas, ctx } = canvasOf(320, 80);
+  const { canvas, ctx } = canvasOf(460, 110);
   const text = label.toUpperCase();
-  ctx.font = `800 30px ${FONT}`;
-  const textW = [...text].reduce((s, c) => s + ctx.measureText(c).width, 0) + 4 * (text.length - 1);
-  const w = Math.min(316, textW + 44);
-  roundRectPath(ctx, (320 - w) / 2, 10, w, 60, 30);
-  ctx.fillStyle = 'rgba(24,24,24,0.95)';
+  ctx.font = `800 44px ${FONT}`;
+  const textW = [...text].reduce((s, c) => s + ctx.measureText(c).width, 0) + 5 * (text.length - 1);
+  const w = Math.min(454, textW + 56);
+  roundRectPath(ctx, (460 - w) / 2, 8, w, 94, 47);
+  ctx.fillStyle = 'rgba(20,20,20,0.95)';
   ctx.fill();
-  ctx.strokeStyle = 'rgba(234,229,202,0.2)';
+  ctx.strokeStyle = 'rgba(234,229,202,0.28)';
   ctx.lineWidth = 3;
   ctx.stroke();
   ctx.fillStyle = PALETTE.cream;
   ctx.textBaseline = 'middle';
-  spacedText(ctx, text, 160, 42, 4, 'center');
-  return canvas;
-};
-
-// Sombra de contacto difusa sobre la hoja.
-export const drawShadow = () => {
-  const { canvas, ctx } = canvasOf(128, 128);
-  const g = ctx.createRadialGradient(64, 64, 4, 64, 64, 64);
-  g.addColorStop(0, 'rgba(20,16,10,0.55)');
-  g.addColorStop(0.5, 'rgba(20,16,10,0.22)');
-  g.addColorStop(1, 'rgba(20,16,10,0)');
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, 128, 128);
+  spacedText(ctx, text, 230, 58, 5, 'center');
   return canvas;
 };

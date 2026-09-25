@@ -34,11 +34,18 @@ const ARScene = ({ targetSrc, disabled, onCameraReady, onReady, onFound, onLost,
 
     const scene = document.createElement('a-scene');
     scene.setAttribute('embedded', '');
+    // El filtro de MindAR trata igual desplazamiento y giro (unidades muy
+    // distintas) y hacía lentos los cambios de perspectiva: se deja casi apagado
+    // y rh-follow filtra posición y rotación por separado.
     scene.setAttribute(
       'mindar-image',
-      'autoStart: false; uiLoading: no; uiScanning: no; uiError: no; filterMinCF: 0.0001; filterBeta: 0.001; missTolerance: 6; warmupTolerance: 3'
+      'autoStart: false; uiLoading: no; uiScanning: no; uiError: no; filterMinCF: 1; filterBeta: 1; missTolerance: 6; warmupTolerance: 3'
     );
-    scene.setAttribute('renderer', 'colorManagement: true; alpha: true; antialias: true; precision: medium');
+    // Resolución de render limitada: MindAR comparte la GPU y cada fotograma cuenta.
+    scene.setAttribute(
+      'renderer',
+      'colorManagement: true; alpha: true; antialias: true; precision: medium; maxCanvasWidth: 960; maxCanvasHeight: 1600'
+    );
     scene.setAttribute('vr-mode-ui', 'enabled: false');
     scene.setAttribute('device-orientation-permission-ui', 'enabled: false');
     scene.setAttribute('loading-screen', 'enabled: false');

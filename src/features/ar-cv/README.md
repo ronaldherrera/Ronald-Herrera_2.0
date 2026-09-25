@@ -1,12 +1,13 @@
 # CV interactivo (WebAR) — `/cv` y `/ar-cv`
 
 Experiencia de realidad aumentada para el CV impreso. MindAR reconoce la hoja y
-A-Frame la convierte en una escena 3D paralela al papel. Una hoja oscura con la
-rejilla dorada en cascada de la web tapa el CV y, sobre ella, flotan objetos con
-volumen real:
+A-Frame la convierte en la boca de un portal que se hunde en el papel: paredes y
+fondo oscuros con la rejilla dorada de la web deslizándose hacia dentro, con
+paralaje real al mover el móvil. Una máscara invisible oculta el túnel fuera de
+la boca. Sobre el portal flotan, paralelos a la hoja, objetos con volumen real:
 
 - el logotipo «RonaldHerrera» extruido a partir del SVG de la web;
-- un carrusel deslizable de bloques gruesos que se solapan, con los proyectos;
+- un carrusel deslizable con los proyectos: las tarjetas miran siempre al frente y recorren un círculo que entra en el portal;
 - tres sólidos que giran (pirámide, cubo y octaedro);
 - siete botones de contacto con forma de moneda.
 
@@ -24,7 +25,7 @@ cámara, la misma información se muestra como una página web normal.
 | `arCvData.js` | **Todos los datos editables**: contacto, redes, proyectos, Lab, textos y rutas de recursos, y también el contenido de la escena 3D (`CAROUSEL_ITEMS`, `WORLD_TILES`, `LINK_BUTTONS`). Un enlace `null` oculta su botón. |
 | `ARExperience.jsx` | Estados (bienvenida → AR → versión web), mensajes de error, analítica anónima y metadatos SEO. |
 | `ARScene.jsx` | Crea la escena A-Frame/MindAR, gestiona los toques, la pausa de la pestaña y la orientación, y libera la cámara al salir. |
-| `arWorld.js` | Escena 3D (`rh-world`): hoja en blanco, luces, logotipo extruido, carrusel, sólidos, monedas, sombras, animaciones y detección de toques. Medidas y alturas al principio del archivo. |
+| `arWorld.js` | Escena 3D (`rh-world`): portal, luces, logotipo extruido, carrusel, sólidos, monedas, animaciones y detección de toques. Medidas y alturas al principio del archivo. |
 | `worldTextures.js` | Dibujo en canvas de las caras de la escena (tipografía y colores de la web). |
 | `arComponents.js` | `rh-follow` (seguimiento con retardo) y ajustes del ciclo de vida de MindAR. |
 | `arEngine.js` | Permiso de cámara, descarga del motor y del target con progreso real. |
