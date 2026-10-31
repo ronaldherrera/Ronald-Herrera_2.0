@@ -1,1120 +1,652 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyecto - IMAGYM Estudio de Caso UX/UI</title>
-    
-    <link rel="stylesheet" href="../0.plantilla/base-presentacion.css">
-    <link rel="stylesheet" href="/proyectos/Imagym/imagym.css">
-    
-    <script src="../0.plantilla/back-button.js"></script>
-    <script src="../0.plantilla/lightbox.js"></script>
-    
-    <style>
-        :root {
-            --accent: #FFD600;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imagym - Estudio de caso UX/UI</title>
+<meta name="description" content="Rediseño de la app de Imagym, una cadena de gimnasios 24 h: encuesta, tree testing, nueva arquitectura, sistema visual y test con usuarios reales. Proyecto final de UX/UI de Ronald Herrera.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,800;1,800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="../0.plantilla/back-button.js"></script>
+<script src="../0.plantilla/lightbox.js"></script>
+<style>
+  /* Imagym de noche: un gimnasio 24 h con su rosa de marca encendido */
+  :root {
+    --noche: #0d0610;
+    --noche-2: #170b19;
+    --linea: rgba(250, 218, 239, 0.12);
+    --rosa: #ba007c;
+    --rosa-luz: #ff5cbf;
+    --rosa-palido: #fadaef;
+    --texto: #f6eef4;
+    --suave: rgba(246, 238, 244, 0.68);
+    --tenue: rgba(246, 238, 244, 0.45);
+    --ok: #32d74b;
+    --titular: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    --cuerpo: 'Barlow', system-ui, sans-serif;
+    --lateral: 250px;
+  }
 
-        body {
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 40px; }
+  body { margin: 0; background: var(--noche); color: var(--texto); font-family: var(--cuerpo); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; }
+  a { color: var(--rosa-luz); }
+  :focus-visible { outline: 2px solid var(--rosa-luz); outline-offset: 3px; border-radius: 4px; }
 
-        .project-container {
-            max-width: 100%;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+  /* Botón «LAB» (solo fuera del Lab): fijo arriba a la izquierda, encima del índice */
+  .back-to-lab-btn {
+    position: fixed; top: 28px !important; left: 22px !important; z-index: 20001;
+    display: flex; align-items: center; gap: 0.7rem; padding: 0.7rem 1.4rem; border-radius: 100px;
+    border: 1px solid rgba(250, 218, 239, 0.4); background: rgba(13, 6, 16, 0.6); color: var(--texto);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); text-decoration: none; cursor: pointer;
+    font-family: var(--titular); transition: border-color 0.3s, transform 0.3s;
+  }
+  .back-to-lab-btn span { font-size: 0.85rem; font-weight: 800; letter-spacing: 0.12em; }
+  .back-to-lab-btn svg { width: 18px; height: 18px; }
+  .back-to-lab-btn:hover { border-color: var(--rosa-luz); transform: translateY(-2px); }
 
-        .project-header-wrapper {
-            width: 100%;
-            max-width: 1200px;
-            padding: 4rem 2rem 0 2rem;
-            position: relative;
-            z-index: 101;
-            box-sizing: border-box;
-        }
+  /* ---------- Índice: la tabla de la sesión ---------- */
+  .sesion {
+    position: fixed; top: 0; left: 0; bottom: 0; width: var(--lateral); z-index: 50;
+    padding: 118px 22px 28px; border-right: 1px solid var(--linea);
+    background: linear-gradient(180deg, rgba(13, 6, 16, 0.96), rgba(23, 11, 25, 0.96));
+    display: flex; flex-direction: column;
+  }
+  .sesion-cabecera { font-family: var(--titular); text-transform: uppercase; letter-spacing: 0.06em; color: var(--tenue); font-size: 0.85rem; }
+  .sesion-cabecera b { display: block; font-size: 2rem; line-height: 1; color: var(--texto); font-style: italic; font-weight: 800; letter-spacing: 0; margin-top: 4px; }
+  .sesion ol { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 4px; }
+  .sesion a { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: center; padding: 8px 8px 8px 4px; border-radius: 10px; text-decoration: none; color: var(--suave); transition: background 0.2s, color 0.2s; }
+  .sesion a:hover { background: rgba(250, 218, 239, 0.05); color: var(--texto); }
+  .sesion a.actual { background: rgba(186, 0, 124, 0.16); color: var(--texto); }
+  .sesion a span { display: block; font-family: var(--titular); font-weight: 800; font-style: italic; text-transform: uppercase; font-size: 1.05rem; line-height: 1.05; letter-spacing: 0.02em; }
+  .sesion a small { display: block; font-size: 0.75rem; color: var(--tenue); }
+  .anillo { width: 34px; height: 34px; transform: rotate(-90deg); }
+  .anillo circle { fill: none; stroke-width: 4; }
+  .anillo .fondo { stroke: rgba(250, 218, 239, 0.12); }
+  .anillo .lleno { stroke: var(--rosa-luz); stroke-linecap: round; stroke-dasharray: 88; stroke-dashoffset: 88; transition: stroke-dashoffset 0.25s linear; }
+  .anillo .hecho { stroke: var(--ok); }
+  .sesion-pie { margin-top: auto; font-size: 0.78rem; color: var(--tenue); line-height: 1.5; }
 
-        .project-header {
-            background: linear-gradient(135deg, #0d0d0d 0%, #1a1500 100%);
-            border: 1px solid rgba(255, 214, 0, 0.15);
-            position: relative;
-            overflow: hidden;
-            border-radius: 20px;
-            padding: 5rem 3rem;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
+  .sesion-movil { display: none; }
 
-        .project-header::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at 60% 40%, rgba(255, 214, 0, 0.08) 0%, transparent 65%);
-            pointer-events: none;
-        }
+  /* ---------- Contenido ---------- */
+  main { margin-left: var(--lateral); overflow-x: clip; }
+  .bloque { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
 
-        .header-content h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            margin-bottom: 1rem;
-            line-height: 0.9;
-        }
-        
-        .header-content .tag {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            color: var(--accent);
-            letter-spacing: 0.3em;
-            display: block;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-        }
-        
-        .header-content p {
-            font-size: 1rem;
-            line-height: 1.8;
-            opacity: 0.8;
-            color: rgba(255,255,255,0.7);
-            max-width: 560px;
-            margin-top: 1rem;
-            margin-left: auto;
-            margin-right: auto;
-        }
+  /* Portada */
+  .portada { min-height: 100vh; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; align-items: center; padding-top: 70px; padding-bottom: 60px; position: relative; }
+  .portada::before { content: ''; position: absolute; inset: -10% -20% auto auto; width: 70%; height: 80%; background: radial-gradient(closest-side, rgba(186, 0, 124, 0.35), transparent); pointer-events: none; z-index: -1; }
+  .etiqueta { display: inline-flex; align-items: center; gap: 10px; font-family: var(--titular); font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.85rem; color: var(--rosa-luz); }
+  .etiqueta::before { content: ''; width: 22px; height: 2px; background: currentColor; }
+  h1 { font-family: var(--titular); font-weight: 800; font-style: italic; text-transform: uppercase; font-size: clamp(3rem, 6.4vw, 5.6rem); line-height: 0.9; letter-spacing: -0.01em; margin: 16px 0 22px; }
+  h1 em { font-style: italic; color: transparent; -webkit-text-stroke: 2px var(--rosa-luz); }
+  .entradilla { font-size: 1.15rem; color: var(--suave); max-width: 34rem; margin: 0 0 26px; }
+  .ficha { display: grid; grid-template-columns: repeat(3, auto); gap: 6px 28px; margin: 0 0 30px; padding: 0; }
+  .ficha dt { font-family: var(--titular); text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.75rem; color: var(--tenue); }
+  .ficha dd { margin: 0; font-size: 0.95rem; }
+  .botones { display: flex; flex-wrap: wrap; gap: 12px; }
+  .boton { display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border-radius: 999px; background: var(--rosa); color: #fff; text-decoration: none; font-family: var(--titular); font-weight: 800; font-style: italic; text-transform: uppercase; letter-spacing: 0.06em; font-size: 1.05rem; box-shadow: 0 10px 30px -8px rgba(186, 0, 124, 0.8); transition: transform 0.2s, box-shadow 0.2s; }
+  .boton:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -6px rgba(186, 0, 124, 0.95); }
+  .boton.secundario { background: transparent; border: 1px solid var(--linea); box-shadow: none; color: var(--texto); }
+  .aviso { margin-top: 22px; font-size: 0.82rem; color: var(--tenue); max-width: 34rem; }
 
-        .btn-action {
-            background: #FFD600;
-            color: #0d0d0d;
-            box-shadow: 0 0 20px rgba(255, 214, 0, 0.25);
-            border: none;
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            font-family: var(--font-mono);
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            margin-top: 2rem;
-        }
+  /* Antes y después */
+  .comparacion { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 14px; }
+  .comparacion figure { margin: 0; text-align: center; }
+  .comparacion figcaption { margin-top: 12px; font-family: var(--titular); font-weight: 800; font-style: italic; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.95rem; }
+  .comparacion .antes figcaption { color: var(--tenue); }
+  .comparacion .despues figcaption { color: var(--rosa-luz); }
+  .comparacion .antes img { filter: saturate(0.75) brightness(0.85); width: 100%; max-width: 210px; margin: 0 auto; }
+  .comparacion .movil { max-width: 196px; }
+  .flecha { font-family: var(--titular); font-weight: 800; font-size: 2.4rem; color: var(--rosa-luz); }
+  .movil { position: relative; margin: 0 auto; width: 100%; max-width: 230px; aspect-ratio: 9 / 19.5; border-radius: 34px; border: 8px solid #2a1a28; background: #000; overflow: hidden; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(250, 218, 239, 0.1); }
+  .movil img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .movil.rosa { border-color: #e48ac7; }
 
-        .btn-action:hover {
-            background: #ffe033;
-            box-shadow: 0 0 35px rgba(255, 214, 0, 0.45);
-            transform: translateY(-2px);
-        }
+  /* Marcador de resultados */
+  .marcador { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--linea); border-bottom: 1px solid var(--linea); margin: 0 auto 40px; }
+  .marcador div { padding: 26px 20px; }
+  .marcador div + div { border-left: 1px solid var(--linea); }
+  .marcador b { display: block; font-family: var(--titular); font-weight: 800; font-style: italic; font-size: clamp(2.2rem, 4vw, 3.2rem); line-height: 1; color: var(--rosa-luz); font-variant-numeric: tabular-nums; }
+  .marcador span { display: block; margin-top: 8px; font-size: 0.88rem; color: var(--suave); line-height: 1.4; }
 
-        .figma-icon {
-            width: 18px;
-            height: 18px;
-        }
+  /* Series */
+  .serie { padding: 110px 0 30px; border-top: 1px solid var(--linea); }
+  .serie-cabecera { display: grid; grid-template-columns: auto 1fr; gap: 26px; align-items: end; margin-bottom: 42px; }
+  .serie-numero { font-family: var(--titular); font-weight: 800; font-style: italic; font-size: clamp(5rem, 11vw, 8.5rem); line-height: 0.75; color: transparent; -webkit-text-stroke: 2px rgba(255, 92, 191, 0.55); }
+  .serie-cabecera .etiqueta { margin-bottom: 6px; }
+  h2 { font-family: var(--titular); font-weight: 800; font-style: italic; text-transform: uppercase; font-size: clamp(2.3rem, 4.6vw, 3.6rem); line-height: 0.95; margin: 0; }
+  h3 { font-family: var(--titular); font-weight: 800; font-style: italic; text-transform: uppercase; font-size: 1.7rem; line-height: 1; margin: 64px 0 16px; letter-spacing: 0.01em; }
+  h3 small { display: block; font-style: normal; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.14em; color: var(--rosa-luz); margin-bottom: 8px; }
+  h4 { font-family: var(--titular); font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; font-size: 1.15rem; margin: 0 0 6px; }
+  p { margin: 0 0 16px; }
+  .texto { max-width: 46rem; color: var(--suave); }
+  .texto strong { color: var(--texto); font-weight: 600; }
 
+  .rejilla { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  .rejilla.tres { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tarjeta { padding: 22px; border-radius: 16px; background: var(--noche-2); border: 1px solid var(--linea); }
+  .tarjeta p { color: var(--suave); margin: 0; font-size: 0.96rem; }
+  .tarjeta.bien h4 { color: var(--ok); }
+  .tarjeta.mal h4 { color: var(--rosa-luz); }
 
-        
-        /* Ocultamos el div prototipo flotante de Imagym para dejar solo el de la cabecera, o lo dejamos pero z-index arreglado */
-        #prototipo {
-            bottom: 24px;
-        }
-    </style>
+  .lamina { margin: 22px 0 0; border-radius: 16px; background: var(--noche-2); border: 1px solid var(--linea); padding: 22px; }
+  .lamina img { margin: 0 auto; cursor: zoom-in; }
+  .lamina figcaption, figure > figcaption.pie { margin-top: 12px; font-size: 0.85rem; color: var(--tenue); text-align: center; }
+  .lamina.clara { background: #fff; }
+  .lamina.clara figcaption { color: #6b5466; }
+  figure { margin: 0; }
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XQ78P8968"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+  /* Paleta */
+  .paleta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+  .paleta div { display: grid; gap: 8px; }
+  .paleta i { display: block; height: 64px; border-radius: 10px; background: var(--c); box-shadow: inset 0 0 0 1px rgba(250, 218, 239, 0.15); }
+  .paleta span { font-size: 0.85rem; line-height: 1.3; }
+  .paleta small { color: var(--tenue); font-variant-numeric: tabular-nums; }
 
-      gtag('config', 'G-2XQ78P8968');
-    </script>
+  /* Datos de la encuesta */
+  .datos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 26px 0; }
+  .dato { padding: 18px; border-radius: 14px; border: 1px solid var(--linea); }
+  .dato b { display: block; font-family: var(--titular); font-weight: 800; font-style: italic; font-size: 2.2rem; line-height: 1; }
+  .dato span { font-size: 0.85rem; color: var(--suave); }
+  .barras { margin: 18px 0 0; display: grid; gap: 10px; max-width: 640px; }
+  .barra { display: grid; grid-template-columns: 90px 1fr 48px; gap: 12px; align-items: center; font-size: 0.92rem; }
+  .barra i { display: block; height: 14px; border-radius: 7px; background: rgba(250, 218, 239, 0.08); overflow: hidden; }
+  .barra i::after { content: ''; display: block; height: 100%; width: var(--v); background: linear-gradient(90deg, var(--rosa), var(--rosa-luz)); border-radius: 7px; }
+  .barra b { font-variant-numeric: tabular-nums; text-align: right; }
+
+  /* Lean UX canvas en HTML */
+  .lienzo { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .lienzo .tarjeta ul { margin: 8px 0 0; padding-left: 18px; color: var(--suave); font-size: 0.92rem; }
+  .lienzo .tarjeta li + li { margin-top: 4px; }
+  .lienzo .ancha { grid-column: span 2; }
+
+  /* Voz y estilo */
+  .voz { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .voz .tarjeta b { font-family: var(--titular); font-weight: 800; font-style: italic; text-transform: uppercase; font-size: 1.9rem; color: var(--rosa-palido); display: block; line-height: 1; margin-bottom: 8px; }
+  .estilo { display: grid; gap: 10px; margin-top: 18px; }
+  .estilo-fila { display: grid; grid-template-columns: 150px 1fr 1fr; gap: 12px; align-items: stretch; }
+  .estilo-fila > span { font-family: var(--titular); font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: var(--suave); padding-top: 12px; }
+  .burbuja { padding: 12px 16px; border-radius: 14px; font-size: 0.95rem; }
+  .burbuja.si { background: rgba(50, 215, 75, 0.1); border: 1px solid rgba(50, 215, 75, 0.35); }
+  .burbuja.no { background: rgba(255, 92, 191, 0.06); border: 1px dashed rgba(255, 92, 191, 0.35); color: var(--tenue); text-decoration: line-through; text-decoration-color: rgba(255, 92, 191, 0.5); }
+  .estilo-cabecera { font-family: var(--titular); text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.75rem; color: var(--tenue); }
+
+  .tipos { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  .tipos th { text-align: left; font-family: var(--titular); text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.75rem; color: var(--tenue); font-weight: 600; padding: 0 12px 8px 0; }
+  .tipos td { padding: 8px 12px 8px 0; border-top: 1px solid var(--linea); color: var(--suave); font-variant-numeric: tabular-nums; }
+  .tipos td:first-child { color: var(--texto); font-family: -apple-system, 'SF Pro Display', var(--cuerpo); }
+
+  /* Resultados del test */
+  .tabla { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  .tabla th, .tabla td { padding: 12px 14px; text-align: center; border-bottom: 1px solid var(--linea); }
+  .tabla th { font-family: var(--titular); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; color: var(--tenue); font-weight: 600; }
+  .tabla td:first-child, .tabla th:first-child { text-align: left; }
+  .tabla td.total { font-family: var(--titular); font-weight: 800; font-style: italic; font-size: 1.3rem; color: var(--rosa-luz); }
+  .participantes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+  .participantes .tarjeta b { font-family: var(--titular); font-weight: 800; font-style: italic; font-size: 1.4rem; color: var(--rosa-palido); }
+  .participantes .tarjeta p { margin-top: 6px; }
+
+  details { margin-top: 18px; border: 1px solid var(--linea); border-radius: 14px; background: var(--noche-2); }
+  summary { cursor: pointer; padding: 16px 20px; font-family: var(--titular); font-weight: 800; font-style: italic; text-transform: uppercase; letter-spacing: 0.04em; font-size: 1.1rem; }
+  details .guion { padding: 0 20px 18px; color: var(--suave); font-size: 0.95rem; }
+  details .guion ol { padding-left: 20px; margin: 0; }
+  details .guion li + li { margin-top: 10px; }
+
+  /* Final */
+  .final { padding: 120px 0 140px; text-align: center; border-top: 1px solid var(--linea); }
+  .final h2 { font-size: clamp(3rem, 7vw, 5.5rem); }
+  .final .texto { margin: 18px auto 30px; }
+  .final .botones { justify-content: center; }
+
+  /* ---------- Móvil ---------- */
+  @media (max-width: 1100px) {
+    :root { --lateral: 0px; }
+    .sesion { display: none; }
+    .sesion-movil { display: flex; align-items: center; gap: 10px; position: fixed; right: 16px; bottom: max(16px, env(safe-area-inset-bottom)); z-index: 60; padding: 10px 16px 10px 10px; border-radius: 999px; border: 1px solid rgba(255, 92, 191, 0.4); background: rgba(13, 6, 16, 0.92); backdrop-filter: blur(12px); color: var(--texto); font-family: var(--titular); font-weight: 800; font-style: italic; text-transform: uppercase; font-size: 1rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5); cursor: pointer; }
+    .sesion-movil .anillo { width: 28px; height: 28px; }
+    .sesion.abierta { display: flex; top: auto; right: 0; width: 100%; height: auto; max-height: 80vh; padding: 20px 18px max(20px, env(safe-area-inset-bottom)); border-right: 0; border-top: 1px solid rgba(255, 92, 191, 0.4); border-radius: 22px 22px 0 0; z-index: 70; overflow-y: auto; }
+    .velo { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.55); z-index: 65; display: none; }
+    .velo.abierto { display: block; }
+  }
+
+  @media (max-width: 860px) {
+    .bloque { padding: 0 18px; }
+    .portada { grid-template-columns: 1fr; padding-top: 100px; min-height: 0; }
+    .ficha { grid-template-columns: 1fr 1fr; }
+    .marcador { grid-template-columns: 1fr 1fr; }
+    .marcador div:nth-child(3) { border-left: 0; }
+    .marcador div:nth-child(n + 3) { border-top: 1px solid var(--linea); }
+    .rejilla, .rejilla.tres, .lienzo, .voz, .participantes { grid-template-columns: 1fr; }
+    .lienzo .ancha { grid-column: auto; }
+    .datos { grid-template-columns: 1fr 1fr; }
+    .estilo-fila { grid-template-columns: 1fr; }
+    .estilo-fila > span { padding-top: 6px; }
+    .serie { padding-top: 80px; }
+    .serie-cabecera { grid-template-columns: 1fr; gap: 6px; }
+    .tabla th, .tabla td { padding: 10px 6px; font-size: 0.85rem; }
+    .lamina { padding: 12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .anillo .lleno, .boton { transition: none; }
+  }
+</style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2XQ78P8968"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2XQ78P8968');
+</script>
 </head>
 <body>
-    <div class="project-container">
 
+<nav class="sesion" id="sesion" aria-label="Índice del estudio de caso">
+  <div class="sesion-cabecera">Sesión de rediseño<b id="serie-actual">Serie 1 / 6</b></div>
+  <ol id="lista-series"></ol>
+  <p class="sesion-pie">Proyecto final del curso de Diseño UX/UI de Coderhouse (2023).</p>
+</nav>
+<button class="sesion-movil" id="abrir-sesion" type="button" aria-expanded="false" aria-controls="sesion">
+  <svg class="anillo" viewBox="0 0 34 34" aria-hidden="true"><circle class="fondo" cx="17" cy="17" r="14"/><circle class="lleno" id="anillo-movil" cx="17" cy="17" r="14"/></svg>
+  <span id="serie-movil">Serie 1 / 6</span>
+</button>
+<div class="velo" id="velo"></div>
 
-        <main>
-      <div class="seccion-general">
-        <div class="navMain">
-          <a href="#estrategia" class="seccionesBoton activo">Estrategia</a>
-          <a href="#superficie" class="seccionesBoton">Superficie</a>
-          <a href="#testeo" class="seccionesBoton">Testeo</a>
-          <a href="#arquitectura" class="seccionesBoton">Arquitectura</a>
-        </div>
-        <a
-          target="_blank"
-          href="https://www.figma.com/proto/kfCcmWjMX30PxWBu4zBv9Z/IMAGYM-APP---REDISE%C3%91ADO-POR-RONALD-HERRERA?page-id=114%3A981&node-id=221-5082&viewport=1885%2C299%2C0.34&scaling=scale-down&starting-point-node-id=221%3A5082&mode=design&t=FRTcgNXM8ArUuAz5-1"
-          class="seccionesBoton"
-          id="prototipo"
-          >Prototipo<img src="/proyectos/Imagym/recursos/figma.svg" alt=""
-        /></a>
-        <section id="estrategia">
-          <div class="secciones">
-            <div class="mockup-1-estrategia">
-              <img
-                src="/proyectos/Imagym/imagenes/Mockup-1-estrategia.webp"
-                loading="lazy"
-                alt=""
-                class="mockup"
-              />
-            </div>
-            <div class="contenido">
-              <h1 class="titulo">Antes de rediseñar</h1>
-              <p class="parrafo">
-                La <span class="span-parrafo">APP </span>de
-                <span class="span-parrafo">IMAGYM</span> es una herramienta que
-                da soporte una cadena de gimnasios low cost.
-              </p>
-              <p class="parrafo">
-                Con esta aplicación se puede acceder a las instalaciones y
-                llevar un control de tus accesos. A demás se puede reservar o
-                anular una plaza para las clases colectivas y pistas.
-              </p>
-              <p class="parrafo">
-                Desde el apartado del usuario se pueden consultar los datos
-                personales y/o modificarlos.
-              </p>
-              <p class="parrafo">
-                Con la app también se puede consultar los pagos realizados,
-                hacer pagos pendientes y modificar el método de pago.
-              </p>
-            </div>
-          </div>
-          <div class="secciones">
-            <div class="contenido">
-              <h2 class="subtitulo">ESTRATEGIA</h2>
-              <h3 class="encabezado">¿POR QUÉ LO HICE?</h3>
-              <p class="parrafo">
-                Tras inspeccionar la aplicación de
-                <span class="span-parrafo">IMAGYM</span> he podido observar que
-                a penas cumple su función y que a pesar de tener buena intención
-                no se saca todo el partido a lo que la app tiene que ofrecer.
-              </p>
-              <p class="parrafo">
-                Las flaquezas mas importantes que he apreciado son la parte de
-                SPORTS OnDEMANT Y NOTICIAS.
-              </p>
-              <p class="parrafo">
-                Creo que la app necesita mucho desarrollo en cuanto a lo visual
-                y usabilidad.
-              </p>
-            </div>
-            <div class="mockup-2-estrategia">
-              <img
-                src="/proyectos/Imagym/imagenes/Mockup-2-estrategia.webp"
-                loading="lazy"
-                alt=""
-                class="mockup"
-              />
-            </div>
-          </div>
-          <div class="secciones">
-            <div class="grafico-1-estrategia">
-              <img
-                src="/proyectos/Imagym/recursos/grafico-1-estrategia.svg"
-                loading="lazy"
-                alt=""
-                class="mockup"
-              />
-            </div>
-            <div class="contenido encuesta">
-              <h2 class="subtitulo justificado-derecha">ENCUESTA</h2>
-              <h3 class="encabezado justificado-derecha">¿CÓMO LO HICE?</h3>
-              <p class="parrafo justificado-derecha">
-                Para saber que opinan algunos usuarios de la app del gimnasio,
-                realicé entrevistas cualitativas online semiestructuradas.
-                Utilizando como herramienta Google Forms.
-              </p>
-              <div class="grafico-2-estrategia">
-                <img
-                  src="/proyectos/Imagym/recursos/gafico-2-estrategia.svg"
-                  loading="lazy"
-                  alt=""
-                  class="mockup"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="secciones resultados-1">
-            <h2 class="subtitulo resultados-1">Lo que dijeron los usuarios</h2>
-            <div class="contenido resultados-3">
-              <div class="contenido resultados-1 punto">
-                <div class="encabezado-resultados-1">
-                  <img
-                    src="/proyectos/Imagym/recursos/like-estrategia.svg"
-                    loading="lazy"
-                    alt=""
-                    class="img-encabezado-resultados-1"
-                  />
-                  <h3 class="encabezado">Motivaciones</h3>
-                </div>
-                <p class="parrafo">
-                  Es una aplicación sencilla, los usuarios que usan esta app,
-                  encuentras cómodo el acceder a las instalaciones mediante un
-                  código QR, desde la app pueden reservar clases y gestionar su
-                  suscripción al gym.
-                </p>
-              </div>
-              <div class="contenido resultados-1 punto">
-                <div class="encabezado-resultados-1">
-                  <img
-                    src="/proyectos/Imagym/recursos/delike-estrategia.svg"
-                    loading="lazy"
-                    alt=""
-                    class="img-encabezado-resultados-1"
-                  />
-                  <h3 class="encabezado">Desmotivaciones</h3>
-                </div>
-                <p class="parrafo">
-                  Video atención al socio es poco practico, consideran mas útil
-                  un chat de incidencias o con un bot. <br />Visualmente no es
-                  atractiva y la disposición de los elementos es muy mejorable.
-                </p>
-              </div>
-            </div>
-            <h2 class="subtitulo resultados-1">Observaciones</h2>
-            <div class="contenido resultados-1">
-              <div class="contenido resultados-1 punto">
-                <h3 class="encabezado">Lo que más se usa</h3>
-                <p class="parrafo">
-                  Los usuarios usan la app principalmente para acceder a las
-                  instalaciones y reservar su plaza en clases colectivas,
-                  también es importante llevar el control de pagos mensuales.
-                </p>
-              </div>
-              <div class="contenido resultados-1 punto">
-                <h3 class="encabezado">Lo que menos se usa</h3>
-                <p class="parrafo">
-                  Las noticias no están visibles, y pocos usuarios muestran
-                  interés por este apartado. El apartado documento tampoco se
-                  usa y el apartado de control de accesos aporta información
-                  poco relevante.
-                </p>
-              </div>
-            </div>
-            <img
-              src="/proyectos/Imagym/recursos/grafico-3-estrategia.svg"
-              loading="lazy"
-              alt=""
-              class="grafico-3-estrategia"
-            />
-            <p class="parrafo resultados-1">
-              ¿Qué tan fácil es recordar dónde están las funciones más
-              importantes cada vez que entras en la app?
-            </p>
-            <h2 class="subtitulo resultados-1">LEAN UX CANVAS</h2>
-            <img
-              src="/proyectos/Imagym/recursos/lean-ux-canvas.svg"
-              loading="lazy"
-              alt=""
-              class="grafico-4-estrategia"
-            />
-            <h2 class="subtitulo resultados-1">MAPA DE TRAYECTORIA</h2>
-            <img
-              src="/proyectos/Imagym/recursos/mapa-trayectoria.svg"
-              loading="lazy"
-              alt=""
-              class="grafico-5-estrategia"
-            />
-          </div>
-        </section>
-        <section id="arquitectura">
-          <div class="secciones">
-            <div class="contenido">
-              <h1 class="titulo">Información de la arquitectura</h1>
-              <h3 class="encabezado">ARQUITECTURA ACTUAL</h3>
-              <p class="parrafo">
-                Realizo un Tree Testing de la estructura actual de la APP para
-                comprobar que tan intuitiva es y ver posibles puntos de mejora
-              </p>
-            </div>
-            <div class="mockup-1-arquitectura">
-              <img
-                src="/proyectos/Imagym/imagenes/mockup-1-arquitecttura.webp"
-                loading="lazy"
-                alt=""
-                class="mockup"
-              />
-            </div>
-          </div>
-          <div class="secciones arquitectura">
-            <img
-              src="/proyectos/Imagym/recursos/grafico-1-arquitectura.svg"
-              loading="lazy"
-              alt=""
-              class="grafico-1-arquitectura"
-            />
-          </div>
-          <div class="secciones testeo">
-            <div class="contenido testeos-texto">
-              <h2 class="subtitulo justificado-derecha">Testeos</h2>
-              <p class="parrafo justificado-derecha">
-                Las pruebas las realizaré con la herramienta de Tree Testing de
-                Optimal Workshop, presenté el árbol de contenido de la app y
-                pediré a los usuarios de prueba que realicen dos tareas.
-              </p>
-            </div>
-          </div>
-          <div class="secciones">
-            <div class="contenido">
-              <h3 class="encabezado">Primera tarea:</h3>
-              <p class="parrafo span-parrafo testeo">
-                “Estas en la puerta del gym y ves un cartel en la puerta que
-                dice que accedas a la app para escanear el código qr”
-              </p>
-              <p class="parrafo">
-                Con este ejercicio queríamos ver que tan fácil era para el
-                usuario acceder al establecimiento mediante QR.
-              </p>
-            </div>
-            <div class="grafico-2-arquitectura">
-              <img
-                src="/proyectos/Imagym/recursos/grafico-2-arquitectura.svg"
-                loading="lazy"
-                alt=""
-                class="mockup"
-              />
-            </div>
-          </div>
-          <div class="secciones">
-            <div class="contenido">
-              <h3 class="encabezado">Segunda tarea:</h3>
-              <p class="parrafo span-parrafo testeo">
-                “Quieres iniciar algún tipo de actividad para ponerte en forma y
-                conocer gente”
-              </p>
-              <p class="parrafo">
-                La intención de este ejercicio es averiguar la facilidad con la
-                que se reserva una clase nueva.
-              </p>
-            </div>
-            <div class="grafico-4-arquitectura">
-              <img
-                src="/proyectos/Imagym/recursos/grafico-4-arquitectura.svg"
-                loading="lazy"
-                alt=""
-                class="mockup"
-              />
-            </div>
-          </div>
-          <div class="secciones arquitectura-1">
-            <div class="grafico-5-arquitectura">
-              <img
-                src="/proyectos/Imagym/recursos/grafico-5-arquitectura.svg"
-                loading="lazy"
-                alt=""
-                class="mockup"
-              />
-            </div>
-            <div class="grafico-3-arquitectura">
-              <img
-                src="/proyectos/Imagym/recursos/grafico-3-arquitectura.svg"
-                loading="lazy"
-                alt=""
-                class="mockup"
-              />
-            </div>
-          </div>
-          <div class="secciones">
-            <div class="contenido arquitectura-2">
-              <h2 class="subtitulo">Propuesta arquitectura</h2>
-              <h3 class="encabezado">ARQUITECTURA NUEVA</h3>
-              <p class="parrafo">
-                Tras el Tree Testing propongo una nueva arquitectura para
-                mejorar la experiencia de usuario y usabilidad de la app.
-              </p>
-            </div>
-          </div>
-          <div class="secciones arquitectura">
-            <img
-              src="/proyectos/Imagym/recursos/grafico-6-arquitectura.svg"
-              loading="lazy"
-              alt=""
-              class="grafico-6-arquitectura"
-            />
-          </div>
-          <div class="secciones">
-            <div class="contenido arquitectura-2">
-              <h2 class="subtitulo">Prioridades y objetivos</h2>
-              <h3 class="encabezado">
-                MATRIZ DE VIABILIDAD, FACTIBILIDAD Y DEASEABILIDAD
-              </h3>
-            </div>
-          </div>
-          <div class="secciones arquitectura">
-            <img
-              src="/proyectos/Imagym/recursos/grafico-7-arquitectura.svg"
-              loading="lazy"
-              alt=""
-              class="grafico-7-arquitectura"
-            />
-          </div>
-          <div class="secciones">
-            <div class="contenido arquitectura-2">
-              <h2 class="subtitulo">Task Flow y wireframes</h2>
-              <p class="parrafo">
-                El usuario deberá usar la app para generar un codigo Qr para
-                acceder a las instalaciones del gimnasio.
-              </p>
-              <div class="contenedor-wireframes">
-                <p class="parrafo">Task flow de acceso al gym</p>
-                <img
-                  src="/proyectos/Imagym/recursos/grafico-8-arquitectura.svg"
-                  loading="lazy"
-                  alt=""
-                  class="titulo-wireframe"
-                />
-                <p class="parrafo">Wireframes de acceso al gym</p>
-                <img
-                  src="/proyectos/Imagym/imagenes/wireframe-acceso.webp"
-                  loading="lazy"
-                  alt=""
-                  class="wireframe-acceso"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="secciones">
-            <div class="contenido arquitectura-2">
-              <p class="parrafo">
-                El usuario deberá usar la app para generar un codigo Qr para
-                acceder a las instalaciones del gimnasio.
-              </p>
-              <div class="contenedor-wireframes-2">
-                <p class="parrafo">
-                  Task flow para reservar una clase colectiva
-                </p>
-                <img
-                  src="/proyectos/Imagym/recursos/grafico-9-arquitectura.svg"
-                  loading="lazy"
-                  alt=""
-                  class="titulo-wireframe"
-                />
-                <p class="parrafo">
-                  Wireframes para reservar una clase colectiva
-                </p>
-                <img
-                  src="/proyectos/Imagym/imagenes/wireframe-reserva.webp"
-                  loading="lazy"
-                  class="wireframe-acceso"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-        <section id="superficie">
-          <div class="secciones">
-            <div class="contenido">
-              <h1 class="titulo">Aspectos superficiales</h1>
-              <h2 class="subtitulo">UX writing</h2>
-              <h3 class="encabezado">APP PARA SOCIOS DEL GYM</h3>
-              <p class="parrafo">
-                App que permite identificar al usuario para acceder al gym
-                ademas se puede usar para gestionar entrenamientos y pagos.
-              </p>
-              <p class="parrafo">
-                Con el objetivo de mejorar la experiencia del servicio, vamos a
-                tomar en cuenta las sugerencias de los usuarios y los mejores
-                estándares de la industria.
-              </p>
-              <p class="parrafo">
-                La idea es conseguir que los usuarios tengan una experiencia mas
-                amigable y cercana cuando utilicen la app y esta experiencia se
-                traslade a las instalaciones.
-              </p>
-            </div>
-            <div class="lgotipo-superficie">
-              <img
-                src="/proyectos/Imagym/recursos/lgotipo.svg"
-                loading="lazy"
-                alt=""
-                class="mockup"
-              />
-            </div>
-          </div>
-          <div class="secciones arquitectura">
-            <h3 class="encabezado">MATRIZ DE VOZ</h3>
-            <img
-              src="/proyectos/Imagym/recursos/grafico-1-superficie.svg"
-              loading="lazy"
-              alt=""
-              class="grafico-1-superficie"
-            />
-          </div>
-          <div class="secciones arquitectura">
-            <h3 class="encabezado">TONO</h3>
-            <img
-              src="/proyectos/Imagym/recursos/grafico-2-superficie.svg"
-              loading="lazy"
-              alt=""
-              class="grafico-2-superficie"
-            />
-          </div>
-          <div class="secciones arquitectura">
-            <h2 class="subtitulo">Guía de estilos</h2>
-            <img
-              src="/proyectos/Imagym/recursos/grafico-3-superficie.svg"
-              loading="lazy"
-              alt=""
-              class="grafico-3-superficie"
-            />
-          </div>
-          <div class="secciones arquitectura">
-            <h2 class="subtitulo">Identidad e imagen de marca</h2>
-            <h3 class="encabezado">COLORES</h3>
-            <img
-              src="/proyectos/Imagym/recursos/grafico-4-superficie.svg"
-              loading="lazy"
-              alt=""
-              class="grafico-4-superficie"
-            />
-            <h3 class="encabezado">TIPOGRAFÍA</h3>
-            <img
-              src="/proyectos/Imagym/recursos/grafico-5-superficie.svg"
-              loading="lazy"
-              alt=""
-              class="grafico-5-superficie"
-            />
-          </div>
-          <div class="secciones grilla-iconos">
-            <div class="contenido grilla">
-              <div class="texto-grilla">
-                <h3 class="encabezado">Grilla</h3>
-                <p class="parrafo">
-                  -Columnas: 5<br />-Ancho de columnas: 47<br />-Medianil:
-                  auto<br />-Márgenes der./izq.: 20
-                </p>
-              </div>
-              <img
-                src="/proyectos/Imagym/imagenes/grilla.webp"
-                loading="lazy"
-                alt=""
-                class="grilla"
-              />
-            </div>
-            <div class="iconos-superficie">
-              <h3 class="encabezado">Iconos</h3>
-              <img
-                src="/proyectos/Imagym/recursos/iconos-superficie.svg"
-                loading="lazy"
-                alt=""
-                class="mockup"
-              />
-            </div>
-          </div>
-          <div class="secciones arquitectura">
-            <h2 class="subtitulo">Componentes y patrones</h2>
-            <h3 class="encabezado">CARDS</h3>
-            <div class="imagenes-cards">
-              <img
-                src="/proyectos/Imagym/recursos/componente-chat.svg"
-                loading="lazy"
-                alt=""
-                class="componente-chat"
-              /><img
-                src="/proyectos/Imagym/recursos/componentes.svg"
-                loading="lazy"
-                alt=""
-                class="componentes"
-              /><img
-                src="/proyectos/Imagym/recursos/qr-wireframe.svg"
-                loading="lazy"
-                alt=""
-                class="qr-wireframe"
-              />
-            </div>
-            <h3 class="encabezado">NAVEGACIÓN E INTERACCIONES</h3>
-            <img
-              src="/proyectos/Imagym/recursos/nav-bar-superficie.svg"
-              loading="lazy"
-              alt=""
-              class="nav-bar-superficie"
-            />
-          </div>
-          <div class="secciones supeficieur">
-            <h3 class="encabezado">ANIMACIONES</h3>
-            <div class="contenido resultados-1">
-              <div class="contenido resultados-1 punto">
-                <p class="parrafo span-parrafo">CARGA DE LA APP (OPENING)</p>
-                <p class="parrafo">
-                  -Fundamentación:<br />Se utilizará para reforzar la identidad
-                  de la marca, para darle personalidad.
-                </p>
-                <p class="parrafo">
-                  -Relación con el proyecto y marca:<br />Imagym es una cadena
-                  de gimnasios low-cost con servicio 24/7 la app debe dar
-                  soporte por eso el inicio de la app se recuerda que es 24.
-                </p>
-              </div>
-              <div class="contenido resultados-1 punto">
-                <p class="parrafo span-parrafo">Transiciones</p>
-                <p class="parrafo">
-                  -Fundamentación:<br />Se utilizará para para cambiar de
-                  pantalla en pantalla sin transformar elementos.
-                </p>
-                <p class="parrafo">
-                  -Relación con el proyecto y marca:<br />Cambia escenarios de
-                  la app
-                </p>
-              </div>
-            </div>
-            <div class="contenido resultados-1">
-              <div class="contenido resultados-1 punto">
-                <p class="parrafo span-parrafo">Swipe</p>
-                <p class="parrafo">
-                  -Fundamentación:<br />Se utilizará para reforzar la sensación
-                  ral de transición transformando los elementos.
-                </p>
-                <p class="parrafo">
-                  -Relación con el proyecto y marca:<br />Elegir de manera mas
-                  fácil y dinámica el día que quiere ver el usuario.
-                </p>
-              </div>
-              <div class="contenido resultados-1 punto">
-                <p class="parrafo span-parrafo">Cambio de estado</p>
-                <p class="parrafo">
-                  -Fundamentación:<br />Se utilizará para cambiar el estado de
-                  un elemento.
-                </p>
-                <p class="parrafo">
-                  -Relación con el proyecto y marca:<br />En este caso la
-                  transformación indica la inscripción/desinscripción en una
-                  clase colectiva.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="secciones arquitectura">
-            <h2 class="subtitulo">Wireframes de propuesta</h2>
-            <img
-              src="/proyectos/Imagym/recursos/wireframes-finales.svg"
-              loading="lazy"
-              alt=""
-              class="wireframes-finales"
-            />
-          </div>
-        </section>
-        <section id="testeo">
-          <div class="secciones">
-            <div class="mockup-1-testeo">
-              <img
-                src="/proyectos/Imagym/imagenes/mockup-1-testeo.webp"
-                loading="lazy"
-                alt=""
-                class="mockup"
-              />
-            </div>
-            <div class="contenido">
-              <h1 class="titulo">Insights de testeos presenciales</h1>
-              <p class="parrafo">
-                En esta etapa de la investigación, luego de considerar diversas
-                alternativas para abordar las hipótesis planteadas desde el
-                principio, hemos construido un prototipo de alta fidelidad que
-                empleamos para realizar pruebas con usuarios reales de IMAGYM,
-                con el fin de identificar oportunidades de mejora y profundizar
-                en la experiencia que estos usuarios tienen con la aplicación.
-              </p>
-            </div>
-          </div>
-          <div class="secciones supeficieur">
-            <h1 class="titulo testeo">Metas</h1>
-            <div class="contenido metas-testeo">
-              <div class="contenido icono">
-                <img
-                  src="/proyectos/Imagym/recursos/icono-rediseño.svg"
-                  loading="lazy"
-                  alt=""
-                  class="icono-testeo"
-                />
-              </div>
-              <div class="contenido resultados-1 punto">
-                <p class="parrafo span-parrafo metas">Transiciones</p>
-                <p class="parrafo metas">
-                  Se busca determinar si los usuarios valoran la incorporación
-                  de atajos en la pantalla principal para realizar tareas, y si
-                  logran reconocerlos como tal, o si prefieren seguir usando los
-                  métodos actuales por costumbre. Además, se pretende evaluar si
-                  las nuevas rutas propuestas son eficientes y sencillas de
-                  utilizar en la aplicación en su totalidad.
-                </p>
-              </div>
-            </div>
-            <div class="contenido metas-testeo">
-              <div class="contenido icono">
-                <img
-                  src="/proyectos/Imagym/recursos/icono-puntos-dolor.svg"
-                  loading="lazy"
-                  alt=""
-                  class="icono-testeo"
-                />
-              </div>
-              <div class="contenido resultados-1 punto">
-                <p class="parrafo span-parrafo metas">Puntos de dolor</p>
-                <p class="parrafo metas">
-                  La tarea consiste en identificar los puntos problemáticos en
-                  el flujo de las tareas, donde los usuarios experimentan
-                  interrupciones, tardan más tiempo de lo normal para completar
-                  la tarea, dudan sobre qué acción tomar o simplemente
-                  desconocen cómo seguir avanzando en el proceso.
-                </p>
-              </div>
-            </div>
-            <div class="contenido metas-testeo">
-              <div class="contenido icono">
-                <img
-                  src="/proyectos/Imagym/recursos/iconos-satisfaccion.svg"
-                  loading="lazy"
-                  alt=""
-                  class="icono-testeo"
-                />
-              </div>
-              <div class="contenido resultados-1 punto">
-                <p class="parrafo span-parrafo metas">Satisfacción</p>
-                <p class="parrafo metas">
-                  El objetivo es recopilar información cualitativa sobre la
-                  experiencia de los usuarios al utilizar la aplicación y cómo
-                  se sienten con los cambios realizados en la misma. Además, se
-                  pretende obtener aportes de los usuarios que puedan ser útiles
-                  para mejorar la navegación y usabilidad de la aplicación.
-                </p>
-              </div>
-            </div>
-            <h1 class="titulo testeo">Entrevistas</h1>
-            <div class="contenido metas-testeo">
-              <div class="contenido icono">
-                <img
-                  src="/proyectos/Imagym/recursos/icono-formato.svg"
-                  loading="lazy"
-                  alt=""
-                  class="icono-testeo"
-                />
-              </div>
-              <div class="contenido resultados-1 punto">
-                <p class="parrafo span-parrafo metas">Formato</p>
-                <p class="parrafo metas">
-                  Las pruebas se realizan en un formato presencial desde un
-                  smartphone y son grabadas para su observación.
-                </p>
-              </div>
-            </div>
-            <div class="contenido metas-testeo">
-              <div class="contenido icono">
-                <img
-                  src="/proyectos/Imagym/recursos/iconos-mederador.svg"
-                  loading="lazy"
-                  alt=""
-                  class="icono-testeo"
-                />
-              </div>
-              <div class="contenido resultados-1 punto">
-                <p class="parrafo span-parrafo metas">Moderador</p>
-                <p class="parrafo metas">Ronald Herrera</p>
-              </div>
-            </div>
-            <div class="contenido metas-testeo">
-              <div class="contenido icono">
-                <img
-                  src="/proyectos/Imagym/recursos/icono-observador.svg"
-                  loading="lazy"
-                  alt=""
-                  class="icono-testeo"
-                />
-              </div>
-              <div class="contenido resultados-1 punto">
-                <p class="parrafo span-parrafo metas">Observador</p>
-                <p class="parrafo metas">
-                  Ronald Herrera (mediante la visualización de las grabaciones)
-                </p>
-              </div>
-            </div>
-            <div class="contenido metas-testeo">
-              <div class="contenido icono">
-                <img
-                  src="/proyectos/Imagym/recursos/icono-prototipo.svg"
-                  loading="lazy"
-                  alt=""
-                  class="icono-testeo"
-                />
-              </div>
-              <div class="contenido resultados-1 punto">
-                <p class="parrafo span-parrafo metas">Prototipo</p>
-                <p class="parrafo metas">
-                  Clic aquí para ir al Prototipo en alta fidelidad de Figma.
-                </p>
-              </div>
-            </div>
-            <h1 class="titulo testeo">Guion</h1>
-            <div class="secciones guion">
-              <div class="contenido resultados-1 guion">
-                <div class="contenido resultados-1 punto">
-                  <p class="parrafo span-parrafo metas">1.Introducción:</p>
-                  <p class="parrafo metas guion">
-                    Hola, soy Ronald y estoy realizando un curso de Diseño UX/UI
-                    en CoderHouse. Como parte de mi proyecto final, estoy
-                    rediseñando una aplicación llamada IMAGYM. Muchas gracias
-                    por ofrecerte a ayudarme con esta sesión de prueba. ¿Podrías
-                    por favor decirme tu nombre?
-                  </p>
-                </div>
-                <div class="contenido resultados-1 punto">
-                  <p class="parrafo span-parrafo metas">
-                    2.Presentación del prototipo:
-                  </p>
-                  <p class="parrafo metas guion">
-                    La aplicación que vas a probar se llama IMAGYM APP, es un
-                    prototipo de una aplicación de entrenamiento físico que
-                    estoy diseñando como parte de mi proyecto final. Quiero
-                    aclararte que esta aplicación es un prototipo, lo que
-                    significa que algunas de las características o funciones
-                    pueden no estar disponibles o no funcionar correctamente.
-                    Por favor, házmelo saber si tienes alguna pregunta antes de
-                    comenzar.
-                  </p>
-                </div>
-                <div class="contenido resultados-1 punto">
-                  <p class="parrafo span-parrafo metas">
-                    3.Rol del participante:
-                  </p>
-                  <p class="parrafo metas guion">
-                    Durante esta sesión de prueba, tu papel es muy importante.
-                    Necesito que pruebes la aplicación de la manera más natural
-                    posible y que me proporciones tus impresiones y opiniones.
-                    Quiero que sepas que no estás siendo evaluado, sino que
-                    estamos evaluando el producto. Se utilizará para para
-                    cambiar de pantalla en pantalla sin transformar elementos.
-                  </p>
-                </div>
-              </div>
-              <div class="contenido resultados-1 guion">
-                <div class="contenido resultados-1 punto">
-                  <p class="parrafo span-parrafo metas">4.Sesión de prueba:</p>
-                  <p class="parrafo metas guion">
-                    Antes de comenzar la prueba, quiero asegurarme de que estés
-                    cómodo y que entiendas las tareas que te voy a pedir que
-                    hagas. Quiero que sepas que puedes hacer las tareas a tu
-                    propio ritmo y que no hay respuestas correctas o
-                    incorrectas.
-                  </p>
-                </div>
-                <div class="contenido resultados-1 punto">
-                  <p class="parrafo span-parrafo metas">5.Grabación:</p>
-                  <p class="parrafo metas guion">
-                    Por último, quiero pedirte permiso para grabar esta sesión
-                    de prueba con el fin de poder revisarla después y mejorar la
-                    aplicación. ¿Estás cómodo con que grabemos la sesión?
-                  </p>
-                </div>
-                <div class="contenido resultados-1 punto">
-                  <p class="parrafo span-parrafo metas">6.Tareas:</p>
-                  <p class="parrafo metas guion">
-                    Ahora, pasemos a las tareas que tienes que realizar durante
-                    esta sesión de prueba. Hay un total de tres tareas que debes
-                    realizar, y cada una de ellas se centra en una función
-                    específica de la aplicación. Por favor, sigue las
-                    instrucciones que te daré y realiza las tareas de la manera
-                    más natural posible.
-                  </p>
-                </div>
-                <div class="contenido resultados-1 punto">
-                  <p class="parrafo span-parrafo metas">Conclusión:</p>
-                  <p class="parrafo metas guion">
-                    Excelente trabajo! Muchas gracias por tu ayuda en esta
-                    sesión de prueba. Toda la información que me proporcionaste
-                    será extremadamente valiosa para mejorar el diseño de la
-                    aplicación. Si tienes alguna pregunta o comentario
-                    adicional, no dudes en hacérmelo saber.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="secciones tareas">
-              <div class="contenido resultados-1 guion">
-                <div class="contenido resultados-1 punto">
-                  <p class="parrafo span-parrafo metas">
-                    Tarea 1 - Acceder al gym
-                  </p>
-                  <p class="parrafo metas guion">
-                    Estas en la puerta del gym y hay un cartel qu indica que
-                    tienes que pasar por el escáner un código QR que encontraras
-                    en la app de IMAGYM.
-                  </p>
-                </div>
-                <div class="contenido resultados-1 punto">
-                  <p class="parrafo metas guion">
-                    -Objetivo:<br />El usuario deberá usar la app para generar
-                    un codigo Qr para acceder a las instalaciones del gimnasio.
-                  </p>
-                </div>
-              </div>
-              <div class="contenido resultados-1 guion">
-                <div class="contenido resultados-1 punto">
-                  <p class="parrafo span-parrafo metas">
-                    Tarea 2 - Reservar una clase
-                  </p>
-                  <p class="parrafo metas guion">
-                    Te gusta montar en bici, pero lleva unos días haciendo muy
-                    malo y decides apuntarte a spinning<br />‍
-                  </p>
-                </div>
-                <div class="contenido resultados-1 punto">
-                  <p class="parrafo metas guion">
-                    -Objetivo:<br />El usuario deberá usar la app para reservar
-                    una plaza en una clase colectiva de spinning
-                  </p>
-                </div>
-              </div>
-            </div>
-            <h1 class="titulo testeo">Usuarios</h1>
-            <div class="secciones guion">
-              <div class="contenido resultados-1">
-                <div class="contenido resultados-1 punto">
-                  <p class="parrafo span-parrafo metas">
-                    Perfil de los usuarios
-                  </p>
-                  <p class="parrafo metas guion">
-                    -3 usuarios (2 mujeres y 1 hombre)<br />-El rango de edad es
-                    de 26 a 37.<br />-100% de la ciudad de Santander (España) y
-                    clientes de IMAGYM
-                  </p>
-                </div>
-              </div>
-              <div class="contenido resultados-1">
-                <div class="contenido resultados-1 punto">
-                  <p class="parrafo span-parrafo metas">Reclutamiento</p>
-                  <p class="parrafo metas guion">
-                    Seleccionamos a tres usuarios de la lista original de
-                    encuestados para nuestra investigación y nos comunicamos con
-                    ellos a través de WhatsApp. Realizamos pruebas presenciales
-                    con cada uno de ellos.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <img
-              src="/proyectos/Imagym/recursos/protopersona-3.svg"
-              loading="lazy"
-              alt=""
-              class="protopersona"
-            /><img
-              src="/proyectos/Imagym/recursos/protopersona-1.svg"
-              loading="lazy"
-              alt=""
-              class="protopersona"
-            /><img
-              src="/proyectos/Imagym/recursos/protopersona-1.svg"
-              loading="lazy"
-              alt=""
-              class="protopersona"
-            />
-            <h1 class="titulo testeo"><br />Resultados</h1>
-            <img
-              src="/proyectos/Imagym/recursos/resultados-testeo.svg"
-              loading="lazy"
-              alt=""
-              class="protopersona"
-            />
-            <div class="contenido porcentajes-resultados">
-              <div class="contenido _1-dato">
-                <p class="parrafo span-parrafo porctaje-resultado">100%</p>
-                <p class="parrafo metas">
-                  De los usuarios completaron exitosamente la tarea.
-                </p>
-              </div>
-              <div class="contenido _1-dato">
-                <p class="parrafo span-parrafo porctaje-resultado">22.6</p>
-                <p class="parrafo metas">
-                  Segundos de media para completar la tarea 1
-                </p>
-              </div>
-              <div class="contenido _1-dato">
-                <p class="parrafo span-parrafo porctaje-resultado">36.6</p>
-                <p class="parrafo metas">
-                  Segundos de media para completar la tarea 2
-                </p>
-              </div>
-            </div>
-            <div class="contenido resultados-2">
-              <div class="contenido resultados-1 punto">
-                <div class="encabezado-resultados-1">
-                  <img
-                    src="/proyectos/Imagym/recursos/like-estrategia.svg"
-                    loading="lazy"
-                    alt=""
-                    class="img-encabezado-resultados-1"
-                  />
-                  <h3 class="encabezado">Lo que funcionó</h3>
-                </div>
-                <p class="parrafo">
-                  Estéticamente ha gustado mucho, es bastante intuitiva y todas
-                  las herramientas son accesibles desde el inicio.
-                </p>
-              </div>
-              <div class="contenido resultados-1 punto">
-                <div class="encabezado-resultados-1">
-                  <img
-                    src="/proyectos/Imagym/recursos/delike-estrategia.svg"
-                    loading="lazy"
-                    alt=""
-                    class="img-encabezado-resultados-1"
-                  />
-                  <h3 class="encabezado">Lo que no funcionó</h3>
-                </div>
-                <p class="parrafo">
-                  Se echó en falta una confirmación de reserva de case y una
-                  solicitud de cancelación de reserva y su respectiva
-                  confirmación.
-                </p>
-              </div>
-            </div>
-            <h1 class="titulo testeo">Conclusiones</h1>
-            <div class="contenido conclusiones">
-              <div class="contenido resultados-1 punto">
-                <p class="parrafo span-parrafo metas">Conclusión</p>
-                <p class="parrafo metas">
-                  Los usuarios expresaron su satisfacción con el rediseño
-                  propuesto, destacando su aspecto intuitivo y fácil de usar.
-                  Además, los atajos presentados resultaron ser útiles y
-                  prácticos, siendo ampliamente utilizados y reconocidos por los
-                  usuarios. Asimismo, señalaron la importancia de contar con un
-                  diseño más amigable y moderno en la aplicación, en línea con
-                  las tendencias actuales de otras aplicaciones similares, como
-                  el que se propuso en el rediseño.
-                </p>
-              </div>
-              <div class="contenido resultados-1 punto">
-                <p class="parrafo span-parrafo metas">Recomendación</p>
-                <p class="parrafo metas">
-                  La recomendación más relevante de los usuarios fue la de
-                  añadir una confirmación de reserva de case y una solicitud de
-                  cancelación de reserva y su respectiva confirmación.
-                </p>
-              </div>
-              <div class="contenido resultados-1 punto">
-                <p class="parrafo span-parrafo metas">Retrospectiva</p>
-                <p class="parrafo metas">
-                  Incluir un onboarding al inciar la app por primera vez para
-                  que la curva de aprendizaje sea minima.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section id="agradecimientos">
-          <div class="secciones agradecimientos">
-            <h1 class="titulo agradecimientos">GRACIAS <br />POR VER</h1>
-          </div>
-        </section>
+<main>
+  <!-- PORTADA -->
+  <header class="bloque portada">
+    <div>
+      <span class="etiqueta">Estudio de caso UX/UI</span>
+      <h1>Rediseñando la app de <em>Imagym</em></h1>
+      <p class="entradilla">Imagym es una cadena de gimnasios low cost abierta 24 horas. Su app sirve para entrar al gimnasio, reservar clases y pagar, pero sus socios la usaban sobre todo para abrir la puerta. Investigué por qué y la rediseñé con ellos.</p>
+      <dl class="ficha">
+        <div><dt>Mi papel</dt><dd>Investigación, UX y UI</dd></div>
+        <div><dt>Herramientas</dt><dd>Figma, Google Forms, Optimal Workshop</dd></div>
+        <div><dt>Contexto</dt><dd>Coderhouse, 2023</dd></div>
+      </dl>
+      <div class="botones">
+        <a class="boton" href="https://www.figma.com/proto/kfCcmWjMX30PxWBu4zBv9Z/IMAGYM-APP---REDISE%C3%91ADO-POR-RONALD-HERRERA?page-id=114%3A981&amp;node-id=221-5082&amp;viewport=1885%2C299%2C0.34&amp;scaling=scale-down&amp;starting-point-node-id=221%3A5082&amp;mode=design" target="_blank" rel="noopener noreferrer">Probar el prototipo</a>
+        <a class="boton secundario" href="#serie-5">Ver los resultados</a>
       </div>
-    </main>
-
+      <p class="aviso">Proyecto académico: un rediseño propuesto por mí, no encargado por Imagym. Las pruebas se hicieron con socios reales del gimnasio en Santander.</p>
     </div>
-    
-    <script src="/proyectos/Imagym/imagym.js"></script>
+    <div class="comparacion">
+      <figure class="antes">
+        <img src="/proyectos/Imagym/imagenes/mockup-1-arquitecttura.webp" alt="Inicio de la app original de Imagym: una cuadrícula de iconos sobre una foto oscura" class="media-content">
+        <figcaption>Antes</figcaption>
+      </figure>
+      <span class="flecha" aria-hidden="true">›</span>
+      <figure class="despues">
+        <div class="movil rosa"><img src="/proyectos/Imagym/imagenes/inicio-final.webp" alt="Inicio rediseñado: noticias en tarjetas y un botón central para entrar con QR" class="media-content"></div>
+        <figcaption>Después</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <section class="bloque" aria-label="Resultados del test con usuarios">
+    <div class="marcador">
+      <div><b>100 %</b><span>de los participantes completó las dos tareas del test</span></div>
+      <div><b>22,6 s</b><span>de media para entrar al gimnasio con el QR</span></div>
+      <div><b>36,6 s</b><span>de media para reservar una clase colectiva</span></div>
+      <div><b>2 pasos</b><span>para abrir la puerta desde que se entra en la app</span></div>
+    </div>
+  </section>
+
+  <!-- SERIE 1 -->
+  <section class="bloque serie" id="serie-1" data-serie="Calentamiento" data-nombre="El punto de partida">
+    <div class="serie-cabecera">
+      <span class="serie-numero" aria-hidden="true">01</span>
+      <div><span class="etiqueta">Calentamiento</span><h2>El punto de partida</h2></div>
+    </div>
+    <div class="rejilla">
+      <div class="texto">
+        <p>La app de Imagym hace bastantes cosas: <strong>abre la puerta del gimnasio con un código QR</strong>, guarda el historial de accesos, permite reservar o anular plaza en clases colectivas y pistas, y gestiona los datos personales y los pagos.</p>
+        <p>Al revisarla vi que apenas cumplía su función. La idea era buena, pero no se aprovechaba lo que tenía que ofrecer: las partes más flojas eran <strong>Sports OnDemand</strong>, la sección de vídeos de entrenamiento, y las <strong>noticias</strong>, que casi nadie veía. Necesitaba mucho trabajo en lo visual y en la usabilidad.</p>
+      </div>
+      <figure class="lamina">
+        <img src="/proyectos/Imagym/imagenes/Mockup-2-estrategia.webp" alt="Pantallas originales de noticias y Sports OnDemand de la app de Imagym" class="media-content" style="max-height:420px">
+        <figcaption>La app original: noticias y Sports OnDemand, las secciones que menos se usaban.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- SERIE 2 -->
+  <section class="bloque serie" id="serie-2" data-serie="Valoración" data-nombre="Investigación">
+    <div class="serie-cabecera">
+      <span class="serie-numero" aria-hidden="true">02</span>
+      <div><span class="etiqueta">Valoración</span><h2>Qué dicen los socios</h2></div>
+    </div>
+    <p class="texto">Antes de dibujar nada, pregunté. Hice <strong>entrevistas cualitativas online semiestructuradas</strong> con Google Forms a socios de Imagym en Santander.</p>
+    <div class="datos">
+      <div class="dato"><b>8</b><span>socios encuestados: 3 hombres y 5 mujeres</span></div>
+      <div class="dato"><b>21–43</b><span>años</span></div>
+      <div class="dato"><b>60 %</b><span>usaba la app; el 40 %, no</span></div>
+      <div class="dato"><b>100 %</b><span>de Santander</span></div>
+    </div>
+
+    <h3><small>Lo que dijeron</small>El QR convence; el resto, no tanto</h3>
+    <div class="rejilla">
+      <div class="tarjeta bien"><h4>Motivaciones</h4><p>Es una app sencilla. Entrar al gimnasio con el QR les resulta cómodo, y desde ahí reservan clases y gestionan la suscripción.</p></div>
+      <div class="tarjeta mal"><h4>Desmotivaciones</h4><p>La videoatención al socio es poco práctica: prefieren un chat de incidencias o un bot. Visualmente no atrae y la disposición de los elementos es muy mejorable.</p></div>
+      <div class="tarjeta"><h4>Lo que más se usa</h4><p>Entrar al gimnasio, reservar plaza en clases colectivas y controlar los pagos mensuales.</p></div>
+      <div class="tarjeta"><h4>Lo que menos se usa</h4><p>Las noticias no se ven y pocos se interesan por ellas. La sección de documentos no se usa y el control de accesos aporta poca información útil.</p></div>
+    </div>
+
+    <h3><small>Una pregunta clave</small>¿Es fácil recordar dónde está cada cosa?</h3>
+    <p class="texto">La mitad de las respuestas cae entre «difícil» y «normal»: una app de uso diario debería recordarse sin pensar.</p>
+    <div class="barras" role="img" aria-label="Difícil 20 por ciento, normal 30, fácil 10, muy fácil 40">
+      <div class="barra"><span>Difícil</span><i style="--v:20%"></i><b>20 %</b></div>
+      <div class="barra"><span>Normal</span><i style="--v:30%"></i><b>30 %</b></div>
+      <div class="barra"><span>Fácil</span><i style="--v:10%"></i><b>10 %</b></div>
+      <div class="barra"><span>Muy fácil</span><i style="--v:40%"></i><b>40 %</b></div>
+    </div>
+
+    <h3><small>Lean UX Canvas</small>Del problema a las hipótesis</h3>
+    <div class="lienzo">
+      <div class="tarjeta"><h4>Problemas</h4><ul><li>No tiene un diseño armónico.</li><li>La videoatención no funciona ni es útil.</li><li>«Mi cuenta» es confusa.</li><li>Falta información en el listado de clases.</li><li>Las noticias pasan desapercibidas.</li></ul></div>
+      <div class="tarjeta"><h4>Tipos de socio</h4><ul><li>Quien entrena por libre.</li><li>Quien necesita orientación profesional.</li><li>Quien va a clases colectivas.</li></ul></div>
+      <div class="tarjeta"><h4>Hipótesis</h4><ul><li>Con las noticias en el inicio, estarán más informados.</li><li>Más control sobre su perfil mejora la experiencia.</li><li>Sports OnDemand se usará más si se presenta de otra manera.</li></ul></div>
+      <div class="tarjeta ancha"><h4>Soluciones</h4><ul><li>Facilitar el acceso al gimnasio.</li><li>Cambiar la videoatención por un chat de atención al socio.</li><li>Más información en las clases colectivas.</li><li>Noticias en el inicio y una interfaz rediseñada.</li></ul></div>
+      <div class="tarjeta"><h4>Cómo medirlo</h4><ul><li>Más socios usando la app.</li><li>Más reservas desde la app.</li><li>Más visualizaciones de Sports OnDemand.</li></ul></div>
+    </div>
+    <p class="texto" style="margin-top:12px;font-size:0.9rem"><a href="/proyectos/Imagym/recursos/lean-ux-canvas.svg" target="_blank" rel="noopener">Ver el lienzo original completo</a></p>
+
+    <h3><small>Mapa de trayectoria</small>Marta quiere probar una clase nueva</h3>
+    <p class="texto">Recorrí paso a paso cómo reservaría por primera vez una clase colectiva una socia de 30 años: no se podían aplicar filtros, no había información de la clase (tipo de ejercicio, intensidad…), ni recordatorio previo, ni encuesta de satisfacción al terminar.</p>
+    <figure class="lamina">
+      <img src="/proyectos/Imagym/recursos/mapa-trayectoria.svg" alt="Mapa de trayectoria de Marta reservando una clase colectiva, con sus puntos de dolor" class="media-content">
+      <figcaption>Pulsa para ampliar.</figcaption>
+    </figure>
+  </section>
+
+  <!-- SERIE 3 -->
+  <section class="bloque serie" id="serie-3" data-serie="Técnica" data-nombre="Arquitectura">
+    <div class="serie-cabecera">
+      <span class="serie-numero" aria-hidden="true">03</span>
+      <div><span class="etiqueta">Técnica</span><h2>Ordenar la app</h2></div>
+    </div>
+    <div class="rejilla">
+      <div class="texto">
+        <p>Para saber si el problema era la estructura, hice un <strong>tree testing</strong> con Optimal Workshop: los participantes recorrían el árbol de contenido de la app, sin diseño, y tenían que encontrar dónde hacer dos tareas.</p>
+        <div class="tarjeta" style="margin:18px 0 12px"><h4>Tarea 1</h4><p>«Estás en la puerta del gimnasio y ves un cartel que dice que accedas a la app para escanear el código QR.»</p></div>
+        <div class="tarjeta"><h4>Tarea 2</h4><p>«Quieres empezar algún tipo de actividad para ponerte en forma y conocer gente.»</p></div>
+      </div>
+      <figure class="lamina">
+        <img src="/proyectos/Imagym/recursos/grafico-1-arquitectura.svg" alt="Árbol de contenido de la app original" class="media-content">
+        <figcaption>La arquitectura original.</figcaption>
+      </figure>
+    </div>
+    <div class="rejilla tres" style="margin-top:18px">
+      <figure class="lamina"><img src="/proyectos/Imagym/recursos/grafico-2-arquitectura.svg" alt="Caminos seguidos en la tarea de entrar con QR" class="media-content"><figcaption>Tarea 1: caminos hasta el QR.</figcaption></figure>
+      <figure class="lamina"><img src="/proyectos/Imagym/recursos/grafico-4-arquitectura.svg" alt="Caminos seguidos en la tarea de reservar una clase" class="media-content"><figcaption>Tarea 2: caminos hasta reservar.</figcaption></figure>
+      <figure class="lamina"><img src="/proyectos/Imagym/recursos/grafico-5-arquitectura.svg" alt="Gráfico radial con las funciones más buscadas" class="media-content"><figcaption>Qué funciones pesan más.</figcaption></figure>
+    </div>
+
+    <h3><small>Propuesta</small>Una arquitectura nueva</h3>
+    <p class="texto">Con los resultados reorganicé la app alrededor de lo que de verdad se usa: <strong>las noticias pasan al inicio</strong>, entrar al gimnasio tiene su propio acceso directo, el entrenamiento personal reúne citas, rutinas y Sports OnDemand, y las clases colectivas pasan a «Actividades», con filtros e información de cada clase.</p>
+    <figure class="lamina">
+      <img src="/proyectos/Imagym/recursos/grafico-6-arquitectura.svg" alt="Nueva arquitectura de la app con Inicio, Mi cuenta, Entrar al gym, Personal training y Actividades" class="media-content">
+      <figcaption>La nueva arquitectura.</figcaption>
+    </figure>
+
+    <h3><small>Prioridades</small>Qué hacer primero</h3>
+    <p class="texto">Una matriz de valor para el socio frente a facilidad de implementación ayudó a decidir el orden. Lo más valioso y a la vez más fácil de hacer quedó arriba a la derecha: el <strong>chat de soporte</strong> y un <strong>onboarding</strong> al entrar por primera vez; justo detrás, dar más información de las clases colectivas.</p>
+    <figure class="lamina">
+      <img src="/proyectos/Imagym/recursos/grafico-7-arquitectura.svg" alt="Matriz de viabilidad, factibilidad y deseabilidad con las mejoras priorizadas" class="media-content">
+    </figure>
+
+    <h3><small>Flujos y wireframes</small>Las dos tareas, dibujadas</h3>
+    <div class="rejilla">
+      <figure>
+        <div class="lamina"><img src="/proyectos/Imagym/recursos/grafico-8-arquitectura.svg" alt="Flujo para entrar al gimnasio: iniciar sesión, tocar el QR y obtenerlo" class="media-content"></div>
+        <div class="lamina clara"><img src="/proyectos/Imagym/imagenes/wireframe-acceso.webp" alt="Wireframes del acceso al gimnasio" class="media-content"></div>
+        <figcaption class="pie">Entrar al gimnasio: iniciar sesión, tocar el QR y pasar.</figcaption>
+      </figure>
+      <figure>
+        <div class="lamina"><img src="/proyectos/Imagym/recursos/grafico-9-arquitectura.svg" alt="Flujo para reservar una clase: ver actividades, seleccionar, reservar y confirmar" class="media-content"></div>
+        <div class="lamina clara"><img src="/proyectos/Imagym/imagenes/wireframe-reserva.webp" alt="Wireframes de la reserva de una clase colectiva" class="media-content"></div>
+        <figcaption class="pie">Reservar una clase: ver actividades, elegir, reservar y confirmar.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- SERIE 4 -->
+  <section class="bloque serie" id="serie-4" data-serie="Equipación" data-nombre="Diseño de interfaz">
+    <div class="serie-cabecera">
+      <span class="serie-numero" aria-hidden="true">04</span>
+      <div><span class="etiqueta">Equipación</span><h2>Una app con la que apetece entrenar</h2></div>
+    </div>
+    <p class="texto">El objetivo era que la app fuera <strong>más amigable y cercana</strong>, y que esa sensación se trasladara a las instalaciones. Empecé por cómo habla.</p>
+
+    <h3><small>UX writing</small>La voz de Imagym</h3>
+    <div class="voz">
+      <div class="tarjeta"><b>Amigable</b><p>Mensajes dinámicos y alegres, con frases amistosas.</p></div>
+      <div class="tarjeta"><b>Claro</b><p>Mensajes directos, palabras sencillas y nada de confusión.</p></div>
+      <div class="tarjeta"><b>Cercano</b><p>De tú a tú, con palabras familiares y actitud confiada.</p></div>
+    </div>
+    <p class="texto" style="margin-top:18px">El tono cambia según el momento: inspirador y amistoso en el inicio y en las reservas; serio y profesional en la cuenta y el inicio de sesión.</p>
+    <div class="estilo" aria-label="Guía de estilo con ejemplos">
+      <div class="estilo-fila estilo-cabecera"><span></span><span>Así sí</span><span>Así no</span></div>
+      <div class="estilo-fila"><span>Éxito</span><div class="burbuja si">¡HECHO! ¡Ya tienes tu plaza para la clase de spinning!</div><div class="burbuja no">Reserva realizada con éxito.</div></div>
+      <div class="estilo-fila"><span>Error</span><div class="burbuja si">¡OUCH! Lo siento, no has podido reservar tu plaza. Vuelve a intentarlo más adelante.</div><div class="burbuja no">ERROR.</div></div>
+      <div class="estilo-fila"><span>Botones</span><div class="burbuja si">Apúntame.</div><div class="burbuja no">Apuntarme.</div></div>
+      <div class="estilo-fila"><span>Contenido</span><div class="burbuja si">Estas son las clases colectivas que tenemos para hoy. ¡Apúntate a la que quieras!</div><div class="burbuja no">Clases disponibles.</div></div>
+      <div class="estilo-fila"><span>Fechas</span><div class="burbuja si">Reserva de spinning: el jueves a las 9:00.</div><div class="burbuja no">Reserva de spinning: 16/02/2023 a las nueve de la mañana.</div></div>
+    </div>
+
+    <h3><small>Sistema visual</small>Color, tipografía y rejilla</h3>
+    <div class="rejilla">
+      <div class="tarjeta">
+        <h4>Color</h4>
+        <div class="paleta">
+          <div style="--c:#ba007c"><i></i><span>Rosa<br><small>#BA007C</small></span></div>
+          <div style="--c:#fadaef"><i></i><span>Rosa claro<br><small>#FADAEF</small></span></div>
+          <div style="--c:#ffffff"><i></i><span>Blanco</span></div>
+          <div style="--c:#000000"><i></i><span>Negro</span></div>
+          <div style="--c:#3a3a3c"><i></i><span>Gris oscuro</span></div>
+          <div style="--c:#c7c7cc"><i></i><span>Gris claro</span></div>
+        </div>
+        <p style="margin-top:14px">La paleta parte del rosa de la marca, con el negro de fondo en las pantallas principales.</p>
+      </div>
+      <div class="tarjeta">
+        <h4>SF Pro Display, la tipografía de iOS</h4>
+        <table class="tipos">
+          <thead><tr><th>Estilo</th><th>Peso</th><th>Tamaño / interlineado</th></tr></thead>
+          <tbody>
+            <tr><td style="font-size:1.35rem">Large Title</td><td>Regular</td><td>34 / 41</td></tr>
+            <tr><td style="font-size:1.2rem">Title 1</td><td>Regular</td><td>28 / 34</td></tr>
+            <tr><td style="font-size:1.08rem">Title 2</td><td>Regular</td><td>22 / 28</td></tr>
+            <tr><td style="font-weight:600">Headline</td><td>Semibold</td><td>17 / 22</td></tr>
+            <tr><td>Body</td><td>Regular</td><td>17 / 22</td></tr>
+            <tr><td style="font-size:0.85rem">Footnote</td><td>Regular</td><td>13 / 18</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:14px">Rejilla de 5 columnas de 47 px, medianil automático y márgenes de 20 px.</p>
+      </div>
+    </div>
+
+    <h3><small>Componentes</small>Piezas que resuelven problemas concretos</h3>
+    <div class="rejilla">
+      <figure class="lamina">
+        <img src="/proyectos/Imagym/recursos/componente-chat.svg" alt="Chat con Gymi, el asistente virtual" class="media-content" style="max-height:260px">
+        <figcaption><strong style="color:var(--texto)">Gymi, el asistente virtual</strong>: sustituye a la videoatención, que los socios no usaban.</figcaption>
+      </figure>
+      <figure class="lamina">
+        <img src="/proyectos/Imagym/recursos/qr-wireframe.svg" alt="Pantalla del QR de acceso con el mensaje «¡Qué alegría verte!»" class="media-content" style="max-height:260px">
+        <figcaption><strong style="color:var(--texto)">El QR de entrada</strong>, con un saludo: «¡Qué alegría verte!».</figcaption>
+      </figure>
+      <figure class="lamina">
+        <img src="/proyectos/Imagym/recursos/componentes.svg" alt="Tarjetas de noticias y de clases colectivas con plazas y monitora" class="media-content" style="max-height:300px">
+        <figcaption><strong style="color:var(--texto)">Tarjetas de clase</strong> con monitora, hora y plazas libres, la información que faltaba.</figcaption>
+      </figure>
+      <figure class="lamina">
+        <img src="/proyectos/Imagym/recursos/nav-bar-superficie.svg" alt="Barra de navegación con el botón de QR destacado en el centro" class="media-content" style="max-height:300px">
+        <figcaption><strong style="color:var(--texto)">Navegación</strong> con el acceso al gimnasio en el centro, a un toque.</figcaption>
+      </figure>
+    </div>
+
+    <h3><small>Movimiento</small>Cuatro animaciones con motivo</h3>
+    <div class="rejilla">
+      <div class="tarjeta"><h4>Apertura</h4><p>Recuerda al abrir la app que Imagym abre 24 horas: refuerza la identidad de la marca.</p></div>
+      <div class="tarjeta"><h4>Transiciones</h4><p>Cambian de pantalla sin transformar los elementos: el escenario cambia y el socio no se pierde.</p></div>
+      <div class="tarjeta"><h4>Swipe</h4><p>Deslizar para cambiar de día hace más fácil y dinámico elegir cuándo entrenar.</p></div>
+      <div class="tarjeta"><h4>Cambio de estado</h4><p>El botón se transforma al apuntarse o borrarse de una clase colectiva, para confirmar la acción.</p></div>
+    </div>
+
+    <h3><small>Prototipo de alta fidelidad</small>Las pantallas finales</h3>
+    <figure class="lamina">
+      <img src="/proyectos/Imagym/recursos/wireframes-finales.svg" alt="Pantallas finales del prototipo: inicio de sesión, inicio con noticias, QR, actividades y reserva" class="media-content">
+      <figcaption><a href="https://www.figma.com/proto/kfCcmWjMX30PxWBu4zBv9Z/IMAGYM-APP---REDISE%C3%91ADO-POR-RONALD-HERRERA?page-id=114%3A981&amp;node-id=221-5082&amp;viewport=1885%2C299%2C0.34&amp;scaling=scale-down&amp;starting-point-node-id=221%3A5082&amp;mode=design" target="_blank" rel="noopener noreferrer">Abrir el prototipo en Figma</a></figcaption>
+    </figure>
+  </section>
+
+  <!-- SERIE 5 -->
+  <section class="bloque serie" id="serie-5" data-serie="Prueba de esfuerzo" data-nombre="Test con usuarios">
+    <div class="serie-cabecera">
+      <span class="serie-numero" aria-hidden="true">05</span>
+      <div><span class="etiqueta">Prueba de esfuerzo</span><h2>Con socios de verdad</h2></div>
+    </div>
+    <div class="rejilla">
+      <div class="texto">
+        <p>Con el prototipo en Figma, hice <strong>pruebas presenciales con tres socios</strong> de Imagym en Santander, elegidos entre los encuestados y contactados por WhatsApp. Las sesiones se hicieron en su móvil y se grabaron; yo las moderé y después las analicé viendo las grabaciones.</p>
+        <p>Quería saber tres cosas: si reconocían y usaban los <strong>atajos del inicio</strong> o seguían con sus costumbres, dónde se atascaban (los puntos de dolor) y cómo se sentían con los cambios.</p>
+      </div>
+      <div class="rejilla" style="grid-template-columns:1fr;gap:12px">
+        <div class="tarjeta"><h4>Tarea 1 · Entrar al gimnasio</h4><p>«Estás en la puerta y un cartel te pide pasar por el escáner el código QR de la app de Imagym.»</p></div>
+        <div class="tarjeta"><h4>Tarea 2 · Reservar una clase</h4><p>«Te gusta montar en bici, pero lleva unos días haciendo muy malo y decides apuntarte a spinning.»</p></div>
+      </div>
+    </div>
+
+    <h3><small>Resultados</small>Todos completaron las dos tareas</h3>
+    <div style="overflow-x:auto">
+      <table class="tabla">
+        <thead><tr><th>Tarea</th><th>U1</th><th>U2</th><th>U3</th><th>Media</th></tr></thead>
+        <tbody>
+          <tr><td>Entrar al gimnasio · tiempo</td><td>20 s</td><td>26 s</td><td>22 s</td><td class="total">22,6 s</td></tr>
+          <tr><td>Entrar al gimnasio · pasos</td><td>2</td><td>2</td><td>2</td><td class="total">2</td></tr>
+          <tr><td>Reservar una clase · tiempo</td><td>35 s</td><td>45 s</td><td>30 s</td><td class="total">36,6 s</td></tr>
+          <tr><td>Reservar una clase · pasos</td><td>4</td><td>3</td><td>3</td><td class="total">3,3</td></tr>
+          <tr><td>Tarea completada</td><td>Sí</td><td>Sí</td><td>Sí</td><td class="total">100 %</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="texto" style="margin-top:22px">Lo que observé en cada sesión, resumido:</p>
+    <div class="participantes">
+      <div class="tarjeta"><b>U1</b><p>Experiencia muy positiva: el diseño le resultó atractivo y fácil de usar, con botones en la pantalla principal para llegar rápido a lo importante.</p></div>
+      <div class="tarjeta"><b>U2</b><p>La app le resultó fácil e intuitiva, aunque tuvo algo de dificultad para reservar la clase: fue la que más tardó.</p></div>
+      <div class="tarjeta"><b>U3</b><p>Destacó tener todas las herramientas esenciales desde la pantalla principal y una interfaz limpia, sin información innecesaria.</p></div>
+    </div>
+    <div class="rejilla" style="margin-top:18px">
+      <div class="tarjeta bien"><h4>Lo que funcionó</h4><p>Gustó mucho estéticamente, resultó intuitiva y todas las herramientas son accesibles desde el inicio. Los atajos se reconocieron y se usaron.</p></div>
+      <div class="tarjeta mal"><h4>Lo que no funcionó</h4><p>Se echó en falta una confirmación al reservar la clase, y poder pedir la cancelación de la reserva con su propia confirmación.</p></div>
+    </div>
+    <details>
+      <summary>Ver el guion de las sesiones</summary>
+      <div class="guion">
+        <ol>
+          <li><strong>Introducción:</strong> presentarme, explicar que es mi proyecto final del curso de UX/UI y agradecer su ayuda.</li>
+          <li><strong>El prototipo:</strong> aclarar que es un prototipo y que algunas funciones pueden no estar disponibles.</li>
+          <li><strong>Su papel:</strong> usar la app con naturalidad y decir lo que piensa; se evalúa el producto, no a la persona.</li>
+          <li><strong>La sesión:</strong> cada tarea a su ritmo; no hay respuestas correctas ni incorrectas.</li>
+          <li><strong>Grabación:</strong> pedir permiso para grabar y poder revisarla después.</li>
+          <li><strong>Tareas</strong> y <strong>cierre</strong>, con espacio para preguntas y comentarios.</li>
+        </ol>
+      </div>
+    </details>
+  </section>
+
+  <!-- SERIE 6 -->
+  <section class="bloque serie" id="serie-6" data-serie="Estiramientos" data-nombre="Conclusiones">
+    <div class="serie-cabecera">
+      <span class="serie-numero" aria-hidden="true">06</span>
+      <div><span class="etiqueta">Estiramientos</span><h2>Lo que me llevo</h2></div>
+    </div>
+    <div class="rejilla tres">
+      <div class="tarjeta"><h4>Conclusión</h4><p>Los socios valoraron el rediseño por intuitivo y fácil de usar. Los atajos del inicio fueron útiles y se reconocieron enseguida, y destacaron la importancia de un diseño más amigable y moderno, en línea con otras apps que ya usan.</p></div>
+      <div class="tarjeta"><h4>Siguiente paso</h4><p>Lo más pedido: confirmar la reserva de una clase y poder cancelarla, también con confirmación.</p></div>
+      <div class="tarjeta"><h4>Retrospectiva</h4><p>Añadiría un onboarding la primera vez que se abre la app, para que la curva de aprendizaje sea mínima.</p></div>
+    </div>
+  </section>
+
+  <section class="bloque final">
+    <span class="etiqueta">Fin de la sesión</span>
+    <h2>Pruébalo tú</h2>
+    <p class="texto">El prototipo de alta fidelidad está en Figma: entra al gimnasio con el QR o apúntate a una clase.</p>
+    <div class="botones">
+      <a class="boton" href="https://www.figma.com/proto/kfCcmWjMX30PxWBu4zBv9Z/IMAGYM-APP---REDISE%C3%91ADO-POR-RONALD-HERRERA?page-id=114%3A981&amp;node-id=221-5082&amp;viewport=1885%2C299%2C0.34&amp;scaling=scale-down&amp;starting-point-node-id=221%3A5082&amp;mode=design" target="_blank" rel="noopener noreferrer">Abrir el prototipo</a>
+      <a class="boton secundario" href="/lab">Volver al Lab</a>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Índice como tabla de la sesión: cada serie es un ejercicio con su anillo de progreso,
+  // que se llena según se lee y se pone en verde al terminarla.
+  const series = [...document.querySelectorAll('[data-serie]')];
+  const lista = document.getElementById('lista-series');
+  const CIRC = 88;
+  const enlaces = series.map((s, i) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<a href="#${s.id}"><svg class="anillo" viewBox="0 0 34 34" aria-hidden="true"><circle class="fondo" cx="17" cy="17" r="14"/><circle class="lleno" cx="17" cy="17" r="14"/></svg><div><span>${s.dataset.serie}</span><small>${String(i + 1).padStart(2, '0')} · ${s.dataset.nombre}</small></div></a>`;
+    lista.appendChild(li);
+    return li.querySelector('a');
+  });
+  const anilloMovil = document.getElementById('anillo-movil');
+  const textoSerie = document.getElementById('serie-actual');
+  const textoMovil = document.getElementById('serie-movil');
+
+  const actualizar = () => {
+    const vista = window.innerHeight * 0.4;
+    let actual = 0;
+    series.forEach((s, i) => {
+      const r = s.getBoundingClientRect();
+      const progreso = Math.max(0, Math.min(1, (vista - r.top) / r.height));
+      const lleno = enlaces[i].querySelector('.lleno');
+      lleno.style.strokeDashoffset = CIRC * (1 - progreso);
+      lleno.classList.toggle('hecho', progreso >= 0.98);
+      if (r.top <= vista) actual = i;
+      if (i === actual) anilloMovil.style.strokeDashoffset = CIRC * (1 - progreso);
+    });
+    enlaces.forEach((a, i) => a.classList.toggle('actual', i === actual));
+    const etiqueta = `Serie ${actual + 1} / ${series.length}`;
+    textoSerie.textContent = etiqueta;
+    textoMovil.textContent = `${etiqueta} · ${series[actual].dataset.serie}`;
+  };
+  let pendiente = false;
+  window.addEventListener('scroll', () => {
+    if (pendiente) return;
+    pendiente = true;
+    requestAnimationFrame(() => { actualizar(); pendiente = false; });
+  }, { passive: true });
+  window.addEventListener('resize', actualizar);
+  actualizar();
+
+  // En el móvil, el índice se abre como hoja inferior
+  const sesion = document.getElementById('sesion');
+  const boton = document.getElementById('abrir-sesion');
+  const velo = document.getElementById('velo');
+  const abrir = (si) => {
+    sesion.classList.toggle('abierta', si);
+    velo.classList.toggle('abierto', si);
+    boton.setAttribute('aria-expanded', String(si));
+  };
+  boton.addEventListener('click', () => abrir(!sesion.classList.contains('abierta')));
+  velo.addEventListener('click', () => abrir(false));
+  lista.addEventListener('click', (e) => { if (e.target.closest('a')) abrir(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') abrir(false); });
+
+  // Volver: dentro del Lab (iframe) avisa al padre; fuera, vuelve atrás
+  window.handleBack = () => {
+    if (window.parent !== window) window.parent.postMessage({ type: 'CLOSE_PROJECT' }, '*');
+    else if (history.length > 1) history.back();
+    else location.href = '/lab';
+  };
+</script>
 </body>
 </html>

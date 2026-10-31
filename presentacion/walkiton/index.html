@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto - Walkiton</title>
+    <meta name="description" content="Walkiton: kiosco con pantalla táctil y lector NFC que registra quién coge y devuelve cada walkie en una tienda Obramat. ESP32-S3, LVGL e informes sin internet. Diseño, hardware y firmware de Ronald Herrera.">
+    <link rel="stylesheet" href="../0.plantilla/base-presentacion.css">
+    <link rel="stylesheet" href="../0.plantilla/tecnica.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+    <script src="../0.plantilla/back-button.js"></script>
+    <script src="../0.plantilla/lightbox.js"></script>
+    <script src="../0.plantilla/indice-producto.js"></script>
+    <style>
+        /* Paleta de Walkiton: el azul noche de su pantalla y el naranja de la tienda */
+        :root {
+            --bg: #0a0b2e;
+            --accent: #ff6a2b;
+            --accent-rgb: 255, 106, 43;
+            --accent-alt: #e64a10;
+            --border: rgba(170, 175, 255, 0.16);
+            --muted: rgba(236, 238, 255, 0.5);
+            --text: #eceeff;
+        }
+
+        body {
+            overflow-y: auto;
+            background:
+                radial-gradient(1100px 700px at 85% -10%, rgba(255, 106, 43, 0.13), transparent 70%),
+                radial-gradient(900px 600px at 0% 40%, rgba(60, 64, 170, 0.25), transparent 70%),
+                var(--bg);
+        }
+
+        /* Cabecera: la pantalla del kiosco en reposo */
+        .project-header {
+            background:
+                radial-gradient(520px 260px at 50% 112%, rgba(255, 106, 43, 0.45), rgba(255, 106, 43, 0.1) 50%, transparent 75%),
+                linear-gradient(180deg, #12133f 0%, #0d0e36 70%, #0a0b2e 100%);
+            border: 1px solid rgba(170, 175, 255, 0.2);
+            border-radius: 20px;
+            padding: 7rem 3rem 5rem;
+            min-height: 420px;
+            margin-bottom: 3rem;
+        }
+
+        .video-principal { margin: 0 0 1rem; }
+        .video-principal video { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 16px; background: #000; border: 1px solid var(--border); box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55); }
+        .video-principal figcaption { margin-top: 0.8rem; font-size: 0.85rem; color: var(--muted); }
+        .rejilla-fotos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+        .rejilla-pantallas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+        .rejilla-pantallas .media-content { aspect-ratio: 800 / 477; }
+        @media (max-width: 768px) {
+            .rejilla-fotos, .rejilla-pantallas { grid-template-columns: 1fr; }
+        }
+
+
+
+
+        .tag { color: var(--accent); }
+
+
+
+        .lead {
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+            max-width: 640px;
+            font-weight: 500;
+        }
+
+        .header-actions { flex-wrap: wrap; }
+
+        .btn-action {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+            color: #ffffff !important;
+            font-weight: 700;
+            padding: 0.8rem 1.6rem;
+            border-radius: 999px;
+            box-shadow: 0 4px 20px rgba(230, 74, 16, 0.35);
+            font-size: 0.85rem;
+        }
+
+        .btn-action:hover {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+            box-shadow: 0 6px 26px rgba(230, 74, 16, 0.55);
+            filter: brightness(1.08);
+        }
+
+        .hero-shot { margin-bottom: 4rem; }
+
+        .hero-shot img {
+            width: 100%;
+            display: block;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Cifras */
+        .cifras {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 5rem;
+        }
+
+        .cifra {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.4rem 1.2rem;
+            background: rgba(18, 19, 63, 0.55);
+        }
+
+        .cifra b {
+            display: block;
+            font-family: 'Montserrat', var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            background: linear-gradient(90deg, var(--accent), var(--accent-alt));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .cifra span {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* Secciones del producto (mismo patrón que Tankily y Fycheo) */
+        .ecosystem-section {
+            grid-column: 1 / -1;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            padding-top: 4rem;
+        }
+
+        .ecosystem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .ecosystem-grid.reversed { direction: rtl; }
+        .ecosystem-grid.reversed > * { direction: ltr; }
+
+        .ecosystem-content h3 {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .ecosystem-content h4 {
+            font-family: 'Montserrat', var(--font-heading);
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .ecosystem-content p {
+            font-size: 1rem;
+            line-height: 1.8;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .ecosystem-specs {
+            list-style: none;
+            margin-top: 1.5rem;
+            padding-left: 0;
+        }
+
+        .ecosystem-specs li {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.9rem;
+            display: block;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .ecosystem-specs li::before {
+            content: "→";
+            color: var(--accent-alt);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .ecosystem-specs li span {
+            font-family: var(--font-mono);
+            color: var(--accent);
+            font-weight: 700;
+            min-width: 0;
+        }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            color: var(--accent);
+            background: rgba(255, 106, 43, 0.1);
+            padding: 0.1em 0.35em;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 900px) {
+            .ecosystem-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .ecosystem-grid.reversed { direction: ltr; }
+            .project-header { padding: 6rem 1.5rem 4rem; }
+            .project-container { padding: 3rem 1rem; }
+        }
+
+        /* Mockups */
+        .mockup-browser {
+            background: #12133f;
+            border: 1px solid rgba(255, 106, 43, 0.14);
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.65);
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .mockup-browser-header {
+            background: #17194d;
+            padding: 0.4rem 0.6rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 106, 43, 0.08);
+            height: 24px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .mockup-browser-dots { display: flex; gap: 4px; position: absolute; left: 10px; }
+        .mockup-browser-dot { width: 6px; height: 6px; border-radius: 50%; background: #2c2f75; }
+
+        .mockup-browser-address {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            color: rgba(251, 250, 248, 0.32);
+            margin: 0 auto;
+            letter-spacing: 0.05em;
+            user-select: none;
+        }
+
+        .mockup-phone {
+            background: #0a0b2e;
+            border: 9px solid #1a1c55;
+            border-radius: 36px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 106, 43, 0.14);
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 9 / 19.5;
+            width: 250px;
+            margin: 0 auto;
+        }
+
+        .mockup-phone::before {
+            content: '';
+            position: absolute;
+            top: 9px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 74px;
+            height: 20px;
+            border-radius: 20px;
+            background: #000;
+            z-index: 10;
+        }
+
+        .phones-row {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .phones-row .media-item:nth-child(2) { transform: translateY(-2rem); }
+        .phones-row .media-item:nth-child(2):hover { transform: translateY(-2rem) scale(1.02); }
+
+        @media (max-width: 900px) {
+            .phones-row { flex-direction: column; align-items: center; }
+            .phones-row .media-item:nth-child(2) { transform: none; }
+        }
+
+        .media-item {
+            padding: 0 !important;
+            background: transparent !important;
+            border: none !important;
+            gap: 0.5rem !important;
+            cursor: zoom-in;
+            overflow: visible !important;
+            box-shadow: none !important;
+        }
+
+        .media-item:hover { transform: scale(1.02); }
+
+        .media-caption {
+            padding: 0 0.5rem;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .mockup-browser img.media-content {
+            width: 100% !important;
+            height: auto !important;
+            aspect-ratio: auto !important;
+            object-fit: contain !important;
+            display: block !important;
+            border-radius: 0;
+        }
+
+        .mockup-phone img.media-content {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 0;
+            aspect-ratio: auto;
+        }
+
+        .media-item:hover .media-content { transform: scale(1.02); }
+        .hero-shot.media-item:hover,
+        .hero-shot.media-item:hover .media-content { transform: none; }
+
+        /* Pipeline de despliegue */
+        .pipeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.8rem;
+            margin-top: 2rem;
+        }
+
+        .paso {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            background: rgba(18, 19, 63, 0.55);
+            position: relative;
+        }
+
+        .paso small { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.12em; color: var(--accent-alt); }
+        .paso b { display: block; margin: 0.3rem 0; font-size: 0.95rem; }
+        .paso p { font-size: 0.8rem; opacity: 0.6; line-height: 1.5; }
+
+        @media (max-width: 900px) {
+            .pipeline { grid-template-columns: 1fr 1fr; }
+        }
+        </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XQ78P8968"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-2XQ78P8968');
+    </script>
+</head>
+<body>
+    <div class="project-container">
+        <header class="project-header">
+            <div class="header-content">
+                <span class="tag">// HARDWARE · KIOSCO NFC · HECHO PARA OBRAMAT</span>
+                <h1>Walkiton</h1>
+                <p class="lead">En mi tienda, los walkies se prestaban apuntando a mano en una hoja de papel. Walkiton lo convierte en un gesto: dejas el walkie en la plataforma, tecleas tu número de empleado y queda registrado quién lo tiene y desde cuándo.</p>
+                <div class="header-actions">
+                    <a href="#video" class="btn-action">
+                        <span>▶</span> VER EL VÍDEO
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <figure class="video-principal" id="video">
+            <video controls playsinline preload="metadata" poster="assets/portada.webp">
+                <source src="assets/walkiton.mp4" type="video/mp4">
+            </video>
+            <figcaption>De la hoja de papel al kiosco: montaje, etiquetas NFC, alta de un empleado, préstamo, devolución y seguimiento. La hoja del principio va difuminada porque lleva datos de compañeros.</figcaption>
+        </figure>
+
+        <div class="cifras">
+            <div class="cifra"><b>7"</b><span>Pantalla táctil</span></div>
+            <div class="cifra"><b>1</b><span>Gesto para devolver</span></div>
+            <div class="cifra"><b>19</b><span>Rutas del panel web</span></div>
+            <div class="cifra"><b>6</b><span>Piezas impresas en 3D</span></div>
+            <div class="cifra"><b>0</b><span>Internet necesario</span></div>
+            <div class="cifra"><b>1</b><span>Persona detrás</span></div>
+        </div>
+
+        <main class="project-grid">
+            <section class="info-block">
+                <h2>EL PRODUCTO</h2>
+                <p>Los walkies de la tienda se cargan en una estantería y cada uno se lo lleva quien lo necesita. Con la hoja de papel nadie sabía con certeza quién tenía cada uno, y los que no volvían se descubrían tarde. Walkiton es un kiosco que se coloca junto a los cargadores: cada walkie lleva una etiqueta NFC, el lector la reconoce al dejarlo en la plataforma y la pantalla pide el número de empleado. Lo he diseñado, montado y programado yo, desde la carcasa impresa en 3D hasta el firmware.</p>
+            </section>
+
+            <section class="info-block specs">
+                <h2>INFRAESTRUCTURA TÉCNICA</h2>
+                <ul>
+                    <li><span>PLACA:</span> Waveshare ESP32-S3 con pantalla táctil de 7" (800 × 480).</li>
+                    <li><span>INTERFAZ:</span> LVGL 8, con teclado propio, avisos y cabecera fija.</li>
+                    <li><span>LECTURA:</span> lector NFC PN532 por UART y una etiqueta NFC dentro de cada walkie.</li>
+                    <li><span>DATOS:</span> tarjeta SD con CSV de walkies, empleados y movimientos; reloj DS3231 con pila.</li>
+                    <li><span>RED:</span> punto de acceso propio con portal cautivo y panel web servido por el ESP32.</li>
+                </ul>
+            </section>
+
+            <!-- 01 · Flujo -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px;">
+                    <h3>01 / EL FLUJO</h3>
+                    <h4>Coger y devolver, sin pensar</h4>
+                    <p>El kiosco está pensado para usarse con prisa y sin explicaciones. La pantalla en reposo solo dice una cosa: «coloca el walkie en la plataforma». A partir de ahí, cada paso pide lo mínimo y suena un pitido distinto según lo que pase.</p>
+                </div>
+                <div class="pipeline">
+                    <div class="paso"><small>01 · PLATAFORMA</small><b>Lee el walkie</b><p>El lector NFC reconoce la etiqueta y sabe qué walkie es.</p></div>
+                    <div class="paso"><small>02 · NÚMERO</small><b>Quién lo coge</b><p>Teclado numérico grande para el número de empleado.</p></div>
+                    <div class="paso"><small>03 · ALTA</small><b>Si es nuevo</b><p>Nombre y sección en la misma pantalla, sin pasar por nadie.</p></div>
+                    <div class="paso"><small>04 · DEVOLUCIÓN</small><b>Un solo gesto</b><p>Al dejarlo de nuevo en la plataforma, la devolución queda registrada.</p></div>
+                </div>
+                <div class="rejilla-fotos">
+                    <div class="media-item">
+                        <img src="assets/teclado.webp" class="media-content" alt="Pantalla de recogida del walkie 1 con el teclado numérico">
+                        <p class="media-caption">// Recogida: número de empleado.</p>
+                    </div>
+                    <div class="media-item">
+                        <img src="assets/alta-empleado.webp" class="media-content" alt="Alta de un empleado nuevo: nombre y desplegable de secciones">
+                        <p class="media-caption">// Alta: nombre y sección.</p>
+                    </div>
+                    <div class="media-item">
+                        <img src="assets/kiosco.webp" class="media-content" alt="El kiosco colocado junto a la estantería de cargadores">
+                        <p class="media-caption">// El kiosco, junto a los cargadores.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 02 · Hardware -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid">
+                    <div class="ecosystem-content">
+                        <h3>02 / HARDWARE</h3>
+                        <h4>Montado a mano, pieza a pieza</h4>
+                        <p>La bandeja donde se apoya el walkie y el soporte de la pantalla los diseñé e imprimí en 3D (seis piezas). Dentro van el lector NFC, el zumbador y el reloj, cableados a la placa de la pantalla.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Etiqueta NFC en cada walkie:</span> una pegatina dentro de la tapa de la batería, invisible y sin cambiar el walkie.</li>
+                            <li><span>Hora sin internet:</span> un reloj DS3231 con pila mantiene la hora aunque se vaya la luz; comparte el bus I2C de la pantalla táctil.</li>
+                            <li><span>Sonidos por evento:</span> el zumbador tiene 37 tonos y cada evento (lectura, error, préstamo…) puede usar uno distinto.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <img src="assets/montaje.webp" class="media-content" alt="Montaje: soldando el lector NFC y cableando la placa">
+                        <p class="media-caption">// Montaje del lector y el cableado.</p>
+                    </div>
+                </div>
+                <div class="rejilla-fotos">
+                    <div class="media-item">
+                        <img src="assets/bandeja-3d.webp" class="media-content" alt="La bandeja del walkie imprimiéndose en 3D">
+                        <p class="media-caption">// La bandeja, en la impresora 3D.</p>
+                    </div>
+                    <div class="media-item">
+                        <img src="assets/tag-nfc.webp" class="media-content" alt="Etiqueta NFC pegada dentro de la tapa de un walkie">
+                        <p class="media-caption">// La etiqueta NFC, dentro del walkie.</p>
+                    </div>
+                    <div class="media-item">
+                        <img src="assets/cargadores.webp" class="media-content" alt="Estantería con los walkies cargando">
+                        <p class="media-caption">// Donde vive: los cargadores de la tienda.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 03 · Interfaz -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px;">
+                    <h3>03 / LA INTERFAZ</h3>
+                    <h4>Saber en un vistazo quién tiene qué</h4>
+                    <p>Además del préstamo, el kiosco tiene una parte de gestión. «Walkies» muestra el estado de cada uno, «Registros» los últimos movimientos con el tiempo que duró cada préstamo, y «Seguimiento» resume lo que hay que revisar: walkies en uso, los que llevan fuera 12 horas o más y los que nadie usa.</p>
+                </div>
+                <div class="rejilla-pantallas">
+                    <div class="media-item">
+                        <img src="assets/reposo.webp" class="media-content" alt="Pantalla de reposo: coloca el walkie en la plataforma">
+                        <p class="media-caption">// Reposo: la única instrucción.</p>
+                    </div>
+                    <div class="media-item">
+                        <img src="assets/walkies.webp" class="media-content" alt="Lista de walkies con su estado: disponible u ocupado">
+                        <p class="media-caption">// Walkies: disponibles y ocupados.</p>
+                    </div>
+                    <div class="media-item">
+                        <img src="assets/registros.webp" class="media-content" alt="Últimos movimientos: quién cogió y devolvió cada walkie y cuánto lo tuvo">
+                        <p class="media-caption">// Registros (datos de prueba).</p>
+                    </div>
+                    <div class="media-item">
+                        <img src="assets/seguimiento.webp" class="media-content" alt="Seguimiento: total, en uso, disponibles, ocupación larga, sin usar e histórico">
+                        <p class="media-caption">// Seguimiento: lo que hay que revisar.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 04 · Informes -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px;">
+                    <h3>04 / INFORMES SIN INTERNET</h3>
+                    <h4>El móvil se conecta al kiosco, no a la nube</h4>
+                    <p>Para sacar los datos no hace falta ordenador, router ni internet. El kiosco tiene su propia red Wi-Fi y, al conectarse, el móvil abre solo una página servida por el ESP32. Desde ahí se descarga el informe o se gestiona todo con un panel protegido con contraseña.</p>
+                </div>
+                <div class="pipeline">
+                    <div class="paso"><small>01 · QR</small><b>Seguimiento</b><p>La pantalla muestra cómo conectar el móvil a la red del kiosco.</p></div>
+                    <div class="paso"><small>02 · PORTAL</small><b>Se abre solo</b><p>Un DNS que responde a todo hace que el móvil lo trate como portal cautivo.</p></div>
+                    <div class="paso"><small>03 · INFORME</small><b>PDF o CSV</b><p>El PDF se genera en la propia placa, por periodo.</p></div>
+                    <div class="paso"><small>04 · PANEL</small><b>Gestión web</b><p>Tablas, editar, borrar e importar o exportar CSV de walkies, empleados y movimientos.</p></div>
+                </div>
+            </section>
+
+            <!-- TECNICA -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px;">
+                    <h3>05 / ARQUITECTURA</h3>
+                    <h4>Cómo encajan las piezas</h4>
+                </div>
+                <ul class="datos-tecnicos"><li><b>11.492</b>líneas de firmware</li><li><b>19</b>rutas web</li><li><b>37</b>tonos de aviso</li><li><b>3</b>CSV en la tarjeta SD</li><li><b>12 h</b>umbral de ocupación larga</li><li><b>800 × 480</b>píxeles táctiles</li></ul>
+                <div class="capas">
+                    <div class="capa"><h5>Kiosco<small>lo que toca el empleado</small></h5><div class="nodos"><div class="nodo">Pantalla LVGL 8<small>reposo, préstamo, alta, gestión</small></div><div class="nodo">Lector NFC PN532<small>sondeo cada pocos ms</small></div><div class="nodo">Zumbador<small>un tono por evento</small></div><div class="nodo">PIN de administración<small>oculto en la cabecera</small></div></div></div>
+                    <div class="capa"><h5>Datos<small>en la propia placa</small></h5><div class="nodos"><div class="nodo">Tarjeta SD<small>walkies, empleados y movimientos en CSV</small></div><div class="nodo">Preferences<small>Wi-Fi, contraseñas y ajustes</small></div><div class="nodo">Reloj DS3231<small>hora con pila</small></div><div class="nodo">NTP<small>si hay internet</small></div></div></div>
+                    <div class="capa"><h5>Red<small>sin depender de la tienda</small></h5><div class="nodos"><div class="nodo">Punto de acceso propio<small>siempre encendido</small></div><div class="nodo">Portal cautivo<small>DNS que responde a todo</small></div><div class="nodo">Servidor web<small>19 rutas</small></div><div class="nodo">Wi-Fi de la tienda<small>opcional</small></div></div></div>
+                    <div class="capa"><h5>Salida<small>lo que se lleva el encargado</small></h5><div class="nodos"><div class="nodo">Informe PDF<small>generado en la placa</small></div><div class="nodo">CSV<small>exportar e importar</small></div><div class="nodo">Panel web<small>tablas y edición</small></div><div class="nodo">Captura de pantalla<small>ver el kiosco en remoto</small></div></div></div>
+                </div>
+                <p class="decisiones-cabecera">// Decisiones técnicas y por qué</p>
+                <div class="decisiones">
+                    <div class="decision"><div><small>Problema</small>El lector NFC a veces deja de responder por ruido o por desincronizarse.</div><div><small>Decisión</small>Un latido cada 5 segundos le pide su versión; si no contesta, el firmware reinicia la comunicación solo.</div><div><small>En vez de</small>Que alguien tenga que desenchufar el kiosco.</div></div>
+                    <div class="decision"><div><small>Problema</small>La pantalla RGB se quedaba parpadeando hasta reiniciar.</div><div><small>Decisión</small>Desactivar el ahorro de energía del Wi-Fi (<code>WiFi.setSleep(false)</code>): sus transiciones desincronizaban el refresco. El kiosco siempre está enchufado.</div><div><small>En vez de</small>Reinicios programados para «arreglarlo».</div></div>
+                    <div class="decision"><div><small>Problema</small>Sacar los datos sin router, sin internet y sin ordenador.</div><div><small>Decisión</small>Punto de acceso propio y un DNS que responde a cualquier dominio: el móvil detecta un portal cautivo y abre la página solo.</div><div><small>En vez de</small>Depender de la red de la tienda o de un servicio en la nube.</div></div>
+                    <div class="decision"><div><small>Problema</small>Sin internet no hay hora, y sin hora el registro no sirve.</div><div><small>Decisión</small>Reloj DS3231 con pila en el mismo bus I2C que la pantalla táctil, NTP cuando hay red y ajuste manual en pantalla.</div><div><small>En vez de</small>Perder la hora en cada corte de luz.</div></div>
+                    <div class="decision"><div><small>Problema</small>La interfaz no puede congelarse mientras suena un aviso.</div><div><small>Decisión</small>Ningún <code>delay()</code> dentro de LVGL: cada nota del zumbador es un temporizador de un solo disparo.</div><div><small>En vez de</small>Encadenar pausas que bloquean la pantalla.</div></div>
+                </div>
+            </section>
+
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px; margin-bottom: 3rem;">
+                    <h3>06 / EN EL CÓDIGO</h3>
+                    <h4>Fragmentos reales del firmware</h4>
+                </div>
+                <div class="codigo">
+                    <div>
+                        <h5>Lectura NFC que se recupera sola</h5>
+                        <p>Un temporizador de LVGL consulta el lector con un tiempo de espera corto (100 ms) para que la pantalla no se note lenta. Cuando no hay walkie, cada 5 segundos comprueba que el lector sigue vivo y, si no, lo reinicia.</p><p>Con el walkie puesto, solo se procesa una vez: hasta que no se retira no cuenta como una lectura nueva.</p>
+                    </div>
+                    <div class="editor">
+                        <div class="editor-pestana"><b>Control_Walkies.ino · nfcComprobarTimer()</b><span>C++</span></div>
+                        <pre><code>bool detectado = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &amp;uidLength, 100);
+
+if (!detectado) {
+    nfcTagPresente = false; <i>// se retiro (o nunca hubo), listo para la proxima</i>
+
+    <i>// Latido cada 5s: si el modulo ni siquiera responde a una consulta</i>
+    <i>// basica (version de firmware), esta colgado - lo reiniciamos solo.</i>
+    static uint32_t ultimoLatido = 0;
+    uint32_t ahora = millis();
+    if (ahora - ultimoLatido &gt; 5000) {
+        ultimoLatido = ahora;
+        if (nfc.getFirmwareVersion() == 0) {
+            nfcReiniciar();
+        }
+    }
+    return;
+}
+if (nfcTagPresente) {
+    return; <i>// el mismo tag sigue puesto, ya se proceso</i>
+}
+nfcTagPresente = true;
+despertarPantalla();
+<i>// … busca el UID entre los walkies registrados y lanza el préstamo o la devolución</i></code></pre>
+                    </div>
+                </div>
+                <div class="codigo">
+                    <div>
+                        <h5>Portal cautivo para el informe</h5>
+                        <p>El kiosco crea su propia red y arranca un DNS que responde a cualquier dominio con su propia IP. Android, iOS y Windows comprueban si hay internet pidiendo rutas concretas; al recibir la respuesta del kiosco, el móvil entiende que es un portal y abre el navegador solo.</p>
+                    </div>
+                    <div class="editor">
+                        <div class="editor-pestana"><b>Control_Walkies.ino · setup()</b><span>C++</span></div>
+                        <pre><code>WiFi.setSleep(false);
+WiFi.softAP(AP_INFORME_SSID, AP_INFORME_PASS);
+<i>// "*" = responde con la IP propia a cualquier dominio que pregunte un</i>
+<i>// movil conectado al AP (las comprobaciones de conectividad de</i>
+<i>// Android/iOS entre ellas) - eso es lo que hace que el movil detecte un</i>
+<i>// "portal cautivo" y ofrezca abrir el navegador solo.</i>
+dnsServidor.start(53, "*", WiFi.softAPIP());
+
+<i>// … rutas del panel y del informe</i>
+bdServidor.on("/informe.pdf", HTTP_GET, bdManejarInformePdf);
+<i>// Rutas concretas que usan Android y Windows para comprobar si hay</i>
+<i>// internet de verdad - ver bdManejarPortalCautivo().</i>
+bdServidor.on("/generate_204", HTTP_GET, bdManejarPortalCautivo);
+bdServidor.on("/ncsi.txt", HTTP_GET, bdManejarPortalCautivo);
+bdServidor.onNotFound(bdManejarInicio);</code></pre>
+                    </div>
+                </div>
+            </section>
+            <!-- /TECNICA -->
+
+            <section class="info-block full-width conclusion" data-indice="Resumen" style="margin-top: 4rem;">
+                <h2>RESUMEN DEL IMPACTO</h2>
+                <p>Walkiton nace de un problema que veía cada día en mi trabajo y lo resuelve con un objeto que cualquiera entiende sin leer instrucciones. Detrás hay diseño de producto (un flujo de dos pasos, avisos claros, sonidos), hardware montado e impreso a mano y un firmware que aguanta el uso real: se recupera solo si el lector se cuelga, mantiene la hora sin internet y entrega los datos en el móvil sin depender de la red de la tienda.</p>
+            </section>
+        </main>
+
+        <nav class="seguir" aria-label="Seguir viendo">
+            <a href="../aquarium-led/index.html"><small>Otro proyecto de hardware</small><b>Lámpara para acuario</b></a>
+            <a href="../tankily/index.html"><small>Producto en producción</small><b>Tankily</b></a>
+        </nav>
+
+        <footer class="project-footer">
+            <div class="status-badge">
+                <span class="status-dot" style="background-color: #ff6a2b; box-shadow: 0 0 10px rgba(255, 106, 43, 0.6);"></span>
+                ESTADO_PROYECTO_PROTOTIPO_FUNCIONAL
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Dentro del Lab: el Lab muestra su propio botón
+        if (window.parent !== window) {
+            window.parent.postMessage({ type: 'AQUARIUM_PROTOTYPE_STATE', active: false }, '*');
+        }
+    </script>
+</body>
+</html>
