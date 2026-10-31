@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto - Protop</title>
+    <meta name="description" content="Protop: el tablón de los profesionales de reformas, en digital. 1.219 profesionales de toda España, valoraciones con factura y presupuestos. React 19, TypeScript y Supabase. Diseño y desarrollo de Ronald Herrera.">
+    <link rel="stylesheet" href="../0.plantilla/base-presentacion.css">
+    <link rel="stylesheet" href="../0.plantilla/tecnica.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+    <script src="../0.plantilla/back-button.js"></script>
+    <script src="../0.plantilla/lightbox.js"></script>
+    <script src="../0.plantilla/indice-producto.js"></script>
+    <style>
+        /* Paleta de Protop: corcho, naranja chincheta y grafito */
+        :root {
+            --bg: #120a06;
+            --accent: #ec8d5b;
+            --accent-rgb: 236, 141, 91;
+            --accent-alt: #d45a1b;
+            --border: rgba(236, 141, 91, 0.14);
+            --muted: rgba(251, 250, 248, 0.45);
+            --text: #fbfaf8;
+        }
+
+        body {
+            overflow-y: auto;
+            background:
+                radial-gradient(1100px 700px at 85% -10%, rgba(212, 90, 27, 0.14), transparent 70%),
+                radial-gradient(900px 600px at 0% 40%, rgba(184, 74, 18, 0.08), transparent 70%),
+                var(--bg);
+        }
+
+        .tag { color: var(--accent); }
+
+        /* Cabecera de corcho oscuro, como el tablón de la propia web */
+        .project-header {
+            background:
+                radial-gradient(rgba(255, 220, 180, 0.05) 1px, transparent 1.4px) 0 0 / 7px 7px,
+                radial-gradient(700px 400px at 50% 0%, rgba(212, 90, 27, 0.3), transparent 70%),
+                linear-gradient(160deg, #3a2414 0%, #1d110a 55%, #120a06 100%);
+            border: 1px solid rgba(236, 141, 91, 0.22);
+            border-radius: 20px;
+            padding: 7rem 3rem 5rem;
+            min-height: 420px;
+            margin-bottom: 3rem;
+        }
+
+        .protop-logo { margin: 1.5rem 0 1.2rem; line-height: 1; }
+        .protop-logo img { height: clamp(4rem, 10vw, 6.5rem); display: inline-block; }
+
+        .lead {
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+            max-width: 640px;
+            font-weight: 500;
+        }
+
+        .header-actions { flex-wrap: wrap; }
+
+        .btn-action {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+            color: #ffffff !important;
+            font-weight: 700;
+            padding: 0.8rem 1.6rem;
+            border-radius: 999px;
+            box-shadow: 0 4px 20px rgba(212, 90, 27, 0.35);
+            font-size: 0.85rem;
+        }
+
+        .btn-action:hover {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+            box-shadow: 0 6px 26px rgba(212, 90, 27, 0.55);
+            filter: brightness(1.08);
+        }
+
+        .hero-shot { margin-bottom: 4rem; }
+
+        .hero-shot img {
+            width: 100%;
+            display: block;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Cifras */
+        .cifras {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 5rem;
+        }
+
+        .cifra {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.4rem 1.2rem;
+            background: rgba(40, 24, 14, 0.5);
+        }
+
+        .cifra b {
+            display: block;
+            font-family: 'Bricolage Grotesque', var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            background: linear-gradient(90deg, var(--accent), var(--accent-alt));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .cifra span {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* Secciones del producto (mismo patrón que Tankily y Fycheo) */
+        .ecosystem-section {
+            grid-column: 1 / -1;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            padding-top: 4rem;
+        }
+
+        .ecosystem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .ecosystem-grid.reversed { direction: rtl; }
+        .ecosystem-grid.reversed > * { direction: ltr; }
+
+        .ecosystem-content h3 {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .ecosystem-content h4 {
+            font-family: 'Bricolage Grotesque', var(--font-heading);
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .ecosystem-content p {
+            font-size: 1rem;
+            line-height: 1.8;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .ecosystem-specs {
+            list-style: none;
+            margin-top: 1.5rem;
+            padding-left: 0;
+        }
+
+        .ecosystem-specs li {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.9rem;
+            display: block;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .ecosystem-specs li::before {
+            content: "→";
+            color: var(--accent-alt);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .ecosystem-specs li span {
+            font-family: var(--font-mono);
+            color: var(--accent);
+            font-weight: 700;
+            min-width: 0;
+        }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            color: var(--accent);
+            background: rgba(236, 141, 91, 0.1);
+            padding: 0.1em 0.35em;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 900px) {
+            .ecosystem-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .ecosystem-grid.reversed { direction: ltr; }
+            .project-header { padding: 6rem 1.5rem 4rem; }
+            .project-container { padding: 3rem 1rem; }
+        }
+
+        /* Mockups */
+        .mockup-browser {
+            background: #1d110a;
+            border: 1px solid rgba(236, 141, 91, 0.14);
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.65);
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .mockup-browser-header {
+            background: #25160d;
+            padding: 0.4rem 0.6rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(236, 141, 91, 0.08);
+            height: 24px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .mockup-browser-dots { display: flex; gap: 4px; position: absolute; left: 10px; }
+        .mockup-browser-dot { width: 6px; height: 6px; border-radius: 50%; background: #4a3122; }
+
+        .mockup-browser-address {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            color: rgba(251, 250, 248, 0.32);
+            margin: 0 auto;
+            letter-spacing: 0.05em;
+            user-select: none;
+        }
+
+        .mockup-phone {
+            background: #120a06;
+            border: 9px solid #2a1a10;
+            border-radius: 36px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(236, 141, 91, 0.14);
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 9 / 19.5;
+            width: 250px;
+            margin: 0 auto;
+        }
+
+        .mockup-phone::before {
+            content: '';
+            position: absolute;
+            top: 9px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 74px;
+            height: 20px;
+            border-radius: 20px;
+            background: #000;
+            z-index: 10;
+        }
+
+        .phones-row {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .phones-row .media-item:nth-child(2) { transform: translateY(-2rem); }
+        .phones-row .media-item:nth-child(2):hover { transform: translateY(-2rem) scale(1.02); }
+
+        @media (max-width: 900px) {
+            .phones-row { flex-direction: column; align-items: center; }
+            .phones-row .media-item:nth-child(2) { transform: none; }
+        }
+
+        .media-item {
+            padding: 0 !important;
+            background: transparent !important;
+            border: none !important;
+            gap: 0.5rem !important;
+            cursor: zoom-in;
+            overflow: visible !important;
+            box-shadow: none !important;
+        }
+
+        .media-item:hover { transform: scale(1.02); }
+
+        .media-caption {
+            padding: 0 0.5rem;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .mockup-browser img.media-content {
+            width: 100% !important;
+            height: auto !important;
+            aspect-ratio: auto !important;
+            object-fit: contain !important;
+            display: block !important;
+            border-radius: 0;
+        }
+
+        .mockup-phone img.media-content {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 0;
+            aspect-ratio: auto;
+        }
+
+        .media-item:hover .media-content { transform: scale(1.02); }
+        .hero-shot.media-item:hover,
+        .hero-shot.media-item:hover .media-content { transform: none; }
+
+        /* Pipeline de despliegue */
+        .pipeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.8rem;
+            margin-top: 2rem;
+        }
+
+        .paso {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            background: rgba(40, 24, 14, 0.5);
+            position: relative;
+        }
+
+        .paso small { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.12em; color: var(--accent-alt); }
+        .paso b { display: block; margin: 0.3rem 0; font-size: 0.95rem; }
+        .paso p { font-size: 0.8rem; opacity: 0.6; line-height: 1.5; }
+
+        @media (max-width: 900px) {
+            .pipeline { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XQ78P8968"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-2XQ78P8968');
+    </script>
+</head>
+<body>
+    <div class="project-container">
+        <header class="project-header">
+            <div class="header-content">
+                <span class="tag">// DIRECTORIO · REFORMAS · PRODUCTO EN PRODUCCIÓN</span>
+                <h1 class="protop-logo"><img src="assets/logo.svg" alt="Protop"></h1>
+                <p class="lead">El tablón de los profesionales de reformas, en digital. Un directorio de toda España donde cada profesional tiene su ficha, los particulares piden presupuesto sin llamar uno a uno y las valoraciones solo cuentan si hay una factura detrás.</p>
+                <div class="header-actions">
+                    <a href="https://protop.es/" target="_blank" rel="noopener noreferrer" class="btn-action">
+                        <span>📌</span> VISITAR PROTOP.ES
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <div class="hero-shot media-item">
+            <img src="assets/portada.webp" class="media-content" alt="Protop en escritorio y móvil: el tablón de corcho de la portada y los electricistas de Santander">
+        </div>
+
+        <div class="cifras">
+            <div class="cifra"><b>1.219</b><span>Profesionales</span></div>
+            <div class="cifra"><b>357</b><span>Municipios</span></div>
+            <div class="cifra"><b>22</b><span>Oficios con página propia</span></div>
+            <div class="cifra"><b>1.608</b><span>Páginas prerenderizadas</span></div>
+            <div class="cifra"><b>0 €</b><span>Comisión por trabajo</span></div>
+            <div class="cifra"><b>1</b><span>Persona detrás</span></div>
+        </div>
+
+        <main class="project-grid">
+            <section class="info-block">
+                <h2>EL PRODUCTO</h2>
+                <p>En Obramat, donde trabajo, hay un tablón de corcho en el que los profesionales de reformas clavan su tarjeta. Funciona, pero solo lo ve quien pasa por la tienda, y nadie sabe si ese profesional trabaja bien. Protop lleva ese tablón a internet: cada profesional tiene su ficha con oficio, zona y trabajos; el particular busca por oficio y localidad o cuenta su obra una sola vez y recibe propuestas; y la reputación se construye con valoraciones que solo se publican si el cliente enseña la factura. Lo he concebido, diseñado y programado yo solo, de la marca al modelo de datos.</p>
+            </section>
+
+            <section class="info-block specs">
+                <h2>INFRAESTRUCTURA TÉCNICA</h2>
+                <ul>
+                    <li><span>FRONT-END:</span> React 19 y TypeScript con Vite, TanStack Query y Tailwind CSS 4 con los tokens de la marca.</li>
+                    <li><span>BACKEND:</span> Supabase: Postgres con RLS, Auth, Storage privado para facturas y funciones SQL para la lógica sensible.</li>
+                    <li><span>SEO:</span> renderizado en el servidor durante el build: cada página pública sale como HTML con su título, Open Graph, canónica y JSON-LD.</li>
+                    <li><span>ENTREGA:</span> GitHub Actions compila, prerenderiza, genera el sitemap y publica en Hostinger por FTPS.</li>
+                </ul>
+            </section>
+
+            <!-- 01 · Directorio -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid">
+                    <div class="ecosystem-content">
+                        <h3>01 / DIRECTORIO NACIONAL</h3>
+                        <h4>1.219 profesionales desde el primer día</h4>
+                        <p>Un directorio vacío no le sirve a nadie. Protop arranca con fichas creadas a partir de datos públicos de OpenStreetMap, revisadas desde un panel de administración, y cada negocio puede reclamar la suya o pedir que se borre.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Fichas sin reclamar:</span> se crean con una función SQL que exige indicar la fuente, y se muestran con el aviso «Ficha creada con datos públicos del negocio. ¿Es el tuyo?».</li>
+                            <li><span>Reclamar:</span> si el email confirmado de la cuenta coincide con el de la ficha, se asigna sola; si no, pasa a revisión.</li>
+                            <li><span>Baja sin cuenta:</span> cualquier negocio puede pedir que se elimine su ficha sin registrarse.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-header">
+                                <div class="mockup-browser-dots"><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span></div>
+                                <div class="mockup-browser-address">protop.es/electricistas/santander</div>
+                            </div>
+                            <img src="assets/protop-oficio.webp" class="media-content" alt="Protop - electricistas en Santander">
+                        </div>
+                        <p class="media-caption">// Pantalla: página de oficio y localidad, con su contenido propio.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 02 · Confianza -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid reversed">
+                    <div class="ecosystem-content">
+                        <h3>02 / CONFIANZA VERIFICABLE</h3>
+                        <h4>Valoraciones que no se pueden inventar</h4>
+                        <p>Las reseñas de internet se compran. En Protop, para valorar a un profesional hay que subir la factura del trabajo, y la valoración solo se publica cuando un administrador la ha revisado.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Facturas privadas:</span> se guardan en un bucket privado al que solo accede administración, con enlaces firmados que caducan a los 5 minutos.</li>
+                            <li><span>Reputación automática:</span> un trigger en Postgres recalcula la puntuación del profesional cuando se aprueba una valoración.</li>
+                            <li><span>Campos blindados:</span> permisos por columna para que el dueño de una ficha edite sus datos, pero nunca su puntuación, sus distintivos ni su posición destacada.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-header">
+                                <div class="mockup-browser-dots"><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span></div>
+                                <div class="mockup-browser-address">protop.es/profesionales/herveluz</div>
+                            </div>
+                            <img src="assets/protop-ficha.webp" class="media-content" alt="Protop - ficha de un profesional con contacto directo">
+                        </div>
+                        <p class="media-caption">// Pantalla: ficha de profesional con contacto directo y sin intermediarios.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 03 · Presupuestos -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid">
+                    <div class="ecosystem-content">
+                        <h3>03 / FLUJO PRINCIPAL</h3>
+                        <h4>Cuéntalo una vez y que te escriban ellos</h4>
+                        <p>El particular describe su obra una sola vez. La solicitud llega a los profesionales que trabajan ese oficio en esa zona, que responden con su propuesta, y el particular las compara en un solo sitio.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Reglas en la base de datos:</span> quién ve cada solicitud y cada propuesta lo decide RLS en Postgres, no la interfaz.</li>
+                            <li><span>Gratis para el particular:</span> sin comisiones por trabajo. El modelo de negocio es un plan destacado por oficio para profesionales, preparado y apagado hasta que haya tráfico.</li>
+                            <li><span>Legal:</span> el aviso a un negocio que aún no está en Protop lo envía el propio particular desde su WhatsApp o email, nunca Protop, para cumplir la LSSI.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-header">
+                                <div class="mockup-browser-dots"><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span></div>
+                                <div class="mockup-browser-address">protop.es/solicitar-presupuesto</div>
+                            </div>
+                            <img src="assets/protop-presupuesto.webp" class="media-content" alt="Protop - pedir presupuestos">
+                        </div>
+                        <p class="media-caption">// Pantalla: la solicitud de presupuesto, clavada en el tablón.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 04 · Móvil -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px; margin-bottom: 3rem;">
+                    <h3>04 / MOBILE FIRST</h3>
+                    <h4>Para quien tiene la obra delante</h4>
+                    <p>Quien busca un fontanero suele hacerlo desde el móvil y con prisa. Las fichas llevan el botón de llamar fijo abajo, el buscador entiende «cerca de mí» con la ubicación del teléfono y cada página carga ya pintada desde el HTML prerenderizado.</p>
+                </div>
+                <div class="phones-row">
+                    <div class="media-item">
+                        <div class="mockup-phone"><img src="assets/protop-portada-movil.webp" class="media-content" alt="Protop - portada en móvil"></div>
+                        <p class="media-caption">// Portada</p>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-phone"><img src="assets/protop-oficio-movil.webp" class="media-content" alt="Protop - página de oficio en móvil"></div>
+                        <p class="media-caption">// Oficio y localidad</p>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-phone"><img src="assets/protop-ficha-movil.webp" class="media-content" alt="Protop - ficha de profesional en móvil"></div>
+                        <p class="media-caption">// Ficha</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 05 · SEO y entrega -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px;">
+                    <h3>05 / SEO E INGENIERÍA DE ENTREGA</h3>
+                    <h4>Una SPA que Google lee como una web estática</h4>
+                    <p>Protop es una aplicación de React, pero Google necesita HTML. En el build, el mismo código se renderiza en el servidor para cada oficio, cada localidad y cada ficha pública: 1.608 páginas con su contenido, su título y sus datos estructurados. En el navegador, React toma el control y todo sigue funcionando como una app.</p>
+                </div>
+                <div class="pipeline">
+                    <div class="paso"><small>01 · PUSH</small><b>GitHub</b><p>Push a main lanza el flujo de GitHub Actions.</p></div>
+                    <div class="paso"><small>02 · BUILD</small><b>Vite + SSR</b><p>Compila la app y la versión de servidor.</p></div>
+                    <div class="paso"><small>03 · PRERENDER</small><b>1.608 páginas</b><p>HTML por oficio, localidad y ficha, más el sitemap.</p></div>
+                    <div class="paso"><small>04 · DEPLOY</small><b>Hostinger · FTPS</b><p>El .htaccess sirve cada página antes que la app.</p></div>
+                </div>
+            </section>
+
+            <!-- TECNICA -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px;">
+                    <h3>06 / ARQUITECTURA</h3>
+                    <h4>Cómo encajan las piezas</h4>
+                </div>
+                <ul class="datos-tecnicos"><li><b>26</b>migraciones SQL</li><li><b>20</b>tablas</li><li><b>70</b>políticas RLS</li><li><b>1.608</b>páginas prerenderizadas</li><li><b>TypeScript</b>en todo el front</li></ul>
+                <div class="capas">
+                    <div class="capa"><h5>Navegador<small>lo que recibe el usuario</small></h5><div class="nodos"><div class="nodo">HTML prerenderizado<small>contenido, título, Open Graph y JSON-LD</small></div><div class="nodo">React 19 + TypeScript<small>toma el control como SPA</small></div><div class="nodo">TanStack Query<small>caché de datos</small></div><div class="nodo">Tailwind CSS 4<small>tokens de la marca</small></div></div></div>
+                    <div class="capa"><h5>Build<small>donde nace el SEO</small></h5><div class="nodos"><div class="nodo">Índice de oficios por lugar<small>qué combinaciones merecen página</small></div><div class="nodo">Vite + build SSR<small>el mismo código en el servidor</small></div><div class="nodo">prerender.mjs<small>escribe un HTML por ruta</small></div><div class="nodo">Sitemap<small>generado con las rutas reales</small></div></div></div>
+                    <div class="capa"><h5>Supabase<small>datos y reglas</small></h5><div class="nodos"><div class="nodo">Postgres con RLS<small>quién ve cada solicitud</small></div><div class="nodo">Funciones SQL<small>reputación, reclamar fichas</small></div><div class="nodo">Storage privado<small>facturas con enlaces de 5 min</small></div><div class="nodo">Auth<small>cuentas de particulares y profesionales</small></div></div></div>
+                    <div class="capa"><h5>Entrega<small>del commit a producción</small></h5><div class="nodos"><div class="nodo">GitHub Actions<small>build completo en cada push</small></div><div class="nodo">FTPS<small>a Hostinger</small></div><div class="nodo">.htaccess<small>sirve el HTML de cada ruta antes que la app</small></div></div></div>
+                </div>
+                <p class="decisiones-cabecera">// Decisiones técnicas y por qué</p>
+                <div class="decisiones">
+                    <div class="decision"><div><small>Problema</small>Una SPA de React es invisible para Google.</div><div><small>Decisión</small>Un segundo build en modo SSR con el mismo código y un script que renderiza cada ruta pública a HTML.</div><div><small>En vez de</small>Migrar todo a Next.js o mantener páginas estáticas aparte.</div></div>
+                    <div class="decision"><div><small>Problema</small>Miles de combinaciones de oficio y localidad, muchas vacías.</div><div><small>Decisión</small>Una página de oficio y lugar solo se indexa si tiene al menos 2 fichas (<code>MINIMO_FICHAS_PARA_INDEXAR</code>).</div><div><small>En vez de</small>Publicarlas todas y que Google las trate como contenido pobre.</div></div>
+                    <div class="decision"><div><small>Problema</small>El dueño de una ficha no debe tocar su puntuación.</div><div><small>Decisión</small>Permisos de Postgres por columna y reputación recalculada por un trigger <code>security definer</code>.</div><div><small>En vez de</small>Esconder los campos en la interfaz, que se salta con una petición a mano.</div></div>
+                    <div class="decision"><div><small>Problema</small>Si Supabase falla durante el build, no puede caer la web.</div><div><small>Decisión</small>El prerender captura el error: esas rutas se quedan como SPA y el despliegue sigue.</div><div><small>En vez de</small>Un build que falla entero por una consulta.</div></div>
+                    <div class="decision"><div><small>Problema</small>Las facturas son datos sensibles.</div><div><small>Decisión</small>Bucket privado, solo legible por administración, con enlaces firmados que caducan a los 5 minutos.</div><div><small>En vez de</small>Un bucket público con URLs difíciles de adivinar.</div></div>
+                </div>
+            </section>
+
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px; margin-bottom: 3rem;">
+                    <h3>07 / EN EL CÓDIGO</h3>
+                    <h4>Fragmentos reales del repositorio</h4>
+                </div>
+                <div class="codigo">
+                    <div>
+                        <h5>Prerender: SEO sin cambiar de framework</h5>
+                        <p>Después del build, el script importa la versión de servidor de la app y la renderiza para cada ruta: páginas fijas, una por oficio, cada oficio en cada lugar que merece página y cada ficha real. El resultado se inyecta en la plantilla con su <code>&lt;head&gt;</code> completo.</p>
+                    </div>
+                    <div class="editor">
+                        <div class="editor-pestana"><b>scripts/prerender.mjs</b><span>JavaScript</span></div>
+                        <pre><code>const { render, RUTAS_ESTATICAS, OFICIOS_SEO, lugarIndexable } = await import(
+  pathToFileURL(ruta('dist-servidor/entry-servidor.js')).href
+)
+
+<i>// Páginas con datos de Supabase: el directorio, una por oficio y cada ficha real.</i>
+<i>// Si Supabase falla en una, esa ruta se queda como SPA: nunca hace fallar el build.</i>
+const conDatos = ['/profesionales', ...OFICIOS_SEO.map((oficio) =&gt; `/${oficio.url}`)]
+for (const oficio of OFICIOS_SEO) {
+  for (const lugar of Object.keys(indice?.oficios[oficio.categoria]?.lugares ?? {})) {
+    if (lugarIndexable(indice, oficio.categoria, lugar)) conDatos.push(`/${oficio.url}/${lugar}`)
+  }
+}
+try {
+  const fichas = await consultarTodo(leerEnv(), 'profesionales', 'select=slug&amp;es_demo=eq.false')
+  conDatos.push(...fichas.map((ficha) =&gt; `/profesionales/${ficha.slug}`))
+} catch (error) {
+  console.warn(`prerender: sin la lista de fichas (${error.message}); se quedan como SPA.`)
+}</code></pre>
+                    </div>
+                </div>
+                <div class="codigo">
+                    <div>
+                        <h5>Campos blindados y reputación automática</h5>
+                        <p>El dueño de una ficha puede editar sus datos, pero Postgres solo le concede permiso sobre esas columnas: la puntuación, los distintivos y la posición destacada quedan fuera. La reputación la recalcula un trigger cada vez que se aprueba, cambia o borra una valoración.</p>
+                    </div>
+                    <div class="editor">
+                        <div class="editor-pestana"><b>supabase/migrations/…_fichas_sin_reclamar.sql</b><span>SQL</span></div>
+                        <pre><code><i>-- El dueño de una ficha solo puede escribir los campos de su ficha.</i>
+revoke insert, update on table profesionales from anon, authenticated;
+grant update (
+  nombre_comercial, categoria_id, especialidades, localidad,
+  descripcion_breve, descripcion, foto_perfil_url, fotos_trabajos, contacto
+) on table profesionales to authenticated;
+
+<i>-- …_valoraciones_y_facturas.sql</i>
+create trigger valoraciones_recalcular
+  after insert or update or delete on valoraciones
+  for each row execute function public.trg_valoraciones_recalcular();</code></pre>
+                    </div>
+                </div>
+            </section>
+            <!-- /TECNICA -->
+
+            <section class="info-block full-width conclusion" data-indice="Resumen" style="margin-top: 4rem;">
+                <h2>RESUMEN DEL IMPACTO</h2>
+                <p>Protop nace de algo que veo cada día en la tienda donde trabajo y lo convierte en un producto completo: directorio nacional con datos abiertos, un flujo de presupuestos con las reglas de acceso en la base de datos, valoraciones verificadas por factura y SEO técnico a escala de miles de páginas. Muestra cómo trabajo: detectar un problema real, entender a las dos partes (quien busca y quien ofrece) y llevarlo hasta algo que funciona.</p>
+            </section>
+        </main>
+
+        <nav class="seguir" aria-label="Seguir viendo">
+            <a class="identidad" style="--portada: url('../marca-protop/assets/portada.webp')" href="../marca-protop/index.html"><small>Identidad visual</small><b>El tablón, la identidad de Protop</b></a>
+            <a href="../esolar/index.html"><small>Siguiente producto</small><b>eSolar Cantabria</b></a>
+        </nav>
+
+        <footer class="project-footer">
+            <div class="status-badge">
+                <span class="status-dot" style="background-color: #ec8d5b; box-shadow: 0 0 10px rgba(236, 141, 91, 0.5);"></span>
+                ESTADO_PROYECTO_EN_PRODUCCIÓN
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const title = params.get('title');
+        if (title) {
+            document.title = 'Proyecto - ' + title;
+        }
+
+        function handleBack() {
+            if (window.parent !== window) {
+                window.parent.postMessage({ type: 'CLOSE_PROJECT' }, '*');
+            } else {
+                if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.close();
+                }
+            }
+        }
+    </script>
+</body>
+</html>

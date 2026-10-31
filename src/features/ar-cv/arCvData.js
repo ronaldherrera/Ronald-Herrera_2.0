@@ -5,9 +5,9 @@
 const AR_BASE = '/AR-CV';
 
 export const PAGE_META = {
-  title: 'CV interactivo de Ronald Herrera | Producto digital, UX/UI y Front-end',
+  title: 'CV interactivo de Ronald Herrera | Desarrollador full-stack de producto',
   description:
-    'Explora el currículum interactivo de Ronald Herrera y descubre proyectos de producto digital, UX/UI, desarrollo front-end y tecnología aplicada.',
+    'Explora el currículum interactivo de Ronald Herrera, desarrollador full-stack de producto: Fycheo, Tankily, Protop y otros productos llevados a producción con React, Next.js, Supabase y React Native.',
   canonical: 'https://ronaldherrera.es/cv',
   image: `https://ronaldherrera.es${AR_BASE}/og-cv.jpg`,
   themeColor: '#101010',
@@ -32,8 +32,8 @@ export const AR_ENGINE = [
 
 export const CONTACT = {
   name: 'Ronald Herrera',
-  role: 'Diseño de producto digital, UX/UI y Front-end',
-  tagline: 'Ideas que terminan convertidas en cosas que funcionan.',
+  role: 'Desarrollador full-stack de producto',
+  tagline: 'Construyo productos completos, del diseño a producción.',
   phoneDisplay: '+34 671 987 372',
   phoneHref: 'tel:+34671987372',
   email: 'hola@ronaldherrera.es',
@@ -48,50 +48,23 @@ export const CONTACT = {
 
 // Redes profesionales.
 // - GitHub: cuenta propietaria de este repositorio (remote origin).
-// - LinkedIn y Behance: enlaces ya publicados en /contacto y /skills.
-//   Pendientes de verificar por el propietario (`verified: false`).
+// - LinkedIn: confirmado por el propietario (29/10/2026).
+// - Behance: perfil «Ronald Herrera, Santander» comprobado el 31/10/2026.
 export const SOCIAL_LINKS = [
-  { id: 'linkedin', label: 'LinkedIn', href: 'https://linkedin.com/in/ronald-herrera', verified: false },
+  { id: 'linkedin', label: 'LinkedIn', href: 'https://linkedin.com/in/ronald-herrera', verified: true },
   { id: 'github', label: 'GitHub', href: 'https://github.com/ronaldherrera', verified: true },
-  { id: 'behance', label: 'Behance', href: 'https://behance.net/ronald-herrera', verified: false },
+  { id: 'behance', label: 'Behance', href: 'https://behance.net/ronald-herrera', verified: true },
 ];
 
-// Proyectos destacados (panel «Proyectos»).
+// Proyectos destacados (panel «Proyectos»): los mismos tres del CV impreso, en
+// el mismo orden y con el mismo color de tarjeta.
 export const FEATURED_PROJECTS = [
-  {
-    id: 'walkiton',
-    name: 'WALKITON',
-    description:
-      'Sistema físico y digital para controlar la entrega, devolución y disponibilidad de walkie-talkies mediante pantalla táctil, NFC y ESP32.',
-    tags: ['ESP32', 'NFC', 'UX/UI'],
-    image: null,
-    accent: 'blue',
-    actions: [
-      { label: 'Ver proyecto', href: null },
-      { label: 'Ver vídeo', href: null },
-      { label: 'Ver caso de estudio', href: null },
-    ],
-  },
-  {
-    id: 'control-rupturas',
-    name: 'Control de rupturas',
-    description:
-      'Herramienta para digitalizar el control de stock, ventas, recepciones y AVS, con validaciones, persistencia e informes en PDF.',
-    tags: ['Apps Script', 'JavaScript', 'PDF'],
-    image: null,
-    accent: 'gold',
-    actions: [
-      { label: 'Ver proyecto', href: null },
-      { label: 'Ver funcionamiento', href: null },
-      { label: 'Ver caso de estudio', href: null },
-    ],
-  },
   {
     id: 'fycheo',
     name: 'Fycheo',
     description:
-      'Plataforma SaaS para gestionar equipos, fichajes, turnos, permisos, alertas, informes y documentación.',
-    tags: ['PWA', 'APIs', 'UX/UI'],
+      'SaaS de control horario: 7 aplicaciones sobre una base de datos Supabase (empleado, panel, quiosco, web y apps móviles), con fichaje geolocalizado, turnos, chat en tiempo real y pagos con Stripe.',
+    tags: ['Supabase', 'Expo', 'Stripe'],
     image: `${AR_BASE}/proyectos/fycheo.webp`,
     accent: 'coral',
     actions: [
@@ -99,12 +72,60 @@ export const FEATURED_PROJECTS = [
       { label: 'Visitar fycheo.es', href: 'https://fycheo.es/' },
     ],
   },
+  {
+    id: 'tankily',
+    name: 'Tankily',
+    description:
+      'Red social para acuaristas en 8 idiomas, con usuarios reales: diario de cada tanque, motor de compatibilidad entre especies, foro, mercado y WikiTank con 1.847 fichas. Despliegue que no publica si fallan los tests.',
+    tags: ['Next.js', 'Supabase', 'i18n'],
+    image: `${AR_BASE}/proyectos/tankily.webp`,
+    accent: 'gold',
+    actions: [
+      { label: 'Ver proyecto', href: '/presentacion/tankily/index.html' },
+      { label: 'Visitar tankily.com', href: 'https://tankily.com/' },
+    ],
+  },
+  {
+    id: 'protop',
+    name: 'Protop',
+    description:
+      'Directorio de 1.219 profesionales de reformas de toda España, con solicitudes de presupuesto y valoraciones respaldadas por factura. Las reglas de acceso viven en la base de datos (RLS).',
+    tags: ['React', 'TypeScript', 'SEO'],
+    image: `${AR_BASE}/proyectos/protop.webp`,
+    accent: 'blue',
+    actions: [
+      { label: 'Ver proyecto', href: '/presentacion/protop/index.html' },
+      { label: 'Visitar protop.es', href: 'https://protop.es/' },
+    ],
+  },
 ];
 
-// Ronald Lab: proyectos que ya existen en /lab (textos sintetizados de LabPage.jsx).
-// Protop, Flox, Pathrix y Sam no existen todavía en el repositorio: añádelos aquí
-// con el mismo formato cuando tengan textos, imagen y enlace reales.
+// Ronald Lab: productos propios y experimentos (los destacados ya están en «Proyectos»).
+// Flox no tiene todavía textos, imagen ni enlace reales: añádelo aquí con el mismo
+// formato cuando los tenga.
 export const LAB_PROJECTS = [
+  {
+    id: 'esolar',
+    name: 'eSolar Cantabria',
+    category: 'Web de captación / Energía solar',
+    description:
+      'Web para una red de instaladores: una página por cada uno de los 102 municipios con datos de PVGIS, 6 calculadoras y 25 artículos con fuentes oficiales.',
+    status: null,
+    tags: ['Astro', 'JavaScript', 'SEO'],
+    image: `${AR_BASE}/proyectos/esolar.webp`,
+    href: 'https://esolarcantabria.es/',
+  },
+  {
+    id: 'pathrix',
+    name: 'Pathrix',
+    category: 'Juego móvil / Estrategia',
+    description:
+      'Juego de estrategia por turnos para iOS y Android, con motor de reglas propio, IA con MCTS en 4 niveles y partidas online.',
+    status: null,
+    tags: ['React Native', 'Expo', 'Firebase'],
+    image: `${AR_BASE}/proyectos/pathrix.webp`,
+    href: null,
+  },
   {
     id: 'aquarium-led',
     name: 'Lámpara Aquarium LED',
@@ -126,26 +147,6 @@ export const LAB_PROJECTS = [
     href: '/presentacion/formacion-protecciones-electricas/index.html',
   },
   {
-    id: 'snapstore',
-    name: 'SnapStore',
-    category: 'Herramienta / Automatización',
-    description: 'Descargador inteligente de activos visuales para e-commerce con monitor de progreso en tiempo real.',
-    status: null,
-    tags: ['Electron', 'Puppeteer', 'Scraping'],
-    image: `${AR_BASE}/proyectos/snapstore.webp`,
-    href: '/presentacion/Snapstore/index.html',
-  },
-  {
-    id: 'tankily',
-    name: 'Tankily',
-    category: 'Social / Comunidad',
-    description: 'Plataforma social para amantes de la acuariofilia: gestión de acuarios y comunidad activa.',
-    status: 'En desarrollo',
-    tags: ['Next.js', 'Supabase', 'UX'],
-    image: `${AR_BASE}/proyectos/tankily.webp`,
-    href: null,
-  },
-  {
     id: 'imagym',
     name: 'IMAGYM',
     category: 'UX/UI · Estudio de caso',
@@ -160,13 +161,13 @@ export const LAB_PROJECTS = [
 export const ABOUT = {
   title: 'Diseño y construyo productos digitales',
   intro:
-    'Combino diseño UX/UI, desarrollo front-end y pensamiento de producto para detectar problemas reales, simplificar procesos y construir herramientas claras, útiles y eficientes.',
+    'Llevo productos completos a producción: base de datos, seguridad, interfaz, app móvil y despliegue. Vengo de diez años de diseño UX/UI, así que pienso en el usuario y en el negocio, no solo en el código. Busco un puesto en remoto en un equipo de producto.',
   thought:
     'No siempre tengo la respuesta cuando empiezo. Tengo algo que me parece más valioso: la incomodidad de no aceptar que «siempre se ha hecho así» sea una explicación. Observo, pregunto, pruebo y construyo. A veces el resultado es una interfaz; otras, un producto digital o físico. La forma cambia. La intención no: conseguir que las cosas funcionen mejor.',
   actions: [
     { id: 'web', label: 'Visitar mi web', href: 'https://ronaldherrera.es' },
-    // Todavía no hay un PDF del CV en el proyecto. Indica aquí su ruta (p. ej. '/AR-CV/ronald-herrera-cv.pdf').
-    { id: 'cv', label: 'Descargar CV', href: null, download: true },
+    // Exportación del CV impreso desde Figma.
+    { id: 'cv', label: 'Descargar CV', href: `${AR_BASE}/ronald-herrera-cv.pdf`, download: true },
     { id: 'experience', label: 'Ver experiencia', href: '/skills' },
     { id: 'path', label: 'Conocer mi trayectoria', href: '/#sobre-mi' },
   ],
@@ -199,7 +200,9 @@ const LAB_ACCENTS = ['blue', 'coral', 'gold', 'cream'];
 const socialHref = (id) => SOCIAL_LINKS.find((s) => s.id === id)?.href || null;
 
 // Carrusel: proyectos destacados + Ronald Lab. Al tocar el del centro se abre
-// su ficha en el panel correspondiente.
+// su ficha en el panel correspondiente. El primero es el que se ve al aparecer,
+// y los del Lab que ya están entre los destacados no se repiten.
+const featuredIds = new Set(FEATURED_PROJECTS.map((p) => p.id));
 export const CAROUSEL_ITEMS = [
   ...FEATURED_PROJECTS.map((p) => ({
     id: p.id,
@@ -209,7 +212,7 @@ export const CAROUSEL_ITEMS = [
     image: p.image,
     accent: p.accent,
   })),
-  ...LAB_PROJECTS.map((p, i) => ({
+  ...LAB_PROJECTS.filter((p) => !featuredIds.has(p.id)).map((p, i) => ({
     id: p.id,
     section: 'lab',
     name: p.name,

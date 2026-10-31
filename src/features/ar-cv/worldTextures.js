@@ -53,7 +53,7 @@ const fitFont = (ctx, text, weight, size, maxWidth, style = '') => {
 const spacedText = (ctx, text, x, y, spacing, align = 'left') => {
   const chars = [...text];
   const width = chars.reduce((sum, c) => sum + ctx.measureText(c).width, 0) + spacing * (chars.length - 1);
-  let cursor = align === 'center' ? x - width / 2 : x;
+  let cursor = align === 'center' ? x - width / 2 : align === 'right' ? x - width : x;
   for (const char of chars) {
     ctx.fillText(char, cursor, y);
     cursor += ctx.measureText(char).width + spacing;
@@ -169,18 +169,23 @@ export const drawGridFade = () => {
 };
 
 // Portada de proyecto para el carrusel. `image` puede ser null (portada tipográfica).
+// Se dibuja en unidades lógicas (w·px × h·px) sobre un lienzo CARD_SCALE veces
+// mayor, para que foto y texto se vean nítidos al acercar el móvil.
+const CARD_SCALE = 3;
 export const drawCard = (item, index, total, w, h, px, image) => {
-  const { canvas, ctx, done } = slabFace(w * px, h * px, 0.018 * px);
-  const W = canvas.width;
-  const H = canvas.height;
+  const { canvas, ctx, done } = slabFace(w * px * CARD_SCALE, h * px * CARD_SCALE, 0.018 * px * CARD_SCALE);
+  ctx.scale(CARD_SCALE, CARD_SCALE);
+  const W = canvas.width / CARD_SCALE;
+  const H = canvas.height / CARD_SCALE;
   const accent = accentColor(item.accent);
-  const mediaH = H * 0.66;
+  const mediaH = H * 0.6;
 
   if (image) {
     const scale = Math.max(W / image.width, mediaH / image.height);
     const iw = image.width * scale;
     const ih = image.height * scale;
-    ctx.drawImage(image, (W - iw) / 2, (mediaH - ih) / 2, iw, ih);
+    // Encuadre algo por encima del centro: en las capturas de webs, el titular está arriba.
+    ctx.drawImage(image, (W - iw) / 2, (mediaH - ih) * 0.3, iw, ih);
   } else {
     ctx.fillStyle = '#0a0a0a';
     ctx.fillRect(0, 0, W, mediaH);
@@ -197,35 +202,33 @@ export const drawCard = (item, index, total, w, h, px, image) => {
     ctx.textAlign = 'left';
   }
 
-  // Degradado inferior y banda de acento.
-  const grad = ctx.createLinearGradient(0, mediaH * 0.55, 0, mediaH);
-  grad.addColorStop(0, 'rgba(17,17,17,0)');
-  grad.addColorStop(1, 'rgba(17,17,17,0.85)');
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, W, mediaH);
+  // Foto limpia arriba; debajo, banda de acento y franja sólida para el texto.
   ctx.fillStyle = accent;
-  ctx.fillRect(0, mediaH - 4, W, 4);
+  ctx.fillRect(0, mediaH, W, 4);
+  ctx.fillStyle = SURFACE;
+  ctx.fillRect(0, mediaH + 4, W, H - mediaH - 4);
 
-  // Índice sobre la imagen.
-  ctx.fillStyle = 'rgba(16,16,16,0.75)';
-  roundRectPath(ctx, 20, 20, 104, 44, 22);
-  ctx.fill();
+  // Índice en la franja de texto, arriba a la derecha (sobre la foto tapaba su contenido).
+  const left = 20;
   ctx.fillStyle = accent;
-  ctx.textBaseline = 'middle';
-  ctx.font = `800 24px ${FONT}`;
-  spacedText(ctx, `${String(index + 1).padStart(2, '0')}/${String(total).padStart(2, '0')}`, 72, 43, 2, 'center');
+  ctx.textBaseline = 'top';
+  ctx.font = `800 13px ${FONT}`;
+  const indexW = spacedText(ctx, `${String(index + 1).padStart(2, '0')}/${String(total).padStart(2, '0')}`, W - left, mediaH + 14, 2, 'right');
 
-  // Nombre y pie.
-  const left = 26;
-  ctx.fillStyle = PALETTE.cream;
-  ctx.textBaseline = 'alphabetic';
-  fitFont(ctx, item.name.toUpperCase(), 800, Math.round(H * 0.12), W - left * 2);
-  ctx.fillText(item.name.toUpperCase(), left, mediaH + H * 0.15);
-  ctx.fillStyle = MUTED;
+  // Nombre y pie, centrados en vertical dentro de la franja de texto.
+  const name = item.name.toUpperCase();
   const caption = item.caption.toUpperCase();
-  const size = fitFont(ctx, caption, 400, Math.round(H * 0.055), W - left * 2 - caption.length * 3);
-  ctx.font = `400 ${size}px ${FONT}`;
-  spacedText(ctx, caption, left, mediaH + H * 0.27, 3);
+  const titleSize = fitFont(ctx, name, 800, Math.round(H * 0.11), W - left * 2 - indexW - 12);
+  const captionSize = fitFont(ctx, caption, 400, Math.round(H * 0.05), W - left * 2 - caption.length * 3);
+  const gap = 7;
+  const top = mediaH + 4 + (H - mediaH - 4 - (titleSize + gap + captionSize)) / 2;
+  ctx.textBaseline = 'top';
+  ctx.fillStyle = PALETTE.cream;
+  ctx.font = `800 ${titleSize}px ${FONT}`;
+  ctx.fillText(name, left, top);
+  ctx.fillStyle = MUTED;
+  ctx.font = `400 ${captionSize}px ${FONT}`;
+  spacedText(ctx, caption, left, top + titleSize + gap, 3);
   done();
   return canvas;
 };

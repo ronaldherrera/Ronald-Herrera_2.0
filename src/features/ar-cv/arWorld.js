@@ -266,7 +266,14 @@ export const registerWorld = (AFRAME) => {
           new THREE.ExtrudeGeometry(roundedShape(CARD.w, CARD.h, 0.02), { depth: CARD.depth, bevelEnabled: false, curveSegments: 6 }),
           [cap, side]
         );
-        const faceMat = litFace(this.texture(drawCard(item, index, total, CARD.w, CARD.h, 1000, null)), { alphaTest: 0.05 });
+        // Sin iluminación: con luz más emisivo, las capturas claras se quemaban y
+        // se veían blanquecinas. El canto de la tarjeta sí recibe la luz.
+        const faceMat = new THREE.MeshBasicMaterial({
+          map: this.texture(drawCard(item, index, total, CARD.w, CARD.h, 1000, null)),
+          transparent: true,
+          alphaTest: 0.05,
+          toneMapped: false,
+        });
         const face = new THREE.Mesh(new THREE.PlaneGeometry(CARD.w, CARD.h), faceMat);
         face.position.z = CARD.depth + 0.0008;
         group.add(body, face);

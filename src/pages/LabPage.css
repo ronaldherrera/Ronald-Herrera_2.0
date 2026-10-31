@@ -20,7 +20,10 @@ body.project-open .lab-scrollbar-container {
   justify-content: flex-start;
   padding: 12vh 5vw 0;
   overflow: hidden; /* Mantenemos el clip del contenido */
-  background: #0a0a0a; /* Fondo base para evitar fugas */
+  background-color: #0a0a0a; /* Fondo base para evitar fugas */
+  /* La imagen llega por style en línea solo para que ::before la herede; aquí no se dibuja */
+  background-size: 0 0;
+  background-repeat: no-repeat;
 }
 
 /* Pseudo-elemento para el fondo animado */
@@ -152,6 +155,9 @@ body.project-open .lab-scrollbar-container {
   padding: 4rem 0 10vh; /* Más espacio arriba de las filas separadas del hero */
   position: relative;
   z-index: 10;
+  /* Sube 2px y tapa con fondo opaco la costura que deja la foto animada del hero al redondear su alto */
+  margin-top: -2px;
+  background: #0a0a0a;
 }
 
 .lab-row {
@@ -470,8 +476,16 @@ body.project-open .lab-scrollbar-container {
 /* Responsividad */
 @media (max-width: 768px) {
   .lab-hero {
-    height: 60vh;
-    padding: 18vh 1.5rem 5vh;
+    height: auto;
+    min-height: 60vh;
+    padding: 16vh 1.5rem 2rem;
+    align-items: flex-end;
+  }
+
+  /* En el móvil el texto ocupa casi toda la cabecera: la foto queda de fondo, oscurecida */
+  .lab-hero::after {
+    height: 100%;
+    background: linear-gradient(to top, #0a0a0a 20%, rgba(10, 10, 10, 0.72) 65%, rgba(10, 10, 10, 0.4) 100%);
   }
   
   .lab-hero-content {
@@ -488,9 +502,48 @@ body.project-open .lab-scrollbar-container {
     font-size: clamp(2rem, 12vw, 3rem);
   }
   
+  .lab-rows {
+    padding-top: 1.5rem;
+  }
+
+  .lab-row-title {
+    font-size: 1.05rem;
+    margin-bottom: 0.2rem;
+  }
+
+  /* Dos tarjetas completas y un trozo de la tercera, para que se note que la fila sigue */
+  .lab-cards-container {
+    gap: 0.6rem;
+  }
+
   .lab-card {
-    flex: 0 0 260px;
-    min-width: 260px;
+    --ancho-tarjeta: calc((100vw - 1.5rem - 5vw - 1.2rem) / 2.3);
+    flex: 0 0 var(--ancho-tarjeta);
+    min-width: var(--ancho-tarjeta);
+    border-radius: 6px;
+  }
+
+  .lab-card-overlay {
+    padding: 0.55rem 0.6rem;
+  }
+
+  .lab-card-category {
+    font-size: 0.5rem;
+    margin-bottom: 0.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .lab-card-title {
+    font-size: 0.78rem;
+    line-height: 1.15;
+  }
+
+  .dev-badge {
+    font-size: 0.45rem;
+    padding: 0.1rem 0.3rem;
+    white-space: nowrap;
   }
 
   .nav-arrow {

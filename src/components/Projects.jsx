@@ -3,40 +3,40 @@ import './Projects.css';
 
 const projects = [
   {
+    title: 'TANKILY',
+    category: 'RED SOCIAL · PRODUCTO EN PRODUCCIÓN',
+    colorClass: 'color-blue',
+    problem: 'Los acuaristas apuntan sus mediciones en libretas, preguntan en foros envejecidos y compran peces sin saber si podrán convivir en su acuario.',
+    solution: 'Una red social en 8 idiomas que gira alrededor del tanque: parámetros del agua, habitantes, diario y recordatorios, con foro, mercado, tiendas y WikiTank, una enciclopedia de 1.847 especies.',
+    role: 'Producto, marca, diseño y desarrollo',
+    value: 'Motor de compatibilidad entre especies, más de 16.000 páginas indexables generadas con Next.js, Supabase con RLS en todas las tablas y plan Pro con Stripe.',
+    imageRight: false,
+    image: '/presentacion/tankily/assets/portada.webp',
+    link: '/presentacion/tankily/index.html'
+  },
+  {
     title: 'FYCHEO',
     category: 'ECOSISTEMA B2B SAAS',
     colorClass: 'color-red',
     problem: 'El registro de jornada y control de turnos en las empresas suele ser complejo, ineficiente para el departamento de RR.HH. y tedioso para el empleado.',
     solution: 'Un ecosistema multiplataforma (web, móvil, kiosko y panel maestro) sincronizado en tiempo real con Supabase, con recordatorios y tips de productividad para empleados y Wallet de pago.',
-    role: 'Product Creator & Solo Developer',
-    value: 'Automatización completa de saldos horarios de plantilla mediante PostgreSQL Triggers, firma digital de nóminas y pasarela de cobros segura integrada con Stripe.',
-    imageRight: false,
+    role: 'Producto, diseño y desarrollo',
+    value: 'Automatización completa de saldos horarios de plantilla mediante PostgreSQL Triggers, reparto masivo de nóminas a cada empleado y pasarela de cobros segura integrada con Stripe.',
+    imageRight: true,
     image: '/presentacion/fycheo/assets/portada.webp',
     link: '/presentacion/fycheo/index.html'
   },
   {
-    title: 'LÁMPARA PARA ACUARIO',
-    category: 'IOT / HARDWARE',
-    colorClass: 'color-blue',
-    problem: 'El control de iluminación LED en acuarios requería ajustes manuales constantes o firmware propietario costoso y sin personalización.',
-    solution: 'Sistema de control LED basado en ESP32 con interfaz web en tiempo real que permite programar ciclos de luz personalizados para cada especie.',
-    role: 'Product Creator & Solo Developer (HW/SW)',
-    value: 'Control total del ecosistema lumínico desde cualquier dispositivo, con ciclos automáticos que mejoran el bienestar de los animales.',
-    imageRight: true,
-    image: '/presentacion/aquarium-led/assets/lampara encendida.JPG',
-    link: '/presentacion/aquarium-led/index.html'
-  },
-  {
-    title: 'SNAPSTORE',
-    category: 'DEVELOPER TOOL',
+    title: 'PROTOP',
+    category: 'DIRECTORIO · PRODUCTO EN PRODUCCIÓN',
     colorClass: 'color-gold',
-    problem: 'Descargar imágenes, recursos y archivos de producto desde múltiples fuentes requiere tiempo, esfuerzo manual y herramientas externas dispersas.',
-    solution: 'Herramienta de escritorio que automatiza la captura y descarga masiva de activos desde cualquier web, con un monitor de progreso en tiempo real.',
-    role: 'Product Creator & Solo Developer',
-    value: 'Reducción de horas de trabajo manual a segundos. Escalable y adaptable a cualquier e-commerce o plataforma de contenidos.',
+    problem: 'En Obramat, donde trabajo, hay un tablón de corcho en el que los profesionales de reformas clavan su tarjeta. Funciona, pero solo lo ve quien pasa por la tienda, y nadie sabe si ese profesional trabaja bien.',
+    solution: 'Protop lleva ese tablón a internet: 1.219 profesionales de toda España, con fichas por oficio y localidad, solicitudes de presupuesto que solo llegan a quien encaja y valoraciones respaldadas por factura.',
+    role: 'Producto, diseño y desarrollo',
+    value: 'React 19 y TypeScript sobre Supabase, con las reglas de acceso en la base de datos (RLS), facturas en almacenamiento privado con enlaces que caducan y unas 1.600 páginas prerenderizadas para SEO.',
     imageRight: false,
-    image: '/presentacion/Snapstore/assets/portada.png',
-    link: '/presentacion/Snapstore/index.html'
+    image: '/presentacion/protop/assets/portada.webp',
+    link: '/presentacion/protop/index.html'
   }
 ];
 

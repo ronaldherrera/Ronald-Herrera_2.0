@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Skills from '../components/Skills';
+import Despliegue from '../components/Despliegue';
 
 const SkillsPage = () => {
   return (
@@ -8,7 +8,7 @@ const SkillsPage = () => {
         <span className="back-icon">←</span>
         <span className="back-label">SALIR</span>
       </Link>
-      <Skills />
+      <Despliegue />
     </div>
   );
 };

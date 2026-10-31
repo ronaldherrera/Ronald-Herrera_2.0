@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="base-presentacion.css">
     <script src="../0.plantilla/back-button.js"></script>
     <script src="../0.plantilla/lightbox.js"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XQ78P8968"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-2XQ78P8968');
+    </script>
 </head>
 <body>
     <div class="scene">
@@ -85,8 +95,8 @@
 
         <footer class="project-footer">
             <div class="status-badge">
-                <span class="status-dot"></span>
-                ESTADO_PROYECTO_FINALIZADO
+                <span class="status-dot" style="background-color: var(--warning-alt, #f39c12); box-shadow: 0 0 10px rgba(243, 156, 18, 0.4);"></span>
+                ESTADO_PROYECTO_BETA
             </div>
         </footer>
     </div>

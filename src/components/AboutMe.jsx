@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import './AboutMe.css';
-import myPhoto from '../assets/yo con mi moto.png';
+import myPhoto from '../assets/yo-con-mi-moto.webp';
 
 const AboutMe = () => {
   return (
@@ -17,25 +17,25 @@ const AboutMe = () => {
               />
               <div className="about-badge">
                 <span className="badge-title">RONALD HERRERA</span>
-                <span className="badge-subtitle">Busco la simplicidad funcional en cada proceso, servicio o producto digital.</span>
+                <span className="badge-subtitle">Santander. Diseñador desde 2016, desarrollador desde 2022.</span>
               </div>
             </div>
           </div>
           
           <div className="about-text-wrapper">
             <h2 className="about-title">
-              Perfil <span className="text-highlight-red">Evolutivo.</span>
+              Del diseño <span className="text-highlight-red">al código.</span>
             </h2>
-            
+
             <div className="about-content">
               <p>
-                Mi recorrido es una evolución constante desde el <span className="text-bold">diseño visual</span> hacia la construcción de ecosistemas digitales completos.
+                Empecé en 2016 como <span className="text-bold">diseñador gráfico y web</span>: marcas, carteles y escenarios en 3D. Cuanto más diseñaba, más quería que aquello funcionara de verdad, así que en 2022 hice el bootcamp full stack de Hack a Boss, y en 2023 me formé en <span className="text-highlight-blue">UX/UI</span> en Coderhouse, que puse en práctica como diseñador UX/UI en Neonexus.
               </p>
               <p>
-                Como <span className="text-highlight-blue">UX/UI & Front-end</span>, mi motivación no es solo hacer que las cosas se vean bien, sino hacer que <span className="text-bold">funcionen mejor</span>. Me obsesiona la lógica detrás de la interfaz, la eficiencia y crear soluciones tangibles.
+                Hoy hago las dos cosas en el mismo proyecto: pienso el producto, diseño la marca y la interfaz, modelo la base de datos, programo y lo publico. Así he sacado adelante Fycheo, Tankily, Protop y eSolar Cantabria, <span className="text-bold">yo solo y de principio a fin</span>.
               </p>
               <p>
-                Me mueve la <span className="text-highlight-gold">curiosidad</span> por entender cómo están construidas las herramientas que usamos. Aprender continuamente es parte de mi método para construir productos útiles y con sentido.
+                Busco un equipo en remoto donde aportar esa mezcla y seguir <span className="text-highlight-gold">aprendiendo</span> de gente que sabe más que yo.
               </p>
             </div>
 

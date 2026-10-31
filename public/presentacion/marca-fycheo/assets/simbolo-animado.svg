@@ -1,0 +1,41 @@
+<svg width="515" height="515" viewBox="0 0 515 515" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- Fycheo · la rosa llega desde la izquierda y la azul desde la derecha apareciendo poco a poco, encajan y se quedan
+     un buen rato; después cada una sigue hacia donde apunta mientras se desvanece. No necesitan bordes: aparecen y desaparecen.
+     La azul se dibuja entera; su hueco es la «sombra» de la rosa (máscara) y solo aparece cuando están juntas. -->
+<style>
+  .rosa, .azul { animation-duration: 6s; animation-iteration-count: infinite; }
+  .rosa { animation-name: rosa; }
+  .azul { animation-name: azul; }
+  @keyframes rosa {
+    0%        { transform: translateX(-130px); opacity: 0; animation-timing-function: cubic-bezier(.2, .8, .3, 1.08); }
+    16%, 74%  { transform: translateX(0); opacity: 1; animation-timing-function: cubic-bezier(.6, 0, .8, .4); }
+    88%, 100% { transform: translateX(130px); opacity: 0; }
+  }
+  @keyframes azul {
+    0%, 3%    { transform: translateX(130px); opacity: 0; animation-timing-function: cubic-bezier(.2, .8, .3, 1.08); }
+    19%, 72%  { transform: translateX(0); opacity: 1; animation-timing-function: cubic-bezier(.6, 0, .8, .4); }
+    86%, 100% { transform: translateX(-130px); opacity: 0; }
+  }
+  /* La sombra de la rosa solo se mueve; no se desvanece, para que el hueco sea siempre nítido */
+  .sombra { animation: sombra 6s infinite; }
+  @keyframes sombra {
+    0%        { transform: translateX(-130px); animation-timing-function: cubic-bezier(.2, .8, .3, 1.08); }
+    16%, 74%  { transform: translateX(0); animation-timing-function: cubic-bezier(.6, 0, .8, .4); }
+    88%, 100% { transform: translateX(130px); }
+  }
+  @media (prefers-reduced-motion: reduce) { .rosa, .azul, .sombra { animation: none; } }
+</style>
+<defs>
+  <linearGradient id="r" x1="305.681" y1="204.897" x2="192.474" y2="176.334" gradientUnits="userSpaceOnUse"><stop stop-color="#FC8CC2"/><stop offset="1" stop-color="#E0378A"/></linearGradient>
+  <linearGradient id="a" x1="483.576" y1="394.662" x2="281.422" y2="312.183" gradientUnits="userSpaceOnUse"><stop stop-color="#3175FE"/><stop offset="1" stop-color="#0B3486"/></linearGradient>
+  <mask id="hueco" maskUnits="userSpaceOnUse" x="-100" y="0" width="715" height="515">
+    <rect x="-100" width="715" height="515" fill="#fff"/>
+    <g class="sombra"><path d="M289.508 176.886C311.071 189.335 311.071 220.459 289.508 232.908L156.087 309.939C134.524 322.389 107.57 306.827 107.57 281.928L107.57 127.866C107.57 102.967 134.524 87.4051 156.087 99.8545L289.508 176.886Z" fill="#000" stroke="#000" stroke-width="64" stroke-linejoin="round"/></g>
+  </mask>
+</defs>
+<rect width="515" height="515" rx="30" fill="#0F172A"/>
+<g mask="url(#hueco)">
+  <g class="azul"><polygon points="376.06,171.35 376.06,387.15 189,279.2" fill="url(#a)" stroke="url(#a)" stroke-width="64.6" stroke-linejoin="round"/></g>
+</g>
+<g class="rosa"><path d="M289.508 176.886C311.071 189.335 311.071 220.459 289.508 232.908L156.087 309.939C134.524 322.389 107.57 306.827 107.57 281.928L107.57 127.866C107.57 102.967 134.524 87.4051 156.087 99.8545L289.508 176.886Z" fill="url(#r)"/></g>
+</svg>

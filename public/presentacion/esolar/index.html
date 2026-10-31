@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto - eSolar Cantabria</title>
+    <meta name="description" content="eSolar Cantabria: web de captación para una red de instaladores solares. 102 municipios con datos reales de PVGIS, 6 calculadoras y 25 artículos con fuentes oficiales. Astro estático. Diseño y desarrollo de Ronald Herrera.">
+    <link rel="stylesheet" href="../0.plantilla/base-presentacion.css">
+    <link rel="stylesheet" href="../0.plantilla/tecnica.css">
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@600;800&display=swap" rel="stylesheet">
+    <script src="../0.plantilla/back-button.js"></script>
+    <script src="../0.plantilla/lightbox.js"></script>
+    <script src="../0.plantilla/indice-producto.js"></script>
+    <style>
+        /* Paleta de eSolar: el Cantábrico de noche y el sol del norte */
+        :root {
+            --bg: #0a2c39;
+            --accent: #f2a71b;
+            --accent-rgb: 242, 167, 27;
+            --accent-alt: #e0900f;
+            --border: rgba(169, 201, 211, 0.16);
+            --muted: rgba(237, 241, 242, 0.5);
+            --text: #edf1f2;
+        }
+
+        body {
+            overflow-y: auto;
+            background:
+                radial-gradient(1100px 700px at 85% -10%, rgba(242, 167, 27, 0.12), transparent 70%),
+                radial-gradient(900px 600px at 0% 40%, rgba(59, 110, 126, 0.25), transparent 70%),
+                var(--bg);
+        }
+
+        /* Cabecera: el sol saliendo sobre el mar */
+        .project-header {
+            background:
+                radial-gradient(420px 300px at 50% 108%, rgba(242, 167, 27, 0.55), rgba(242, 167, 27, 0.12) 45%, transparent 70%),
+                linear-gradient(180deg, #0a2c39 0%, #0f3b4c 70%, #3b6e7e 100%);
+            border: 1px solid rgba(169, 201, 211, 0.2);
+            border-radius: 20px;
+            padding: 7rem 3rem 5rem;
+            min-height: 420px;
+            margin-bottom: 3rem;
+        }
+
+        .esolar-logo { margin: 1.5rem 0 1.2rem; line-height: 1; }
+        .esolar-logo img { height: clamp(4.5rem, 11vw, 7rem); display: inline-block; }
+
+
+
+
+        .tag { color: var(--accent); }
+
+
+
+        .lead {
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+            max-width: 640px;
+            font-weight: 500;
+        }
+
+        .header-actions { flex-wrap: wrap; }
+
+        .btn-action {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+            color: #0a2c39 !important;
+            font-weight: 700;
+            padding: 0.8rem 1.6rem;
+            border-radius: 999px;
+            box-shadow: 0 4px 20px rgba(224, 144, 15, 0.35);
+            font-size: 0.85rem;
+        }
+
+        .btn-action:hover {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+            box-shadow: 0 6px 26px rgba(224, 144, 15, 0.55);
+            filter: brightness(1.08);
+        }
+
+        .hero-shot { margin-bottom: 4rem; }
+
+        .hero-shot img {
+            width: 100%;
+            display: block;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Cifras */
+        .cifras {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 5rem;
+        }
+
+        .cifra {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.4rem 1.2rem;
+            background: rgba(15, 59, 76, 0.55);
+        }
+
+        .cifra b {
+            display: block;
+            font-family: 'Schibsted Grotesk', var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            background: linear-gradient(90deg, var(--accent), var(--accent-alt));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .cifra span {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* Secciones del producto (mismo patrón que Tankily y Fycheo) */
+        .ecosystem-section {
+            grid-column: 1 / -1;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            padding-top: 4rem;
+        }
+
+        .ecosystem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .ecosystem-grid.reversed { direction: rtl; }
+        .ecosystem-grid.reversed > * { direction: ltr; }
+
+        .ecosystem-content h3 {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .ecosystem-content h4 {
+            font-family: 'Schibsted Grotesk', var(--font-heading);
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .ecosystem-content p {
+            font-size: 1rem;
+            line-height: 1.8;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .ecosystem-specs {
+            list-style: none;
+            margin-top: 1.5rem;
+            padding-left: 0;
+        }
+
+        .ecosystem-specs li {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.9rem;
+            display: block;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .ecosystem-specs li::before {
+            content: "→";
+            color: var(--accent-alt);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .ecosystem-specs li span {
+            font-family: var(--font-mono);
+            color: var(--accent);
+            font-weight: 700;
+            min-width: 0;
+        }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            color: var(--accent);
+            background: rgba(242, 167, 27, 0.1);
+            padding: 0.1em 0.35em;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 900px) {
+            .ecosystem-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .ecosystem-grid.reversed { direction: ltr; }
+            .project-header { padding: 6rem 1.5rem 4rem; }
+            .project-container { padding: 3rem 1rem; }
+        }
+
+        /* Mockups */
+        .mockup-browser {
+            background: #0d3442;
+            border: 1px solid rgba(242, 167, 27, 0.14);
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.65);
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .mockup-browser-header {
+            background: #11404f;
+            padding: 0.4rem 0.6rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(242, 167, 27, 0.08);
+            height: 24px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .mockup-browser-dots { display: flex; gap: 4px; position: absolute; left: 10px; }
+        .mockup-browser-dot { width: 6px; height: 6px; border-radius: 50%; background: #2a5a6a; }
+
+        .mockup-browser-address {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            color: rgba(251, 250, 248, 0.32);
+            margin: 0 auto;
+            letter-spacing: 0.05em;
+            user-select: none;
+        }
+
+        .mockup-phone {
+            background: #0a2c39;
+            border: 9px solid #123d4c;
+            border-radius: 36px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(242, 167, 27, 0.14);
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 9 / 19.5;
+            width: 250px;
+            margin: 0 auto;
+        }
+
+        .mockup-phone::before {
+            content: '';
+            position: absolute;
+            top: 9px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 74px;
+            height: 20px;
+            border-radius: 20px;
+            background: #000;
+            z-index: 10;
+        }
+
+        .phones-row {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .phones-row .media-item:nth-child(2) { transform: translateY(-2rem); }
+        .phones-row .media-item:nth-child(2):hover { transform: translateY(-2rem) scale(1.02); }
+
+        @media (max-width: 900px) {
+            .phones-row { flex-direction: column; align-items: center; }
+            .phones-row .media-item:nth-child(2) { transform: none; }
+        }
+
+        .media-item {
+            padding: 0 !important;
+            background: transparent !important;
+            border: none !important;
+            gap: 0.5rem !important;
+            cursor: zoom-in;
+            overflow: visible !important;
+            box-shadow: none !important;
+        }
+
+        .media-item:hover { transform: scale(1.02); }
+
+        .media-caption {
+            padding: 0 0.5rem;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .mockup-browser img.media-content {
+            width: 100% !important;
+            height: auto !important;
+            aspect-ratio: auto !important;
+            object-fit: contain !important;
+            display: block !important;
+            border-radius: 0;
+        }
+
+        .mockup-phone img.media-content {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 0;
+            aspect-ratio: auto;
+        }
+
+        .media-item:hover .media-content { transform: scale(1.02); }
+        .hero-shot.media-item:hover,
+        .hero-shot.media-item:hover .media-content { transform: none; }
+
+        /* Pipeline de despliegue */
+        .pipeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.8rem;
+            margin-top: 2rem;
+        }
+
+        .paso {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            background: rgba(15, 59, 76, 0.55);
+            position: relative;
+        }
+
+        .paso small { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.12em; color: var(--accent-alt); }
+        .paso b { display: block; margin: 0.3rem 0; font-size: 0.95rem; }
+        .paso p { font-size: 0.8rem; opacity: 0.6; line-height: 1.5; }
+
+        @media (max-width: 900px) {
+            .pipeline { grid-template-columns: 1fr 1fr; }
+        }
+        </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XQ78P8968"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-2XQ78P8968');
+    </script>
+</head>
+<body>
+    <div class="project-container">
+        <header class="project-header">
+            <div class="header-content">
+                <span class="tag">// WEB DE CAPTACIÓN · ENERGÍA SOLAR · EN PRODUCCIÓN</span>
+                <h1 class="esolar-logo"><img src="assets/logo.svg" alt="eSolar Cantabria"></h1>
+                <p class="lead">La web de una red de instaladores de placas solares en Cantabria. El visitante ve cuánto produciría una instalación en su municipio, calcula lo que ahorraría y pide presupuesto a un instalador de la red de su zona.</p>
+                <div class="header-actions">
+                    <a href="https://esolarcantabria.es/" target="_blank" rel="noopener noreferrer" class="btn-action">
+                        <span>☀</span> VISITAR ESOLARCANTABRIA.ES
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <div class="hero-shot media-item">
+            <img src="assets/esolar-portada.webp" class="media-content" alt="eSolar Cantabria: portada con la producción solar de Santander mes a mes">
+        </div>
+
+        <div class="cifras">
+            <div class="cifra"><b>102</b><span>Municipios con datos propios</span></div>
+            <div class="cifra"><b>6</b><span>Calculadoras</span></div>
+            <div class="cifra"><b>25</b><span>Artículos con fuentes</span></div>
+            <div class="cifra"><b>148</b><span>Páginas estáticas</span></div>
+            <div class="cifra"><b>0</b><span>Frameworks en el cliente</span></div>
+            <div class="cifra"><b>1</b><span>Persona detrás</span></div>
+        </div>
+
+        <main class="project-grid">
+            <section class="info-block">
+                <h2>EL PRODUCTO</h2>
+                <p>Quien piensa en poner placas en Cantabria tiene una duda antes que ninguna: «¿aquí hace sol suficiente?». Las webs del sector responden con promesas genéricas. eSolar responde con datos: cada municipio tiene su página con lo que produce de verdad una placa allí, mes a mes, y cada cifra de ahorro sale de esos mismos datos. La web no instala: pone al visitante en contacto con un instalador de la red que trabaja cerca de su casa. He diseñado la marca y la web y la he programado yo solo.</p>
+            </section>
+
+            <section class="info-block specs">
+                <h2>INFRAESTRUCTURA TÉCNICA</h2>
+                <ul>
+                    <li><span>WEB:</span> Astro 7 con salida estática y sitemap: cada página es HTML plano y rápido.</li>
+                    <li><span>CLIENTE:</span> JavaScript sin framework para las calculadoras y el gráfico mensual.</li>
+                    <li><span>DATOS:</span> Wikidata para los municipios y la API de PVGIS de la Comisión Europea para la producción solar.</li>
+                    <li><span>ENTREGA:</span> GitHub Actions compila, comprueba los enlaces y publica en Hostinger por rsync y SSH; formulario en PHP con PHPMailer.</li>
+                </ul>
+            </section>
+
+            <!-- 01 · Municipios -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid">
+                    <div class="ecosystem-content">
+                        <h3>01 / DATOS REALES</h3>
+                        <h4>102 municipios, cada uno con su sol</h4>
+                        <p>Un script cruza Wikidata (nombre, coordenadas y población de cada municipio) con PVGIS, la base de datos solar de la Comisión Europea, y guarda la producción de cada mes. Con eso se genera una página por municipio que dice algo que solo vale para ese sitio.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Comparaciones que se entienden:</span> «un 14 % más que en Berlín» y la posición del municipio entre los 102 de Cantabria.</li>
+                            <li><span>Con caché:</span> las respuestas de PVGIS se guardan para no repetir consultas; <code>npm run datos -- --nuevo</code> las renueva.</li>
+                            <li><span>SEO local:</span> 102 páginas con contenido propio, no la misma plantilla con el nombre cambiado.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-header">
+                                <div class="mockup-browser-dots"><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span></div>
+                                <div class="mockup-browser-address">esolarcantabria.es/placas-solares/santander</div>
+                            </div>
+                            <img src="assets/esolar-municipio.webp" class="media-content" alt="eSolar Cantabria - página de Santander con su producción solar mes a mes">
+                        </div>
+                        <p class="media-caption">// Pantalla: Santander, 1.202 kWh al año por cada kWp instalado.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 02 · Calculadoras -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid reversed">
+                    <div class="ecosystem-content">
+                        <h3>02 / LÓGICA DE DOMINIO</h3>
+                        <h4>Seis calculadoras con una sola lógica</h4>
+                        <p>Ahorro, número de placas, batería, compensación de excedentes, deducción del IRPF y aerotermia. Todas usan el mismo módulo, <code>solar.js</code>, que también calcula las cifras de las páginas de municipio durante el build. Si cambia un supuesto, cambia en toda la web a la vez.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Mes a mes:</span> cruza la producción de cada mes con el consumo según cuándo se gasta la luz en casa, porque no ahorra lo mismo quien está en casa de día que quien no.</li>
+                            <li><span>Supuestos a la vista:</span> precios y rendimientos están reunidos en un solo objeto, <code>SUPUESTOS</code>, fácil de revisar y de actualizar.</li>
+                            <li><span>Del cálculo al contacto:</span> «Pedir presupuesto con estos datos» pasa el cálculo y el municipio al formulario, para que el instalador no empiece de cero.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-header">
+                                <div class="mockup-browser-dots"><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span></div>
+                                <div class="mockup-browser-address">esolarcantabria.es/calculadoras/ahorro-placas-solares</div>
+                            </div>
+                            <img src="assets/esolar-calc.webp" class="media-content" alt="eSolar Cantabria - calculadora de ahorro con placas solares">
+                        </div>
+                        <p class="media-caption">// Pantalla: con 90 € de luz al mes en Santander, 449 € de ahorro al año.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 03 · Contenido -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid">
+                    <div class="ecosystem-content">
+                        <h3>03 / CONTENIDO CON FUENTES</h3>
+                        <h4>Decir solo lo que es cierto</h4>
+                        <p>En energía solar abundan las promesas que no se cumplen. Los 25 artículos de la web enlazan sus fuentes oficiales, y las reglas del proyecto impiden publicar una ayuda, un plazo o una cifra que no se haya comprobado.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>IBI:</span> una bonificación solo aparece si se ha leído la ordenanza de ese ayuntamiento, con el enlace a ella.</li>
+                            <li><span>Fotos honestas:</span> imágenes de Wikimedia Commons con licencia libre y crédito visible, y nunca presentadas como instalaciones de la red.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-header">
+                                <div class="mockup-browser-dots"><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span></div>
+                                <div class="mockup-browser-address">esolarcantabria.es/blog/bonificacion-ibi-placas-solares-cantabria</div>
+                            </div>
+                            <img src="assets/esolar-blog.webp" class="media-content" alt="eSolar Cantabria - artículo sobre la bonificación del IBI">
+                        </div>
+                        <p class="media-caption">// Pantalla: la guía del IBI, que desmiente el «50 % en Santander».</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 04 · Móvil -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px; margin-bottom: 3rem;">
+                    <h3>04 / MOBILE FIRST</h3>
+                    <h4>La cifra y el botón, lo primero</h4>
+                    <p>En el móvil la web se ordena en una columna: primero la producción del municipio y el botón de pedir presupuesto, después el detalle. Las calculadoras se usan con el pulgar y el gráfico mensual se adapta al ancho de la pantalla.</p>
+                </div>
+                <div class="phones-row">
+                    <div class="media-item">
+                        <div class="mockup-phone"><img src="assets/esolar-m-portada.webp" class="media-content" alt="eSolar Cantabria - portada en móvil"></div>
+                        <p class="media-caption">// Portada</p>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-phone"><img src="assets/esolar-m-municipio.webp" class="media-content" alt="eSolar Cantabria - municipio en móvil"></div>
+                        <p class="media-caption">// Municipio</p>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-phone"><img src="assets/esolar-m-calc.webp" class="media-content" alt="eSolar Cantabria - calculadora en móvil"></div>
+                        <p class="media-caption">// Calculadora</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 05 · Entrega -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px;">
+                    <h3>05 / INGENIERÍA DE ENTREGA</h3>
+                    <h4>Nada sale a producción con un enlace roto</h4>
+                    <p>Con 148 páginas generadas a partir de datos, un enlace mal escrito se multiplica. El despliegue comprueba todos los enlaces internos y solo publica si no hay ninguno roto. La contraseña del correo vive en un archivo fuera de la carpeta pública, nunca en el repositorio.</p>
+                </div>
+                <div class="pipeline">
+                    <div class="paso"><small>01 · PUSH</small><b>GitHub</b><p>Push a main lanza el flujo de GitHub Actions.</p></div>
+                    <div class="paso"><small>02 · BUILD</small><b>Astro</b><p>Municipios, calculadoras, artículos y sitemap.</p></div>
+                    <div class="paso"><small>03 · CONTROL</small><b>npm run enlaces</b><p>Si hay un enlace interno roto, el despliegue se detiene.</p></div>
+                    <div class="paso"><small>04 · DEPLOY</small><b>rsync / SSH</b><p>Sube solo lo que cambia a Hostinger.</p></div>
+                </div>
+            </section>
+
+            <!-- TECNICA -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px;">
+                    <h3>06 / ARQUITECTURA</h3>
+                    <h4>Cómo encajan las piezas</h4>
+                </div>
+                <ul class="datos-tecnicos"><li><b>102</b>municipios de PVGIS</li><li><b>148</b>páginas estáticas</li><li><b>1</b>módulo de cálculo compartido</li><li><b>0</b>frameworks en el navegador</li><li><b>PHP</b>para el formulario</li></ul>
+                <div class="capas">
+                    <div class="capa"><h5>Datos<small>antes del build</small></h5><div class="nodos"><div class="nodo">Wikidata (SPARQL)<small>municipios, coordenadas, población</small></div><div class="nodo">API de PVGIS<small>producción mes a mes por municipio</small></div><div class="nodo">Caché en disco<small>no repite consultas</small></div><div class="nodo">municipios.json<small>resultado versionado</small></div></div></div>
+                    <div class="capa"><h5>Build<small>Astro 7</small></h5><div class="nodos"><div class="nodo">solar.js<small>calcula las cifras de cada página</small></div><div class="nodo">102 páginas de municipio<small>contenido propio</small></div><div class="nodo">25 artículos<small>Markdown con fuentes</small></div><div class="nodo">Sitemap<small>148 páginas</small></div></div></div>
+                    <div class="capa"><h5>Navegador<small>sin framework</small></h5><div class="nodos"><div class="nodo">HTML estático<small>carga inmediata</small></div><div class="nodo">Calculadoras<small>el mismo solar.js</small></div><div class="nodo">Gráfico mensual<small>SVG</small></div></div></div>
+                    <div class="capa"><h5>Servidor<small>el mismo hosting</small></h5><div class="nodos"><div class="nodo">send-mail.php + PHPMailer<small>formulario por SMTP</small></div><div class="nodo">config-correo.php<small>fuera de public_html</small></div><div class="nodo">rsync por SSH<small>tras comprobar enlaces</small></div></div></div>
+                </div>
+                <p class="decisiones-cabecera">// Decisiones técnicas y por qué</p>
+                <div class="decisiones">
+                    <div class="decision"><div><small>Problema</small>Las cifras de la página de un municipio y las de la calculadora tienen que coincidir.</div><div><small>Decisión</small>Un solo módulo, <code>solar.js</code>, que usa Astro en el build y las calculadoras en el navegador.</div><div><small>En vez de</small>Dos implementaciones que acabarían diciendo cosas distintas.</div></div>
+                    <div class="decision"><div><small>Problema</small>Depender de una API externa en cada visita hace la web lenta y frágil.</div><div><small>Decisión</small>Los datos se descargan una vez, con caché, y quedan dentro de la web estática.</div><div><small>En vez de</small>Llamar a la API desde el navegador del visitante.</div></div>
+                    <div class="decision"><div><small>Problema</small>La compensación de excedentes tiene un tope legal.</div><div><small>Decisión</small>El cálculo nunca compensa más de lo que se paga por la energía comprada ese mes, y enseña lo que se pierde.</div><div><small>En vez de</small>Sumar todo el excedente como ahorro, que da una cifra más bonita pero falsa.</div></div>
+                    <div class="decision"><div><small>Problema</small>Los datos del formulario son personales.</div><div><small>Decisión</small>PHP con PHPMailer en el mismo hosting y la contraseña fuera de la carpeta pública.</div><div><small>En vez de</small>Un servicio externo de formularios, con los datos en manos de un tercero.</div></div>
+                    <div class="decision"><div><small>Problema</small>148 páginas generadas multiplican cualquier enlace roto.</div><div><small>Decisión</small><code>npm run enlaces</code> recorre la web generada y el despliegue se detiene si encuentra uno.</div><div><small>En vez de</small>Descubrirlos cuando ya están en Google.</div></div>
+                </div>
+            </section>
+
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px; margin-bottom: 3rem;">
+                    <h3>07 / EN EL CÓDIGO</h3>
+                    <h4>Fragmentos reales del repositorio</h4>
+                </div>
+                <div class="codigo">
+                    <div>
+                        <h5>Balance mes a mes</h5>
+                        <p>El ahorro no sale de multiplicar la producción anual por el precio de la luz. Para cada mes se reparte el consumo, se calcula cuánto se gasta mientras hay sol, cuánto puede guardar una batería y cuánto excedente se compensa sin pasar del tope.</p>
+                    </div>
+                    <div class="editor">
+                        <div class="editor-pestana"><b>src/lib/solar.js</b><span>JavaScript</span></div>
+                        <pre><code>export function balance({ meses, kwp, consumoAnual, diurno, s = SUPUESTOS, bateriaKwh = 0 }) {
+  const consumo = repartirConsumo(consumoAnual);
+  const filas = meses.map((porKwp, i) =&gt; {
+    const produccion = porKwp * kwp;
+    const c = consumo[i];
+    let auto = Math.min(produccion, c * diurno);
+    let excedente = produccion - auto;
+    let compra = c - auto;
+    …
+    <i>// Compensación simplificada: nunca supera lo que pagas por la energía que compras ese mes</i>
+    const compensacionBruta = excedente * s.precioExcedente;
+    const tope = compra * s.precioLuz;
+    const compensacion = Math.min(compensacionBruta, tope);
+    const ahorro = auto * s.precioLuz + compensacion;
+    return { mes: i, produccion, consumo: c, auto, excedente, compra, compensacion, ahorro };
+  });</code></pre>
+                    </div>
+                </div>
+                <div class="codigo">
+                    <div>
+                        <h5>Datos solares de cada municipio</h5>
+                        <p>El script pregunta a PVGIS por la producción de 1 kWp con la inclinación óptima en las coordenadas de cada municipio y guarda el resultado en caché después de cada consulta, para que un corte no obligue a empezar de cero.</p>
+                    </div>
+                    <div class="editor">
+                        <div class="editor-pestana"><b>scripts/datos-municipios.mjs</b><span>JavaScript</span></div>
+                        <pre><code>async function pvgis(lista) {
+  const ruta = `${CACHE}/pvgis.json`;
+  const sal = !NUEVO &amp;&amp; fs.existsSync(ruta) ? JSON.parse(fs.readFileSync(ruta, 'utf8')) : {};
+  for (const x of lista) {
+    if (sal[x.ine]) continue;
+    const u = `https://re.jrc.ec.europa.eu/api/v5_3/PVcalc?lat=${x.lat}&amp;lon=${x.lon}` +
+      `&amp;peakpower=1&amp;loss=14&amp;optimalangles=1&amp;outputformat=json`;
+    const j = await (await fetch(u)).json();
+    const f = j.outputs.monthly.fixed;
+    sal[x.ine] = {
+      anual: Math.round(j.outputs.totals.fixed.E_y),
+      meses: f.map((k) =&gt; Math.round(k.E_m * 10) / 10),
+      inclinacion: j.inputs.mounting_system.fixed.slope.value,
+    };
+    fs.writeFileSync(ruta, JSON.stringify(sal));
+  }
+  return sal;
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+            <!-- /TECNICA -->
+
+            <section class="info-block full-width conclusion" data-indice="Resumen" style="margin-top: 4rem;">
+                <h2>RESUMEN DEL IMPACTO</h2>
+                <p>eSolar demuestra que una web de captación puede ser útil antes que comercial: datos públicos convertidos en una respuesta concreta para cada municipio, cálculos coherentes en toda la web y contenido que solo afirma lo que puede demostrar. Es SEO local hecho con datos, no con relleno, y una marca propia llevada hasta la última página.</p>
+            </section>
+        </main>
+
+        <nav class="seguir" aria-label="Seguir viendo">
+            <a class="identidad" style="--portada: url('../marca-esolar/assets/tarjeta.webp'); --pos: right 70%" href="../marca-esolar/index.html"><small>Identidad visual</small><b>Un día de sol, la identidad de eSolar</b></a>
+            <a href="../tankily/index.html"><small>Siguiente producto</small><b>Tankily</b></a>
+        </nav>
+
+        <footer class="project-footer">
+            <div class="status-badge">
+                <span class="status-dot" style="background-color: #f2a71b; box-shadow: 0 0 10px rgba(242, 167, 27, 0.5);"></span>
+                ESTADO_PROYECTO_EN_PRODUCCIÓN
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

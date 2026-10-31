@@ -1,9 +1,37 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import createGlobe from 'cobe';
 import './ContactPage.css';
 
+// Mensajes del formulario según cómo vaya el envío
+const ESTADOS = {
+  enviado: 'Mensaje enviado. Te respondo en cuanto lo lea.',
+  error: 'No se ha podido enviar.',
+};
+
+// Errores del servidor que sí ayudan a quien escribe; el resto se muestran como un fallo genérico
+const ERRORES_VISIBLES = ['Faltan datos', 'El email no es válido', 'Demasiados envíos. Inténtalo más tarde.'];
+
 const ContactPage = () => {
   const canvasRef = useRef();
+  const [estado, setEstado] = useState('listo'); // listo | enviando | enviado | error
+  const [error, setError] = useState('');
+
+  const enviar = async (e) => {
+    e.preventDefault();
+    const formulario = e.currentTarget;
+    setEstado('enviando');
+    setError('');
+    try {
+      const respuesta = await fetch('/send-mail.php', { method: 'POST', body: new FormData(formulario) });
+      const datos = await respuesta.json().catch(() => ({}));
+      if (!respuesta.ok || !datos.ok) throw new Error(datos.error || '');
+      formulario.reset();
+      setEstado('enviado');
+    } catch (err) {
+      setError(err.message);
+      setEstado('error');
+    }
+  };
 
   useEffect(() => {
     let phi = 0;
@@ -56,26 +84,38 @@ const ContactPage = () => {
           
           <div className="contact-grid">
             <div className="contact-form-container">
-              <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
+              <form className="contact-form" onSubmit={enviar}>
                 <div className="form-group">
                   <label htmlFor="name">NOMBRE</label>
-                  <input type="text" id="name" placeholder="Tu nombre" />
+                  <input type="text" id="name" name="nombre" placeholder="Tu nombre" maxLength={120} required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="email">EMAIL</label>
-                  <input type="email" id="email" placeholder="tu@email.com" />
+                  <input type="email" id="email" name="email" placeholder="tu@email.com" maxLength={160} required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="message">MENSAJE</label>
-                  <textarea id="message" rows="4" placeholder="¿En qué puedo ayudarte?"></textarea>
+                  <textarea id="message" name="mensaje" rows="4" placeholder="¿En qué puedo ayudarte?" maxLength={3000} required></textarea>
                 </div>
-                <button type="submit" className="btn-send-contact">
-                  ENVIAR MENSAJE
+                {/* Campo trampa para robots: las personas no lo ven */}
+                <input type="text" name="web" tabIndex={-1} autoComplete="off" aria-hidden="true" className="campo-trampa" />
+                <button type="submit" className="btn-send-contact" disabled={estado === 'enviando'}>
+                  {estado === 'enviando' ? 'ENVIANDO…' : 'ENVIAR MENSAJE'}
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="22" y1="2" x2="11" y2="13"></line>
                     <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                   </svg>
                 </button>
+                <p className={`form-estado ${estado}`} role="status" aria-live="polite">
+                  {estado === 'enviado' && ESTADOS.enviado}
+                  {estado === 'error' && (
+                    <>
+                      {ERRORES_VISIBLES.includes(error) ? `${error.replace(/\.$/, '')}. ` : `${ESTADOS.error} `}
+                      Escríbeme directamente a <a href="mailto:hola@ronaldherrera.es">hola@ronaldherrera.es</a>.
+                    </>
+                  )}
+                </p>
+                <p className="form-privacidad">Uso tus datos solo para responderte. No los guardo ni los comparto.</p>
               </form>
             </div>
             
@@ -83,7 +123,7 @@ const ContactPage = () => {
               <div className="info-block">
                 <h3>CONECTAR</h3>
                 <a href="https://linkedin.com/in/ronald-herrera" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                <a href="https://github.com/ronald-herrera" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://github.com/ronaldherrera" target="_blank" rel="noopener noreferrer">GitHub</a>
                 <a href="https://behance.net/ronald-herrera" target="_blank" rel="noopener noreferrer">Behance</a>
               </div>
               <div className="info-block">

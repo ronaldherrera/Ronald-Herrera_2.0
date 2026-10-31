@@ -11,9 +11,12 @@ const FinalCTA = () => {
             ¿Buscas a alguien que no solo diseñe, sino que sea capaz de <span className="text-highlight-red">construirlo</span>?
           </h2>
           <p className="final-cta-subtitle">
-            Si te interesa mi enfoque pragmático para tu próximo proyecto, hablemos.
+            Busco un puesto en remoto como desarrollador de producto. Si encajo en tu equipo, escríbeme.
           </p>
-          <Link to="/contacto" className="btn btn-primary btn-cta">HABLEMOS</Link>
+          <div className="final-cta-acciones">
+            <Link to="/contacto" className="btn btn-primary btn-cta">HABLEMOS</Link>
+            <a href="/AR-CV/ronald-herrera-cv.pdf" className="btn btn-secondary btn-cta" download="Ronald-Herrera-CV.pdf">DESCARGAR CV</a>
+          </div>
         </div>
       </div>
     </section>

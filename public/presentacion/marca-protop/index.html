@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Identidad visual - Protop</title>
+<meta name="description" content="La identidad de Protop presentada como su propio tablón de corcho: logotipo de tarjeta clavada, color, tipografía, iconos de oficio, fotografía, movimiento y voz. Diseño de Ronald Herrera.">
+<link rel="icon" href="assets/logo/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --naranja: #D45A1B;
+    --naranja-texto: #B84A12;
+    --naranja-suave: #FDEEE5;
+    --grafito: #2E2F30;
+    --tiza: #FBFAF8;
+    --metro: #F2B23A;
+    --salvia: #56685D;
+    --salvia-suave: #E8EFEA;
+    --gris: #6B6660;
+    --linea: #E7E1D9;
+    --titular: 'Bricolage Grotesque', system-ui, sans-serif;
+    --texto: 'Figtree', system-ui, sans-serif;
+    --mano: 'Caveat', 'Segoe Print', cursive;
+    --lateral: 290px;
+    --rebote: cubic-bezier(.2, 1.4, .4, 1);
+    --corcho:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .28 0 0 0 0 .16 0 0 0 0 .06 0 0 0 1.4 -.35'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.018' numOctaves='3' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .27 0 0 0 0 .1 0 0 0 .9 -.25'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--texto); font-size: 17px; line-height: 1.6; color: var(--grafito); -webkit-font-smoothing: antialiased; background-color: #c8935a; background-image: var(--corcho); }
+  img { max-width: 100%; display: block; }
+  h1, h2, h3 { font-family: var(--titular); font-weight: 800; letter-spacing: -0.025em; line-height: 1.08; }
+  strong { font-weight: 700; }
+  :focus-visible { outline: 3px solid var(--naranja); outline-offset: 3px; border-radius: 6px; }
+
+  /* Chincheta */
+  .clavo { position: relative; }
+  .chincheta { position: absolute; top: -32px; left: 50%; width: 84px; height: 84px; margin-left: -42px; z-index: 3; pointer-events: none; overflow: visible; }
+  .papel { background: var(--tiza); box-shadow: 0 2px 0 rgba(0, 0, 0, .04), 0 18px 34px rgba(60, 30, 8, .35); }
+
+  /* Papeleta de tiras: el índice */
+  .papeleta { position: fixed; top: 96px; left: 24px; width: calc(var(--lateral) - 44px); max-height: calc(100vh - 120px); z-index: 40; display: flex; flex-direction: column; transform: rotate(-1.2deg); }
+  .papeleta .cabeza { padding: 26px 20px 14px; border-radius: 6px 6px 0 0; }
+  .papeleta .cabeza p { font-family: var(--mano); font-size: 1.85rem; line-height: 1; color: var(--grafito); }
+  .papeleta .cabeza small { display: block; color: var(--gris); font-size: .85rem; margin-top: 6px; }
+  .papeleta ol { list-style: none; overflow-y: auto; padding-bottom: 8px; scrollbar-width: none; }
+  .papeleta ol::-webkit-scrollbar { display: none; }
+  .papeleta a { display: block; background: var(--tiza); padding: 9px 20px 9px 22px; border-top: 1.5px dashed #CFC6BB; color: var(--grafito); text-decoration: none; font-weight: 500; font-size: .96rem; transition: transform .25s var(--rebote), opacity .25s; box-shadow: 0 10px 18px rgba(60, 30, 8, .25); }
+  .papeleta a:hover { background: var(--naranja-suave); }
+  .papeleta li { position: relative; }
+  /* Al arrancar una tira, un trocito con el borde rasgado se queda pegado a la hoja */
+  .papeleta li.arrancada::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 18px; background: var(--tiza); border-top: 1.5px dashed #CFC6BB; clip-path: polygon(0 0, 100% 0, 70% 12%, 100% 25%, 64% 38%, 100% 52%, 72% 66%, 100% 80%, 66% 91%, 100% 100%, 0 100%); z-index: 1; }
+  .papeleta a.arrancada { margin-left: 14px; padding-left: 20px; transform: translate(7px, 1px) rotate(1.6deg); transform-origin: 0 50%; background: #EEE7DD; color: var(--gris); clip-path: polygon(6px 0, 100% 0, 100% 100%, 6px 100%, 0 91%, 5px 80%, 1px 66%, 6px 52%, 0 38%, 5px 25%, 1px 12%); }
+  .papeleta a.aqui { background: var(--naranja-suave); box-shadow: inset 4px 0 0 var(--naranja), 0 10px 18px rgba(60, 30, 8, .25); transform: none; opacity: 1; }
+  .papeleta li:last-child a { border-radius: 0 0 6px 6px; }
+
+  main, .portada { margin-left: var(--lateral); }
+
+  /* Portada: la tarjeta del logotipo clavada en el corcho */
+  .portada { min-height: 100vh; position: relative; display: grid; align-content: center; padding: 110px 64px 90px; overflow: hidden; }
+  .tarjeta-logo { width: min(560px, 100%); padding: 46px 52px; border-radius: 16px; transform: rotate(-3deg); }
+  .tarjeta-logo img { width: 100%; }
+  .nota-mano { position: relative; margin: 48px 0 0 40px; max-width: 520px; font-family: var(--mano); font-size: clamp(2.2rem, 4.4vw, 3.4rem); line-height: 1.02; color: var(--grafito); transform: rotate(-2deg); background: #FFF4C2; padding: 22px 28px 26px; box-shadow: 0 16px 28px rgba(60, 30, 8, .3); }
+  .nota-mano::after { content: ''; position: absolute; top: -12px; left: 50%; width: 110px; height: 26px; margin-left: -55px; background: rgba(255, 255, 255, .55); transform: rotate(3deg); box-shadow: 0 1px 2px rgba(0, 0, 0, .08); }
+  .intro { margin: 34px 0 0 80px; max-width: 470px; padding: 22px 26px; border-radius: 4px; transform: rotate(1.4deg); font-size: 1rem; }
+
+  /* Papeles de cada parte */
+  .seccion { padding: 70px 64px 40px; scroll-margin-top: 30px; }
+  .hoja { max-width: 920px; border-radius: 6px; padding: 46px 48px 44px; }
+  .seccion:nth-child(odd) .hoja { transform: rotate(-.35deg); }
+  .seccion:nth-child(even) .hoja { transform: rotate(.35deg); margin-left: 24px; }
+  .hoja h2 { font-size: clamp(2rem, 3.4vw, 2.8rem); margin-bottom: 16px; max-width: 22ch; }
+  .hoja > p { max-width: 62ch; color: #45423F; }
+  .hoja > p + p { margin-top: 12px; }
+
+  /* La marca */
+  .rasgos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 36px; }
+  .rasgo { padding: 24px 16px 16px; border-radius: 10px; background: #fff; transform: rotate(var(--r)); box-shadow: 0 12px 22px rgba(60, 30, 8, .18); border: 1px solid var(--linea); }
+  .rasgo b { display: block; font-family: var(--titular); font-size: 1.3rem; margin-bottom: 4px; }
+  .rasgo span { font-size: .92rem; color: #45423F; display: block; }
+  .rasgo small { display: block; margin-top: 10px; font-size: .82rem; color: var(--gris); }
+  .rasgo small em { font-style: normal; font-weight: 700; color: #B3261E; }
+
+  /* Logotipo: tarjetas de visita */
+  .tarjetas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px 20px; margin-top: 38px; }
+  .tarjeta { aspect-ratio: 1.7; border-radius: 10px; display: grid; place-items: center; padding: 20px; transform: rotate(var(--r)); box-shadow: 0 12px 22px rgba(60, 30, 8, .22); border: 1px solid rgba(0, 0, 0, .06); }
+  .tarjeta img { max-height: 46px; max-width: 86%; }
+  .tarjeta.simbolo img { max-height: 70px; }
+  .tarjeta-pie { font-size: .85rem; color: var(--gris); margin-top: 10px; text-align: center; }
+  .t-blanca { background: #fff; }
+  .t-grafito { background: var(--grafito); }
+  .t-naranja { background: var(--naranja); }
+  .reglas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 28px; margin-top: 30px; }
+  .reglas div { padding-top: 14px; border-top: 2px solid var(--grafito); }
+  .reglas b { display: block; font-family: var(--titular); font-size: 1.05rem; }
+  .reglas span { font-size: .93rem; color: #45423F; }
+
+  /* Usos incorrectos */
+  .mal { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 30px; }
+  .mal figure { text-align: center; }
+  .mal .caja { position: relative; aspect-ratio: 1.5; border-radius: 10px; background: #fff; border: 1px solid var(--linea); display: grid; place-items: center; overflow: hidden; }
+  .mal .caja img { max-width: 62%; max-height: 34px; }
+  .mal .caja::after { content: ''; position: absolute; inset: 14% 8%; background: linear-gradient(to top right, transparent calc(50% - 2px), rgba(179, 38, 30, .85) calc(50% - 2px), rgba(179, 38, 30, .85) calc(50% + 2px), transparent calc(50% + 2px)); }
+  .mal figcaption { font-size: .88rem; margin-top: 8px; color: #45423F; }
+
+  /* Color: cartas de colores de ferretería */
+  .cartas { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 20px 0; margin: 46px 0 10px; padding-top: 14px; }
+  .carta { position: relative; width: 124px; flex: none; background: #fff; border-radius: 8px; padding: 10px 10px 14px; box-shadow: 0 14px 26px rgba(60, 30, 8, .28); transform-origin: 50% 8%; transform: rotate(var(--r)); margin: 0 5px; transition: transform .35s var(--rebote); }
+  .carta:hover { transform: rotate(0deg) translateY(-8px); z-index: 4; }
+  .carta::after { content: ''; position: absolute; top: 4px; left: 50%; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: #EDE6DC; box-shadow: inset 0 1px 2px rgba(0, 0, 0, .3); }
+  .carta .tono { height: 46px; border-radius: 4px; margin-top: 6px; }
+  .carta .tono:first-of-type { margin-top: 14px; }
+  .carta .tono.base { height: 64px; }
+  .carta b { display: block; font-family: var(--titular); font-size: 1rem; margin-top: 10px; line-height: 1.15; }
+  .carta code { font-family: var(--texto); font-size: .78rem; color: var(--gris); }
+  .carta p { font-size: .78rem; line-height: 1.35; color: #45423F; margin-top: 4px; }
+  .proporcion { display: flex; height: 18px; border-radius: 9px; overflow: hidden; margin-top: 30px; border: 1px solid var(--linea); }
+  .leyenda { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 8px; font-size: .88rem; color: var(--gris); }
+  .contraste { width: 100%; border-collapse: collapse; margin-top: 22px; font-size: .93rem; }
+  .contraste td { padding: 10px 6px; border-bottom: 1px solid var(--linea); }
+  .contraste td:nth-child(2) { text-align: right; font-weight: 600; white-space: nowrap; }
+  .contraste td:last-child { text-align: right; color: var(--salvia); font-weight: 700; white-space: nowrap; }
+  .contraste .muestra { display: inline-block; padding: 2px 10px; border-radius: 6px; font-weight: 700; margin-right: 10px; }
+
+  /* Tipografía */
+  .tipos { margin-top: 30px; display: grid; gap: 22px; }
+  .tipos > div { display: grid; grid-template-columns: 170px 1fr; gap: 24px; align-items: baseline; padding-bottom: 20px; border-bottom: 1px solid var(--linea); }
+  .tipos > div:last-child { border-bottom: 0; }
+  .tipos small { color: var(--gris); font-size: .88rem; line-height: 1.4; }
+  .tipos small b { display: block; color: var(--grafito); font-size: 1rem; }
+
+  /* Forma y el tablón */
+  .tablon-mini { margin-top: 32px; border-radius: 14px; padding: 40px 28px 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; background-color: #c8935a; background-image: var(--corcho); box-shadow: inset 0 0 0 1px rgb(90 55 25 / .3), inset 0 4px 24px rgb(60 35 15 / .35); }
+  .ficha { background: #fff; border-radius: 14px; padding: 24px 18px 16px; transform: rotate(var(--r)); box-shadow: 0 14px 24px rgba(50, 25, 5, .38); }
+  .ficha .oficio { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; background: #F3EFE9; border-radius: 999px; padding: 3px 10px 3px 6px; }
+  .ficha .oficio img { width: 16px; height: 16px; }
+  .ficha .patrocinado { float: right; font-size: .72rem; color: var(--gris); border: 1px solid #CFC9C1; border-radius: 999px; padding: 2px 8px; }
+  .ficha h3 { font-size: 1.25rem; margin: 12px 0 6px; }
+  .ficha p { font-size: .86rem; color: #45423F; line-height: 1.45; }
+  .ficha .rep { margin-top: 12px; font-size: .82rem; display: flex; gap: 8px; align-items: center; }
+  .ficha .rep b { background: var(--salvia-suave); color: var(--salvia); border-radius: 6px; padding: 1px 7px; }
+  .ficha .lugar { font-size: .78rem; color: var(--gris); margin-top: 6px; }
+  .piezas { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 26px; }
+  .boton { font-family: var(--texto); font-weight: 700; font-size: .95rem; border-radius: 999px; padding: 11px 20px; border: 0; }
+  .boton.principal { background: var(--naranja-texto); color: #fff; }
+  .boton.secundario { background: #fff; color: var(--grafito); box-shadow: inset 0 0 0 1.5px #D8D2CA; }
+  button.boton { cursor: pointer; }
+  .etiqueta { font-size: .8rem; font-weight: 600; border-radius: 999px; padding: 4px 11px; }
+  .radios { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; margin-top: 24px; }
+  .radios div { display: grid; place-items: center; text-align: center; font-size: .78rem; color: var(--gris); border: 2px solid var(--grafito); background: #fff; }
+
+  /* Iconos: hoja de pegatinas */
+  .pegatinas { margin-top: 30px; padding: 26px; border-radius: 10px; background: #F1EEE9; display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 14px; box-shadow: inset 0 0 0 1px var(--linea); }
+  .pegatina { background: #fff; border-radius: 16px; padding: 14px 6px 10px; text-align: center; box-shadow: 0 3px 6px rgba(60, 30, 8, .14); transform: rotate(var(--r, 0deg)); }
+  .pegatina img { width: 40px; height: 40px; margin: 0 auto; }
+  .pegatina span { display: block; font-size: .74rem; line-height: 1.2; margin-top: 7px; color: #45423F; }
+
+  /* Fotografía: fotos con cinta */
+  .fotos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 36px; }
+  .foto { position: relative; background: #fff; padding: 10px 10px 16px; transform: rotate(var(--r)); box-shadow: 0 14px 24px rgba(60, 30, 8, .3); }
+  .foto::before { content: ''; position: absolute; top: -12px; left: 50%; width: 90px; height: 24px; margin-left: -45px; background: rgba(255, 248, 225, .75); transform: rotate(-4deg); box-shadow: 0 1px 2px rgba(0, 0, 0, .1); z-index: 2; }
+  .foto img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
+  .foto figcaption { font-family: var(--mano); font-size: 1.3rem; line-height: 1.1; margin-top: 10px; }
+  .foto figcaption b { color: var(--salvia); }
+  .foto.no figcaption b { color: #B3261E; }
+
+  /* Movimiento */
+  .escena { margin-top: 30px; display: grid; grid-template-columns: auto 1fr; gap: 34px; align-items: center; }
+  .tablon-demo { height: 210px; border-radius: 14px; display: grid; place-items: center; background-color: #c8935a; background-image: var(--corcho); box-shadow: inset 0 0 0 1px rgb(90 55 25 / .3), inset 0 4px 24px rgb(60 35 15 / .35); }
+  .tablon-demo .ficha { width: 230px; --r: -2deg; }
+  .tablon-demo .ficha.clavar { animation: clavar .5s var(--rebote) both; }
+  @keyframes clavar { from { transform: translateY(-46px) scale(1.06) rotate(-6deg); opacity: 0; } to { transform: rotate(-2deg); opacity: 1; } }
+  .datos-mov { list-style: none; display: grid; gap: 10px; margin-top: 20px; }
+  .datos-mov b { font-family: var(--titular); }
+
+  /* Voz */
+  .voz { margin-top: 30px; display: grid; gap: 12px; }
+  .voz div { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+  .voz p { padding: 14px 18px; border-radius: 8px; font-size: .97rem; }
+  .voz .no { background: #F6EFE9; color: #6E625A; text-decoration: line-through; text-decoration-color: rgba(179, 38, 30, .7); text-decoration-thickness: 2px; }
+  .voz .si { background: var(--salvia-suave); color: #22332A; }
+  .palabras { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .palabras span { border-radius: 999px; padding: 4px 12px; font-size: .9rem; }
+  .palabras.si span { background: var(--salvia-suave); color: #22332A; }
+  .palabras.no span { background: #F6E3E1; color: #8A2B23; text-decoration: line-through; }
+  .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 26px; }
+  .dos h3 { font-size: 1.05rem; }
+
+  /* Aplicaciones */
+  .aplicaciones { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-top: 34px; align-items: start; }
+  .aplicaciones .foto img { aspect-ratio: auto; }
+  .aplicaciones .lado { display: grid; gap: 26px; }
+
+  .firma { text-align: center; padding: 50px 24px 150px; }
+  .firma .papel { display: inline-block; padding: 18px 26px; transform: rotate(-1.5deg); }
+  .firma p { font-family: var(--mano); font-size: 1.7rem; line-height: 1.1; }
+  .firma small { display: block; color: var(--gris); font-size: .88rem; margin-top: 4px; }
+  .firma { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 34px; }
+  .firma a.papel { background: #FFF4C2; color: var(--grafito); text-decoration: none; transform: rotate(2deg); transition: transform .2s ease, box-shadow .2s ease; }
+  .firma a.papel:hover { transform: rotate(0deg) translateY(-3px); box-shadow: 0 18px 30px rgba(60, 30, 8, .35); }
+
+  /* Móvil: la papeleta pasa a ser una hoja que sube */
+  .indice-movil, .velo { display: none; }
+  @media (max-width: 1100px) {
+    main, .portada { margin-left: 0; }
+    .papeleta { top: auto; bottom: 0; left: 12px; right: 12px; width: auto; max-height: 80vh; transform: translateY(105%); transition: transform .3s cubic-bezier(.2, .8, .3, 1); z-index: 60; }
+    .papeleta.abierta { transform: none; }
+    .papeleta a { font-size: 1.02rem; padding: 12px 20px; }
+    .papeleta a.arrancada { transform: translate(5px, 0) rotate(.8deg); }
+    .velo { display: block; position: fixed; inset: 0; z-index: 55; background: rgba(40, 20, 6, .45); }
+    .velo[hidden] { display: none; }
+    .indice-movil { display: flex; align-items: center; gap: 10px; position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom)); transform: translateX(-50%) rotate(-1deg); z-index: 50; max-width: calc(100vw - 32px); padding: 12px 18px; border: 0; border-radius: 4px; background: var(--tiza); color: var(--grafito); font: inherit; font-size: .95rem; font-weight: 600; box-shadow: 0 12px 26px rgba(60, 30, 8, .4); cursor: pointer; }
+    .indice-movil .chincheta { position: static; flex: none; width: 30px; height: 30px; margin: -6px -4px -6px -8px; }
+    .indice-movil span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+    .indice-movil em { font-family: var(--mano); font-style: normal; font-size: 1.25rem; color: var(--naranja-texto); flex: none; }
+  }
+  @media (max-width: 760px) {
+    body { font-size: 16px; }
+    .portada { padding: 100px 20px 70px; min-height: 92vh; }
+    .tarjeta-logo { padding: 30px; }
+    .nota-mano { margin: 36px 0 0 6px; padding: 16px 20px 20px; }
+    .intro { margin: 26px 0 0 14px; }
+    .seccion { padding: 50px 12px 26px; }
+    .seccion:nth-child(even) .hoja { margin-left: 0; }
+    .hoja { padding: 34px 20px 30px; }
+    .reglas, .fotos, .dos, .aplicaciones, .escena { grid-template-columns: 1fr; }
+    .rasgos { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .tarjetas { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 14px; }
+    .mal { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tablon-mini { grid-template-columns: 1fr; padding: 30px 18px 22px; }
+    .cartas { flex-wrap: wrap; justify-content: center; gap: 22px 8px; }
+    .carta { width: calc(50% - 10px); max-width: 150px; margin: 0; }
+    .tipos > div { grid-template-columns: 1fr; gap: 6px; }
+    .voz div { grid-template-columns: 1fr; gap: 6px; }
+    .tablon-demo .ficha { width: 210px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .papeleta, .papeleta a, .carta { transition: none; }
+    .tablon-demo .ficha.clavar { animation: none; }
+  }
+</style>
+<script src="../0.plantilla/back-button.js"></script>
+<style>
+  .back-to-lab-btn { position: fixed !important; top: 1.6rem !important; left: 1.6rem !important; bottom: auto !important; height: auto !important; width: auto !important; z-index: 20001; display: flex; align-items: center; gap: .8rem; padding: .8rem 1.6rem; border-radius: 100px; border: .5px solid #fff; color: #fff; background: rgba(16,16,16,.2); backdrop-filter: blur(4px) saturate(180%); text-decoration: none; font-family: sans-serif; mix-blend-mode: difference; }
+  .back-to-lab-btn span { font-size: .8rem; font-weight: 700; letter-spacing: .1em; }
+  .back-to-lab-btn svg { width: 20px; height: 20px; }
+  @media (max-width: 760px) {
+    .back-to-lab-btn { top: 14px !important; left: 14px !important; padding: .6rem .8rem !important; }
+    .back-to-lab-btn span { display: none; }
+  }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2XQ78P8968"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2XQ78P8968');
+</script>
+</head>
+<body>
+
+<button class="indice-movil" id="abrir-indice" type="button" aria-expanded="false" aria-controls="papeleta"><em>Arranca</em><span id="movil-nombre">La marca</span></button>
+<div class="velo" id="velo" hidden></div>
+
+<nav class="papeleta" id="papeleta" aria-label="Índice de la identidad">
+  <div class="cabeza papel clavo"><p>Arranca la que necesites</p><small>La identidad de Protop, por partes</small></div>
+  <ol id="tiras"></ol>
+</nav>
+
+<section class="portada">
+  <div class="tarjeta-logo papel clavo"><img src="assets/logotipo.svg" alt="Protop"></div>
+  <div class="nota-mano">El tablón del barrio, ahora en el móvil.</div>
+  <div class="intro papel">La identidad de Protop sale de un sitio concreto: el tablón de corcho de las tiendas de bricolaje, donde los profesionales de reformas clavan su tarjeta para que los vecinos les llamen. Aquí está, clavada en el mismo corcho.</div>
+</section>
+
+<main>
+  <section class="seccion" id="marca" data-nombre="La marca">
+    <div class="hoja papel clavo">
+      <h2>Una recomendación de confianza, cerca de casa</h2>
+      <p>Protop no es un marketplace que cobra comisión ni un buscador frío: es el sitio donde preguntas «¿conoces a un buen fontanero?» y te contestan con nombres, fotos y valoraciones con factura. La primera versión del rediseño salió seria e industrial; la rehice entera alrededor del tablón.</p>
+      <div class="rasgos">
+        <div class="rasgo clavo" style="--r:-2deg"><b>Cercana</b><span>Habla de tú, como el vecino que sabe de obras.</span><small><em>No es</em> una empresa que envía comunicados.</small></div>
+        <div class="rasgo clavo grafito" style="--r:1.5deg"><b>Clara</b><span>Dice lo que cuesta, lo que no y qué ha comprobado.</span><small><em>No es</em> un folleto lleno de promesas.</small></div>
+        <div class="rasgo clavo" style="--r:-1deg"><b>Honesta</b><span>Solo da estrellas con factura y marca siempre los anuncios.</span><small><em>No promete</em> «profesionales garantizados».</small></div>
+        <div class="rasgo clavo grafito" style="--r:2deg"><b>De aquí</b><span>Habla de pueblos y barrios reales, con nombre.</span><small><em>No es</em> una plataforma sin rostro.</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion" id="logotipo" data-nombre="El logotipo">
+    <div class="hoja papel clavo">
+      <h2>Una tarjeta de visita, clavada</h2>
+      <p>La casa de siempre de Protop dibujada dentro de una tarjeta un poco ladeada, con su chincheta naranja. El nombre pasa a minúsculas en Bricolage Grotesque y conserva la división que ya tenía: <strong>pro</strong> en grafito y <strong>top</strong> en naranja.</p>
+      <div class="tarjetas">
+        <div><div class="tarjeta t-blanca clavo" style="--r:-2deg"><img src="assets/logotipo.svg" alt="Logotipo principal"></div><div class="tarjeta-pie">Principal, sobre blanco o tiza</div></div>
+        <div><div class="tarjeta t-grafito clavo" style="--r:1.5deg"><img src="assets/logotipo-negativo.svg" alt="Logotipo negativo"></div><div class="tarjeta-pie">Negativo, sobre grafito</div></div>
+        <div><div class="tarjeta t-naranja clavo grafito" style="--r:-1deg"><img src="assets/logotipo-blanco.svg" alt="Logotipo blanco"></div><div class="tarjeta-pie">Monocromo, sobre el naranja</div></div>
+        <div><div class="tarjeta t-blanca simbolo clavo" style="--r:2deg"><img src="assets/simbolo.svg" alt="Símbolo"></div><div class="tarjeta-pie">Símbolo, para avatares y sellos</div></div>
+        <div><div class="tarjeta t-blanca clavo" style="--r:-1.5deg"><img src="assets/logotipo-grafito.svg" alt="Logotipo a una tinta grafito"></div><div class="tarjeta-pie">Una tinta, para imprimir</div></div>
+        <div><div class="tarjeta t-naranja simbolo clavo grafito" style="--r:1deg"><img src="assets/foto-perfil-animada.gif" alt="Avatar animado de Protop" style="max-height:92px;border-radius:50%"></div><div class="tarjeta-pie">Avatar animado de redes</div></div>
+      </div>
+      <div class="reglas">
+        <div><b>Espacio</b><span>Libre alrededor, como mínimo, la altura de la chincheta.</span></div>
+        <div><b>Tamaño mínimo</b><span>Completo desde 96 px de ancho; por debajo, el símbolo.</span></div>
+        <div><b>Favicon</b><span>Por debajo de 32 px. A 16 px la chincheta casi desaparece, y está bien.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion" id="usos" data-nombre="Usos incorrectos">
+    <div class="hoja papel clavo">
+      <h2>No se deforma, no se recolorea y no se esconde</h2>
+      <div class="mal">
+        <figure><div class="caja"><img src="assets/logotipo.svg" alt="" style="transform:scaleX(1.45) scaleY(.75)"></div><figcaption>Estirarlo o aplastarlo</figcaption></figure>
+        <figure><div class="caja"><img src="assets/logotipo.svg" alt="" style="filter:hue-rotate(150deg) saturate(1.4)"></div><figcaption>Cambiar sus colores</figcaption></figure>
+        <figure><div class="caja" style="background:var(--naranja)"><img src="assets/logotipo.svg" alt=""></div><figcaption>Ponerlo sin contraste</figcaption></figure>
+        <figure><div class="caja"><img src="assets/logotipo.svg" alt="" style="transform:rotate(-16deg);filter:drop-shadow(5px 6px 2px rgba(0,0,0,.45))"></div><figcaption>Girarlo o darle sombra</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion" id="color" data-nombre="El color">
+    <div class="hoja papel clavo">
+      <h2>Las cartas de colores de la marca</h2>
+      <p>Como las tiras de muestras de la sección de pintura. El naranja de siempre es el protagonista, ahora sobre una luz blanca en lugar del gris frío de la primera versión. El amarillo metro, el de la cinta métrica y el casco, pone los detalles alegres, y la salvia queda para lo que Protop ha comprobado.</p>
+      <div class="cartas" id="cartas"></div>
+      <div class="proporcion"><span style="flex:62;background:#FBFAF8"></span><span style="flex:20;background:#2E2F30"></span><span style="flex:11;background:#D45A1B"></span><span style="flex:7;background:#F2B23A"></span></div>
+      <div class="leyenda"><span>Tiza y blanco 62 %</span><span>Grafito 20 %</span><span>Naranja 11 %</span><span>Detalles 7 %</span></div>
+      <table class="contraste">
+        <tr><td><span class="muestra" style="background:#B84A12;color:#fff">Aa</span>Blanco sobre naranja texto</td><td>5,2 : 1</td><td>AA</td></tr>
+        <tr><td><span class="muestra" style="background:#FBFAF8;color:#2E2F30;box-shadow:inset 0 0 0 1px #E7E1D9">Aa</span>Grafito sobre tiza</td><td>12,9 : 1</td><td>AAA</td></tr>
+        <tr><td><span class="muestra" style="background:#F2B23A;color:#2E2F30">Aa</span>Grafito sobre amarillo metro</td><td>7,2 : 1</td><td>AAA</td></tr>
+        <tr><td><span class="muestra" style="background:#E8EFEA;color:#56685D">Aa</span>Salvia sobre salvia suave</td><td>5,1 : 1</td><td>AA</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="seccion" id="tipografia" data-nombre="La tipografía">
+    <div class="hoja papel clavo">
+      <h2>Dos familias y una nota a mano</h2>
+      <p>Los titulares van en minúscula normal, nunca en mayúsculas sostenidas. Las tres son gratuitas, con licencia OFL.</p>
+      <div class="tipos">
+        <div><small><b>Bricolage Grotesque</b>Titulares, 750–800. Formas suaves y un punto artesanal; su nombre ya suena al oficio.</small><span style="font-family:var(--titular);font-weight:800;font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:-.03em;line-height:1">¿Quién te lo arregla?</span></div>
+        <div><small><b>Figtree</b>Texto e interfaz, 400–650. Redondeada y muy legible en el móvil.</small><span style="font-size:1.15rem">Fontanero en Camargo, 4,6/5 con 23 trabajos valorados con factura.</span></div>
+        <div><small><b>Caveat</b>Solo las notas clavadas en el tablón. Nunca en formularios ni botones.</small><span style="font-family:var(--mano);font-size:2.4rem;line-height:1;color:var(--naranja-texto)">¿Obra en casa?</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion" id="forma" data-nombre="Forma y el tablón">
+    <div class="hoja papel clavo">
+      <h2>Cada profesional es una tarjeta</h2>
+      <p>Apaisada, con el nombre como protagonista y la reputación al pie. El corcho se reserva para piezas de marca y la portada; en el directorio, las tarjetas van sobre tiza para no cansar la vista. Un solo botón principal por pantalla, siempre con un verbo.</p>
+      <div class="tablon-mini">
+        <div class="ficha clavo" style="--r:-1.5deg"><span class="patrocinado">Patrocinado</span><span class="oficio"><img src="assets/iconos/icono-electricidad.svg" alt="">Electricidad</span><h3>Electricidad Bahía</h3><p>Instalaciones y reparaciones eléctricas para vivienda y local.</p><div class="rep"><b>4,6/5</b>23 trabajos con factura</div><div class="lugar">Santander</div></div>
+        <div class="ficha clavo grafito" style="--r:1deg"><span class="oficio"><img src="assets/iconos/icono-fontaneria.svg" alt="">Fontanería</span><h3>Fontanería Astillero Express</h3><p>Urgencias de fontanería y mantenimiento de calderas.</p><div class="rep"><b>4,2/5</b>9 trabajos con factura</div><div class="lugar">El Astillero</div></div>
+        <div class="ficha clavo" style="--r:-.5deg"><span class="oficio"><img src="assets/iconos/icono-pintura-decoracion.svg" alt="">Pintura</span><h3>Pinturas Cantabria Color</h3><p>Pintura de interiores, fachadas y alisado de paredes.</p><div class="rep">Sin valoraciones verificadas</div><div class="lugar">Camargo</div></div>
+      </div>
+      <div class="piezas">
+        <span class="boton principal">Pedir presupuestos</span>
+        <span class="boton secundario">Ver profesionales</span>
+        <span class="etiqueta" style="background:var(--salvia-suave);color:var(--salvia)">Factura revisada</span>
+        <span class="etiqueta" style="box-shadow:inset 0 0 0 1px #A49C93;color:var(--gris)">Patrocinado</span>
+        <span class="etiqueta" style="background:var(--metro);color:var(--grafito)">Ficha de ejemplo</span>
+      </div>
+      <div class="radios">
+        <div style="width:110px;height:40px;border-radius:999px">Botón, píldora</div>
+        <div style="width:110px;height:70px;border-radius:14px">Tarjeta, 14 px</div>
+        <div style="width:120px;height:84px;border-radius:20px">Bloque, 20 px</div>
+        <div style="width:110px;height:40px;border-radius:10px">Campo, 10 px</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion" id="iconos" data-nombre="Iconos de oficio">
+    <div class="hoja papel clavo">
+      <h2>Una hoja de pegatinas, una por oficio</h2>
+      <p>Los iconos repiten la forma del logotipo: un dibujo sencillo dentro de un recuadro. En la interfaz van en grafito; en ilustración y redes, en naranja. Para lupa, teléfono o mapa, Lucide con trazo de 2 px.</p>
+      <div class="pegatinas" id="pegatinas"></div>
+    </div>
+  </section>
+
+  <section class="seccion" id="fotografia" data-nombre="Fotografía">
+    <div class="hoja papel clavo">
+      <h2>Trabajo de verdad, no poses de catálogo</h2>
+      <p>Lo que más acerca la marca a la gente son las personas y los trabajos reales de la zona. Luz natural, manos trabajando y gente concentrada en lo suyo.</p>
+      <div class="fotos">
+        <figure class="foto" style="--r:-2deg"><img src="assets/fotos/reforma-en-marcha.webp" alt="Dos profesionales montando placas de pladur en una vivienda luminosa"><figcaption><b>Sí.</b> Trabajo en marcha, luz natural.</figcaption></figure>
+        <figure class="foto" style="--r:1.5deg"><img src="assets/fotos/profesional-cliente.webp" alt="Profesional enseñando un presupuesto a una clienta"><figcaption><b>Sí.</b> La conversación con el cliente.</figcaption></figure>
+        <figure class="foto no" style="--r:-1deg"><img src="assets/fotos/hero-profesional.webp" alt="Profesional posando con los brazos cruzados"><figcaption><b>Mejor no.</b> Brazos cruzados: parece publicidad.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion" id="movimiento" data-nombre="El movimiento">
+    <div class="hoja papel clavo">
+      <h2>Un solo gesto propio: la tarjeta que se clava</h2>
+      <p>Cuando aparece el tablón, las tarjetas bajan un poco y se asientan con un pequeño rebote, una detrás de otra. Todo lo demás solo se mueve como respuesta a lo que hace la persona.</p>
+      <div class="escena">
+        <button class="boton principal" type="button" id="clavar">Clavar la tarjeta</button>
+        <div class="tablon-demo"><div class="ficha clavo" id="ficha-demo"><span class="oficio"><img src="assets/iconos/icono-tejados.svg" alt="">Tejados</span><h3>Tejados Liébana</h3><div class="rep"><b>4,8/5</b>31 trabajos con factura</div></div></div>
+      </div>
+      <ul class="datos-mov">
+        <li><b>Duración:</b> 150–250 ms para responder a la interfaz y 500 ms para clavar.</li>
+        <li><b>Curva:</b> entra suave y rebota un poco al asentarse, nunca lineal.</li>
+        <li><b>Nunca:</b> secciones que aparecen al hacer scroll, parallax ni tarjetas que se levantan al pasar el ratón.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="seccion" id="voz" data-nombre="La voz">
+    <div class="hoja papel clavo">
+      <h2>Como el vecino que sabe de obras</h2>
+      <p>Protop tutea, va al grano y dice las cosas como son. Su confianza viene de los hechos, como la factura o el número de trabajos, no de los adjetivos.</p>
+      <div class="voz">
+        <div><p class="no">Encuentra a los mejores profesionales garantizados de tu zona.</p><p class="si">Profesionales de tu zona, con valoraciones de clientes que han enseñado la factura.</p></div>
+        <div><p class="no">Lo sentimos, no hay resultados para tu búsqueda.</p><p class="si">Todavía no hay fontaneros en Liérganes. Prueba con un pueblo cercano o pide presupuestos.</p></div>
+        <div><p class="no">¡¡Regístrate ya y empieza a ganar clientes!!</p><p class="si">Tu ficha es gratis y está lista en unos minutos.</p></div>
+      </div>
+      <div class="dos">
+        <div><h3>Palabras de Protop</h3><div class="palabras si"><span>cerca</span><span>con factura</span><span>de tu zona</span><span>sin comisión</span><span>directo</span><span>comprobado</span><span>vecino</span><span>tablón</span></div></div>
+        <div><h3>Palabras que no usa</h3><div class="palabras no"><span>garantizado</span><span>los mejores</span><span>líder</span><span>solución integral</span><span>premium</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion" id="aplicaciones" data-nombre="Aplicaciones">
+    <div class="hoja papel clavo">
+      <h2>El tablón, en la web</h2>
+      <p>La portada de Protop es un tablón de corcho con la ficha-buscador clavada, la papeleta de tiras para pedir presupuestos y una tarjeta en blanco para profesionales.</p>
+      <div class="aplicaciones">
+        <figure class="foto" style="--r:-1deg"><img src="../protop/assets/protop-portada.webp" alt="Portada de Protop en el ordenador"><figcaption>La portada, en el ordenador.</figcaption></figure>
+        <div class="lado">
+          <figure class="foto" style="--r:2deg"><img src="assets/compartir.webp" alt="Imagen de Protop para compartir enlaces"><figcaption>Al compartir un enlace.</figcaption></figure>
+          <figure class="foto" style="--r:-1.5deg"><img src="../protop/assets/protop-portada-movil.webp" alt="Portada de Protop en el móvil" style="aspect-ratio:3/4;object-fit:cover;object-position:top"><figcaption>Y en el móvil.</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="firma"><div class="papel clavo"><p>Identidad de Protop</p><small>diseñada por Ronald Herrera</small></div><a class="papel clavo" href="../protop/index.html"><p>Ver cómo funciona Protop</p><small>La presentación del producto</small></a></div>
+</main>
+
+<script>
+  // Chinchetas con perspectiva real: la cabeza está más cerca del ojo que la base,
+  // así que se desplaza hacia fuera del centro de la pantalla; al hacer scroll, el ángulo cambia.
+  const NS = 'http://www.w3.org/2000/svg';
+  const coloresPin = ['#E62E2D', '#1E6FE8', '#18A957', '#FFC21A', '#FF6A13', '#E83E8C', '#8B3FD9', '#16B8C4'];
+  const mezclar = (hex, otro, t) => {
+    const a = hex.match(/\w\w/g).map((x) => parseInt(x, 16)), b = otro.match(/\w\w/g).map((x) => parseInt(x, 16));
+    return '#' + a.map((v, i) => Math.round(v + (b[i] - v) * t).toString(16).padStart(2, '0')).join('');
+  };
+  const pins = [];
+  let id = 0;
+  const crear = (el, escala = 1) => {
+    const c = coloresPin[Math.floor(Math.random() * coloresPin.length)];
+    const n = ++id;
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('class', 'chincheta'); svg.setAttribute('aria-hidden', 'true'); svg.setAttribute('viewBox', '-42 -42 84 84');
+    svg.innerHTML = `
+      <defs>
+        <radialGradient id="cab${n}" cx="36%" cy="32%" r="75%"><stop offset="0" stop-color="${mezclar(c, '#ffffff', .55)}"/><stop offset=".35" stop-color="${mezclar(c, '#ffffff', .12)}"/><stop offset=".8" stop-color="${c}"/><stop offset="1" stop-color="${mezclar(c, '#000000', .45)}"/></radialGradient>
+        <linearGradient id="metal${n}" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7C8086"/><stop offset=".5" stop-color="#E8EAEC"/><stop offset="1" stop-color="#8E9298"/></linearGradient>
+        <filter id="dif${n}" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="2.4"/></filter>
+        <filter id="dif2${n}" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation=".8"/></filter>
+      </defs>
+      <ellipse class="sombra" rx="9.5" ry="8.5" fill="rgba(30,14,2,.4)" filter="url(#dif${n})"/>
+      <line class="sombra-aguja" x1="0" y1="0" stroke="rgba(30,14,2,.35)" stroke-width="1.4" stroke-linecap="round" filter="url(#dif2${n})"/>
+      <circle r="1.1" fill="rgba(0,0,0,.45)"/>
+      <line class="aguja" x1="0" y1="0" stroke="url(#metal${n})" stroke-width="1.7" stroke-linecap="round"/>
+      <g class="cabeza"><circle r="9.6" fill="url(#cab${n})"/><ellipse cx="-3.4" cy="-3.8" rx="3.3" ry="2" fill="rgba(255,255,255,.55)" transform="rotate(-35 -3.4 -3.8)"/></g>`;
+    svg.style.transform = `scale(${escala})`;
+    el.prepend(svg);
+    pins.push({ svg, sombra: svg.querySelector('.sombra'), sombraAguja: svg.querySelector('.sombra-aguja'), aguja: svg.querySelector('.aguja'), cabeza: svg.querySelector('.cabeza'), metal: svg.querySelector(`#metal${n}`) });
+  };
+  const ALTURA = 0.05;   // cuánto sobresale la chincheta, relativo a la distancia del ojo
+  function perspectiva() {
+    const cx = innerWidth / 2, cy = innerHeight / 2;
+    for (const p of pins) {
+      const r = p.svg.getBoundingClientRect();
+      if (r.bottom < -100 || r.top > innerHeight + 100) continue;
+      let dx = (r.left + r.width / 2 - cx) * ALTURA, dy = (r.top + r.height / 2 - cy) * ALTURA;
+      const largo = Math.hypot(dx, dy), max = 15;
+      if (largo > max) { dx *= max / largo; dy *= max / largo; }
+      p.cabeza.setAttribute('transform', `translate(${dx.toFixed(2)} ${dy.toFixed(2)})`);
+      // Sombra de la bola y de la aguja: la luz viene de arriba a la izquierda
+      const sx = 7 + dx * .35, sy = 9 + dy * .35;
+      p.sombra.setAttribute('cx', sx.toFixed(2)); p.sombra.setAttribute('cy', sy.toFixed(2));
+      p.sombraAguja.setAttribute('x2', sx.toFixed(2)); p.sombraAguja.setAttribute('y2', sy.toFixed(2));
+      // Aguja: del agujero en el papel al centro de la bola, con el brillo del metal de lado a lado
+      p.aguja.setAttribute('x2', dx.toFixed(2)); p.aguja.setAttribute('y2', dy.toFixed(2));
+      const L = Math.hypot(dx, dy) || .001, nx = -dy / L, ny = dx / L;
+      p.metal.setAttribute('x1', nx); p.metal.setAttribute('y1', ny); p.metal.setAttribute('x2', -nx); p.metal.setAttribute('y2', -ny);
+    }
+  }
+
+  // Cartas de colores: cada tira va del tono claro al de la marca
+  const colores = [
+    ['Naranja Protop', '#D45A1B', 'Logotipo, chinchetas e ilustración.', -5],
+    ['Naranja texto', '#B84A12', 'Botones y enlaces, con contraste AA.', -2],
+    ['Grafito', '#2E2F30', 'Texto y «pro». Nunca negro puro.', 1],
+    ['Tiza', '#FBFAF8', 'Fondo general: luz blanca, no crema.', 2],
+    ['Amarillo metro', '#F2B23A', 'Detalles. Nunca en texto ni botones.', 4],
+    ['Salvia', '#56685D', 'Solo lo comprobado. Nunca en anuncios.', 6],
+  ];
+  const tono = (hex, mezcla) => `color-mix(in srgb, ${hex} ${mezcla}%, #fff)`;
+  document.getElementById('cartas').innerHTML = colores.map(([nombre, hex, uso, r]) => `
+    <div class="carta" style="--r:${r}deg">
+      <div class="tono" style="background:${tono(hex, 18)}"></div>
+      <div class="tono" style="background:${tono(hex, 45)}"></div>
+      <div class="tono base" style="background:${hex};${hex === '#FBFAF8' ? 'box-shadow:inset 0 0 0 1px #E7E1D9' : ''}"></div>
+      <b>${nombre}</b><code>${hex}</code><p>${uso}</p>
+    </div>`).join('');
+
+  // Hoja de pegatinas con los iconos de oficio
+  const oficios = [['albañileria', 'Albañilería'], ['electricidad', 'Electricidad'], ['fontaneria', 'Fontanería'], ['pintura-decoracion', 'Pintura'], ['climatizacion', 'Climatización'], ['carpinteria-madera', 'Carpintería de madera'], ['carpinteria-metalica', 'Carpintería metálica'], ['puertas-ventanas', 'Puertas y ventanas'], ['tejados', 'Tejados'], ['fachadas', 'Fachadas'], ['suelos-tarimas', 'Suelos y tarimas'], ['pladur-falsos-techos', 'Pladur y techos'], ['aislamiento', 'Aislamiento'], ['gas', 'Gas'], ['renovables', 'Renovables'], ['reformas-integrales', 'Reformas integrales'], ['jardineria', 'Jardinería'], ['piscinas', 'Piscinas'], ['limpieza', 'Limpieza'], ['derribos', 'Derribos'], ['poda', 'Poda'], ['urgencias', 'Urgencias']];
+  document.getElementById('pegatinas').innerHTML = oficios.map(([f, n], i) =>
+    `<div class="pegatina" style="--r:${[-2, 1, -1, 2, 0, -1.5][i % 6]}deg"><img src="assets/iconos/icono-${f}.svg" alt=""><span>${n}</span></div>`).join('');
+
+  document.querySelectorAll('.clavo').forEach((el) => crear(el));
+  crear(document.getElementById('abrir-indice'));
+  let pendiente = false;
+  const pedir = () => { if (!pendiente) { pendiente = true; requestAnimationFrame(() => { pendiente = false; perspectiva(); }); } };
+  addEventListener('scroll', pedir, { passive: true });
+  addEventListener('resize', pedir);
+  perspectiva();
+
+  // Papeleta de tiras: una tira por sección
+  const secciones = [...document.querySelectorAll('.seccion')];
+  const tiras = document.getElementById('tiras');
+  const datos = secciones.map((s) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<a href="#${s.id}">${s.dataset.nombre}</a>`;
+    tiras.appendChild(li);
+    return { el: s, enlace: li.firstChild };
+  });
+  function actualizar() {
+    const ref = window.scrollY + 200;
+    datos.forEach((d, i) => {
+      const inicio = d.el.getBoundingClientRect().top + window.scrollY;
+      const sig = datos[i + 1];
+      const fin = sig ? sig.el.getBoundingClientRect().top + window.scrollY : Infinity;
+      const aqui = ref >= inicio && ref < fin;
+      d.enlace.classList.toggle('aqui', aqui);
+      d.enlace.classList.toggle('arrancada', ref >= fin);
+      d.enlace.parentNode.classList.toggle('arrancada', ref >= fin);
+      if (aqui) document.getElementById('movil-nombre').textContent = d.el.dataset.nombre;
+    });
+  }
+  window.addEventListener('scroll', actualizar, { passive: true });
+  window.addEventListener('resize', actualizar);
+  actualizar();
+
+  // El gesto de la marca: clavar la tarjeta
+  const ficha = document.getElementById('ficha-demo');
+  document.getElementById('clavar').addEventListener('click', () => { ficha.classList.remove('clavar'); void ficha.offsetWidth; ficha.classList.add('clavar'); });
+
+  // Papeleta como hoja inferior en el móvil
+  const nav = document.getElementById('papeleta');
+  const abrir = document.getElementById('abrir-indice');
+  const velo = document.getElementById('velo');
+  const hoja = (si) => { nav.classList.toggle('abierta', si); velo.hidden = !si; abrir.setAttribute('aria-expanded', String(si)); };
+  abrir.addEventListener('click', () => hoja(!nav.classList.contains('abierta')));
+  velo.addEventListener('click', () => hoja(false));
+  nav.addEventListener('click', (e) => { if (e.target.closest('a')) hoja(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && nav.classList.contains('abierta')) { hoja(false); abrir.focus(); } });
+</script>
+</body>
+</html>

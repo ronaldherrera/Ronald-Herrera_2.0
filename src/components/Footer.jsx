@@ -31,13 +31,13 @@ const Footer = () => {
             </div>
             <div className="info-item">
               <span className="info-label">STATUS:</span>
-              <span className="info-value status-online">AVAILABLE FOR PROJECTS</span>
+              <span className="info-value status-online">BUSCANDO EQUIPO EN REMOTO</span>
             </div>
           </div>
 
           <h2 className="footer-title">
-            ¿Hablamos de tu próximo <br/>
-            <span className="text-highlight-blue">PRODUCTO?</span>
+            ¿Te falta alguien <br/>
+            en el <span className="text-highlight-blue">EQUIPO?</span>
           </h2>
           
           <div className="footer-main-actions">
@@ -53,7 +53,7 @@ const Footer = () => {
           
           <div className="footer-bottom">
             <p className="footer-copyright">
-              © {new Date().getFullYear()} Ronald Herrera — Diseño y Estrategia Visual.
+              © {new Date().getFullYear()} Ronald Herrera. Desarrollador full-stack de producto.
             </p>
             <p className="footer-motto">
               HECHO CON 

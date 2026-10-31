@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Contraseña del correo (va en el servidor, fuera de public_html)
+config-correo.php

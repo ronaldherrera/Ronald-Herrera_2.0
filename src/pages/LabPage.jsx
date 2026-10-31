@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import setupImg from '../assets/setup.png';
-import portfolioV1Img from '../assets/portfolio-v1.png';
-import tankilyConceptImg from '../assets/tankily-concept.png';
-import imagymPortadaImg from '../assets/imagym-portada.png';
+import setupImg from '../assets/setup.webp';
+import portfolioV1Img from '../assets/portfolio-v1.webp';
+import imagymPortadaImg from '../assets/imagym-portada.webp';
 import fycheoPortadaImg from '../assets/fycheo-portada.webp';
 import './LabPage.css';
 
@@ -291,28 +290,105 @@ const LabPage = () => {
       title: "PRODUCTOS REALES",
       items: [
         { 
+          id: 100, 
+          title: "TANKILY", 
+          category: "RED SOCIAL / ACUARIOFILIA", 
+          tags: ["NEXT.JS", "SUPABASE", "i18n", "UX/UI"], 
+          description: "Red social y herramienta de gestión para acuaristas en 8 idiomas: diario de cada tanque, motor de compatibilidad entre especies, foro, mercado y WikiTank con 1.847 fichas.", 
+          url: "/presentacion/tankily/index.html", 
+          image: "/presentacion/tankily/assets/portada-mockups.webp" 
+        },
+        { 
           id: 10, 
           title: "FYCHEO", 
           category: "SaaS / MULTIPLATAFORMA", 
-          tags: ["REACT", "CAPACITOR", "SUPABASE", "SaaS"], 
-          description: "Ecosistema integral para control de jornada laboral y gestión de equipos en tiempo real. Compuesto por aplicación móvil (iOS/Android), kiosco de fichaje físico y panel de administración avanzado.", 
+          tags: ["REACT", "EXPO", "SUPABASE", "STRIPE"], 
+          description: "Control horario para pymes: 7 aplicaciones sobre una base de datos Supabase. App del empleado, tablet de fichaje, panel de RR. HH. con turnos y nóminas, apps nativas con Expo y cobros por monedero con Stripe.", 
           url: "/presentacion/fycheo/index.html", 
-          image: fycheoPortadaImg 
+          image: fycheoPortadaImg
         },
-        { 
-          id: 0, 
-          title: "LÁMPARA AQUARIUM LED", 
-          category: "HARDWARE / IOT", 
-          tags: ["ESP32", "3D MODEL", "UX"], 
-          description: "Diseño y fabricación de una lámpara inteligente personalizada, desde el modelado 3D hasta el control por app.", 
-          url: "/presentacion/aquarium-led/index.html", 
-          image: "/presentacion/aquarium-led/assets/lampara encendida.JPG" 
+        {
+          id: 101,
+          title: "PROTOP",
+          category: "DIRECTORIO / REFORMAS",
+          tags: ["REACT", "TYPESCRIPT", "SUPABASE", "SEO"],
+          description: "El tablón de corcho de Obramat, llevado a internet: 1.219 profesionales de reformas de toda España, solicitudes de presupuesto y valoraciones respaldadas por factura.",
+          url: "/presentacion/protop/index.html",
+          image: "/presentacion/protop/assets/portada.webp"
+        },
+        {
+          id: 102,
+          title: "ESOLAR CANTABRIA",
+          category: "WEB DE CAPTACIÓN / ENERGÍA SOLAR",
+          tags: ["ASTRO", "JAVASCRIPT", "SEO"],
+          description: "Web para una red de instaladores solares: una página por cada uno de los 102 municipios de Cantabria con datos reales de producción, 6 calculadoras y 25 artículos con fuentes oficiales.",
+          url: "/presentacion/esolar/index.html",
+          image: "/presentacion/esolar/assets/portada.webp"
+        }
+      ]
+    },
+    {
+      title: "DISEÑO Y SISTEMAS",
+      items: [
+        {
+          id: 61,
+          title: "PROTOP · IDENTIDAD",
+          category: "MARCA · MANUAL DE IDENTIDAD",
+          tags: ["BRANDING", "SISTEMA VISUAL", "VOZ Y TONO"],
+          description: "«El vecino de confianza»: logotipo de tarjeta clavada, color con contraste comprobado, tipografía, 31 iconos de oficio, movimiento y voz.",
+          url: "/presentacion/marca-protop/index.html",
+          image: "/presentacion/marca-protop/assets/portada.webp"
+        },
+        {
+          id: 62,
+          title: "TANKILY · IDENTIDAD",
+          category: "MARCA · MANUAL DE IDENTIDAD",
+          tags: ["BRANDING", "SISTEMA VISUAL", "MASCOTA"],
+          description: "La «t de ola», colores de agua por tipo de tanque, cristal esmerilado, movimiento, voz y Krill, la mascota de la marca.",
+          url: "/presentacion/marca-tankily/index.html",
+          image: "/presentacion/marca-tankily/assets/portada.webp"
+        },
+        {
+          id: 63,
+          title: "ESOLAR · IDENTIDAD",
+          category: "MARCA · MANUAL DE IDENTIDAD",
+          tags: ["BRANDING", "DATOS COMO MARCA", "ACCESIBILIDAD"],
+          description: "«Sol del norte»: la «e» que es un sol sobre el horizonte, el parte solar como imagen de marca, color con contraste AA y tipografía para leer en el móvil.",
+          url: "/presentacion/marca-esolar/index.html",
+          image: "/presentacion/marca-esolar/assets/portada.webp"
+        },
+        {
+          id: 64,
+          title: "FYCHEO · IDENTIDAD",
+          category: "MARCA · MANUAL DE IDENTIDAD",
+          tags: ["BRANDING", "FAMILIA DE APPS", "INTERFAZ"],
+          description: "Un símbolo de entrada y salida, una familia de logotipos para sus siete aplicaciones, color, tipografía e interfaz oscura.",
+          url: "/presentacion/marca-fycheo/index.html",
+          image: "/presentacion/marca-fycheo/assets/portada.webp"
+        },
+        {
+          id: 60,
+          title: "IMAGYM",
+          category: "UX/UI · ESTUDIO DE CASO",
+          tags: ["FIGMA", "UX RESEARCH", "MOBILE"],
+          description: "Rediseño completo de la app de una cadena de gimnasios low cost. Research real, Tree Testing, sistema de diseño y prototipo de alta fidelidad.",
+          url: "/presentacion/Imagym/index.html",
+          image: imagymPortadaImg
         }
       ]
     },
     {
       title: "PROTOTIPOS Y HERRAMIENTAS",
       items: [
+        {
+          id: 31,
+          title: "PATHRIX",
+          category: "JUEGO MÓVIL / ESTRATEGIA",
+          tags: ["REACT NATIVE", "EXPO", "FIREBASE"],
+          description: "Juego de estrategia por turnos para iOS y Android, con motor de reglas propio, IA con MCTS en 4 niveles de dificultad y partidas online.",
+          inDevelopment: true,
+          image: "/presentacion/pathrix/assets/portada.webp"
+        },
         { 
           id: 30, 
           title: "Protecciones Eléctricas", 
@@ -330,45 +406,32 @@ const LabPage = () => {
           description: "Descargador inteligente de activos visuales para e-commerce con motor de navegación indetectable.", 
           url: "/presentacion/Snapstore/index.html", 
           image: "/presentacion/Snapstore/assets/portada.png" 
-        },
-        { 
-          id: 100, 
-          title: "Tankily", 
-          category: "SOCIAL / COMUNIDAD", 
-          tags: ["NEXT.JS", "SUPABASE", "UX"], 
-          description: "Plataforma social para amantes de la acuariofilia. Gestión de acuarios y comunidad activa.", 
-          inDevelopment: true,
-          image: tankilyConceptImg 
-        }
-      ]
-    },
-    {
-      title: "DISEÑO Y SISTEMAS",
-      items: [
-        {
-          id: 60,
-          title: "IMAGYM",
-          category: "UX/UI · ESTUDIO DE CASO",
-          tags: ["FIGMA", "UX RESEARCH", "MOBILE"],
-          description: "Rediseño completo de la app de una cadena de gimnasios low cost. Research real, Tree Testing, sistema de diseño y prototipo de alta fidelidad.",
-          url: "/presentacion/Imagym/index.html",
-          image: imagymPortadaImg
         }
       ]
     },
     {
       title: "PATIO DE EXPERIMENTACIÓN",
-      items: []
+      items: [
+        {
+          id: 0,
+          title: "LÁMPARA AQUARIUM LED",
+          category: "HARDWARE / IOT",
+          tags: ["ESP32", "3D MODEL", "UX"],
+          description: "Diseño y fabricación de una lámpara inteligente personalizada, desde el modelado 3D hasta el control por app.",
+          url: "/presentacion/aquarium-led/index.html",
+          image: "/presentacion/aquarium-led/assets/lampara encendida.JPG"
+        }
+      ]
     },
     {
       title: "ARCHIVO E HISTORIAL",
       items: [
         { 
           id: 50, 
-          title: "PORTFOLIO V1 (2024-2025)", 
+          title: "PORTFOLIO ANTERIOR",
           category: "ARCHIVO / PORTFOLIO", 
           tags: ["VITE", "TAILWIND", "CV"], 
-          description: "La versión previa de mi portfolio personal. Un registro de mi evolución técnica y de diseño antes de saltar a la v2.0.", 
+          description: "La versión previa de mi portfolio personal. Un registro de mi evolución técnica y de diseño antes de la versión actual.",
           url: "https://ronald-herrera-cv-24-25.vercel.app/", 
           image: portfolioV1Img,
           external: true
@@ -421,13 +484,13 @@ const LabPage = () => {
     <div className="lab-page">
       <div className="lab-hero" style={{ backgroundImage: `url(${setupImg})` }}>
         <div className="lab-hero-content">
-          <span className="lab-hero-tag">SALA DE JUEGOS-</span>
+          <span className="lab-hero-tag">SALA DE JUEGOS</span>
           <h1 className="lab-hero-title">
             <span className="text-outline">THE</span>
             <span className="text-solid">LAB.</span>
           </h1>
           <p className="lab-hero-desc">
-            No es una galería de productos terminados. Es mi caja de arena personal; un registro de evolución técnica donde el objetivo no es la perfección, sino la curiosidad. Aquí verás experimentos que nacen de la duda, herramientas que creé para solucionar mis propios retos y prototipos que exploran los límites de lo que puedo construir.
+            Cada tarjeta es un proyecto que he llevado yo solo de principio a fin: la idea, la marca, el código y el despliegue. Unos ya funcionan en internet y otros son pruebas con las que sigo aprendiendo. Entra en cualquiera y te enseño cómo está hecho.
           </p>
         </div>
       </div>

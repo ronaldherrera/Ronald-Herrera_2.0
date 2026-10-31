@@ -1,7 +1,7 @@
 .final-cta-section {
   text-align: center;
   background-color: var(--color-bg);
-  padding-bottom: calc(var(--spacing-xl) * 2);
+  padding-bottom: 8rem;
 }
 
 .final-cta-content {
@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-md);
+  gap: 0;
 }
 
 .final-cta-title {
@@ -18,19 +18,29 @@
   font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1.2;
   color: var(--color-text);
-  margin-bottom: var(--spacing-sm);
+  margin: 0 0 1.2rem;
 }
 
 .final-cta-subtitle {
   font-family: var(--font-body);
-  font-size: var(--font-size-lg);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-lg);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  max-width: 40rem;
+  text-wrap: balance;
+  margin: 0 0 2.4rem;
 }
 
 .btn-cta {
   padding: 1rem 3rem;
   font-size: 1.1rem;
+}
+
+.final-cta-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
 }
 
 @media (max-width: 768px) {

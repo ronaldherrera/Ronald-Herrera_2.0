@@ -3,26 +3,26 @@ import './ValueProposition.css';
 
 const features = [
   {
-    title: 'DISEÑO ENFOCADO AL USO REAL',
-    description: 'Interfaces intuitivas sin fricciones. Priorizo la funcionalidad y la experiencia de usuario por encima de modas estéticas.',
+    title: 'DISEÑO QUE SE PUEDE CONSTRUIR',
+    description: 'Diseño sabiendo cómo se va a programar. Marcas completas, interfaces y sistemas de diseño que luego implemento yo mismo.',
     iconClass: 'abstract-icon-1',
     iconColor: 'icon-blue'
   },
   {
-    title: 'DESARROLLO FRONT-END',
-    description: 'Paso del diseño a código limpio y escalable. Construyo componentes funcionales que respetan la visión original del producto.',
+    title: 'PRODUCTO COMPLETO',
+    description: 'Base de datos, seguridad, interfaz, pagos, apps móviles y despliegue. Sé llevar una idea hasta producción sin que nadie me la termine.',
     iconClass: 'abstract-icon-2',
     iconColor: 'icon-gold'
   },
   {
-    title: 'VISIÓN DE PRODUCTO',
-    description: 'Alineo las necesidades del usuario con los objetivos de negocio. Cada decisión técnica o de diseño tiene un porqué estratégico.',
+    title: 'REGLAS DONDE IMPORTAN',
+    description: 'La lógica crítica va en la base de datos, con RLS y funciones en Postgres, para que ninguna pantalla pueda saltársela.',
     iconClass: 'abstract-icon-3',
     iconColor: 'icon-orange'
   },
   {
-    title: 'RESOLUCIÓN DE PROBLEMAS',
-    description: 'Detección de cuellos de botella y enfoque en la mejora continua. Me gusta entender el reto técnico para proponer soluciones simples.',
+    title: 'QUE TE ENCUENTREN',
+    description: 'SEO técnico a escala: páginas prerenderizadas, datos estructurados y sitemaps. Protop publica 1.608 páginas listas para Google.',
     iconClass: 'abstract-icon-4',
     iconColor: 'icon-cream'
   }

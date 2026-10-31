@@ -100,7 +100,18 @@
   border-radius: 4px;
 }
 
-.form-group input:focus, 
+/* Autorrelleno del navegador: mantiene el fondo oscuro y el color del texto del formulario */
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:hover,
+.form-group input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-text);
+  caret-color: var(--color-text);
+  -webkit-box-shadow: 0 0 0 1000px #161616 inset;
+  box-shadow: 0 0 0 1000px #161616 inset;
+  transition: background-color 9999s ease-out 0s;
+}
+
+.form-group input:focus,
 .form-group textarea:focus {
   outline: none;
   border-color: var(--color-accent-blue);
@@ -124,6 +135,36 @@
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   border-radius: 4px;
   margin-top: 0.5rem;
+}
+
+.btn-send-contact:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.campo-trampa {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.form-estado {
+  min-height: 1.4em;
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.form-estado.enviado { color: var(--color-accent-blue); }
+.form-estado.error { color: var(--color-accent-red); }
+.form-estado a { color: inherit; text-decoration: underline; }
+
+.form-privacidad {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
 }
 
 .btn-send-contact:hover {
