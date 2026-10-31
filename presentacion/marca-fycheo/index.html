@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Identidad visual - Fycheo</title>
+<meta name="description" content="La identidad de Fycheo contada como una jornada de trabajo: símbolo, familia de aplicaciones, color, tipografía e interfaz. Diseño de Ronald Herrera.">
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --noche: #0B0E14;
+    --fondo: #101622;
+    --superficie: #151B2B;
+    --relieve: #1E273B;
+    --borde: #2A3447;
+    --texto: #E8EDF5;
+    --suave: #94A3B8;
+    --tenue: #64748B;
+    --rosa: #E0378A;
+    --rosa-claro: #FC8CC2;
+    --azul-hondo: #0B3486;
+    --azul: #3175FE;
+    --accion: #135BEC;
+    --ok: #10B981;
+    --pendiente: #F59E0B;
+    --incidencia: #EF4444;
+    --jornada: linear-gradient(180deg, var(--rosa-claro), var(--rosa) 30%, var(--azul) 70%, var(--azul-hondo));
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--noche); color: var(--texto); font-family: 'Manrope', system-ui, sans-serif; font-size: 17px; line-height: 1.65; font-variant-numeric: tabular-nums; -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--azul); outline-offset: 3px; border-radius: 6px; }
+
+  /* Barra del reloj: la hora avanza con la lectura */
+  .reloj-barra { position: fixed; inset: 0 0 auto 0; z-index: 50; height: 76px; display: flex; align-items: center; gap: 28px; padding: 0 40px 0 170px; background: rgba(11, 14, 20, .82); backdrop-filter: blur(14px); border-bottom: 1px solid var(--borde); }
+  .reloj-barra img { height: 26px; }
+  .reloj-barra .hora { margin-left: auto; font-size: 1.5rem; font-weight: 800; letter-spacing: -.02em; }
+  .reloj-barra .estado { font-size: .85rem; color: var(--suave); display: flex; align-items: center; gap: 8px; }
+  .reloj-barra .estado i { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 4px rgba(16,185,129,.18); }
+  .reloj-barra .progreso { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: linear-gradient(90deg, var(--rosa), var(--azul)); }
+
+  /* Índice lateral: los fichajes de la jornada */
+  .indice { position: fixed; top: 76px; left: 0; bottom: 0; width: 250px; padding: 32px 20px 32px 28px; border-right: 1px solid var(--borde); background: var(--noche); overflow-y: auto; z-index: 40; }
+  .indice p { font-size: .85rem; color: var(--tenue); margin: 0 0 14px 10px; }
+  .indice ol { list-style: none; display: grid; gap: 2px; }
+  .indice a { display: grid; grid-template-columns: 50px 1fr 10px; align-items: center; gap: 8px; padding: 9px 10px; border-radius: 10px; text-decoration: none; color: var(--suave); font-size: .92rem; line-height: 1.3; }
+  .indice a:hover { color: var(--texto); background: var(--superficie); }
+  .indice time { font-weight: 800; color: var(--texto); }
+  .indice i { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--borde); }
+  .indice a.hecho i { border-color: var(--ok); background: var(--ok); }
+  .indice a.aqui { background: var(--superficie); color: var(--texto); }
+  .portada, .jornada, .cierre { margin-left: 250px; }
+  .jornada { max-width: none; }
+  .jornada > .fichaje, .jornada > .linea { max-width: 1080px; }
+
+  /* Portada: el fichaje de entrada */
+  .portada { min-height: 100vh; display: grid; place-items: center; text-align: center; padding: 120px 24px 80px; background: radial-gradient(600px 400px at 50% 38%, rgba(49,117,254,.16), transparent 70%), radial-gradient(500px 360px at 45% 30%, rgba(224,55,138,.14), transparent 70%); }
+  .portada .simbolo { width: min(260px, 52vw); border-radius: 44px; margin: 0 auto 36px; box-shadow: 0 30px 80px rgba(0,0,0,.5); }
+  .portada h1 { font-size: clamp(2.4rem, 6vw, 4.4rem); font-weight: 800; letter-spacing: -.035em; line-height: 1.02; max-width: 15ch; margin: 0 auto; }
+  .portada p { color: var(--suave); max-width: 52ch; margin: 22px auto 0; font-size: 1.08rem; }
+  .fichar { display: inline-flex; align-items: center; gap: 12px; margin-top: 40px; padding: 16px 30px; border-radius: 14px; background: var(--accion); color: #fff; font-weight: 700; text-decoration: none; font-size: 1.02rem; box-shadow: 0 0 28px -6px rgba(19, 91, 236, .8); transition: transform .2s ease, box-shadow .2s ease; }
+  .fichar:hover { transform: translateY(-2px); box-shadow: 0 0 36px -4px rgba(19, 91, 236, .95); }
+  .fichar svg { width: 20px; height: 20px; }
+
+  /* La jornada: línea temporal con un fichaje por capítulo */
+  .jornada { position: relative; max-width: 1080px; margin: 0 auto; padding: 40px 32px 0 32px; }
+  .linea { position: absolute; left: 150px; top: 0; bottom: 0; width: 2px; background: var(--borde); }
+  .linea span { position: absolute; inset: 0 0 auto 0; height: 0; background: var(--jornada); }
+  .fichaje { position: relative; display: grid; grid-template-columns: 118px 1fr; gap: 0 64px; padding: 56px 0 72px; scroll-margin-top: 100px; }
+  .fichaje::before { content: ''; position: absolute; left: 112px; top: 68px; width: 14px; height: 14px; border-radius: 50%; background: var(--noche); border: 2px solid var(--borde); transition: border-color .3s, background .3s; }
+  .fichaje.hecho::before { border-color: var(--azul); background: var(--azul); }
+  .fichaje .cuando { text-align: right; padding-right: 10px; }
+  .fichaje time { display: block; font-size: 1.7rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.2; }
+  .fichaje .tipo { display: block; font-size: .85rem; color: var(--suave); margin-top: 2px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; font-weight: 600; border-radius: 999px; padding: 4px 12px; margin-bottom: 14px; }
+  .chip.ok { background: rgba(16,185,129,.14); color: #34D399; }
+  .chip.pausa { background: rgba(245,158,11,.14); color: #FBBF24; }
+  .contenido h2 { font-size: clamp(1.8rem, 3.4vw, 2.5rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; margin-bottom: 16px; }
+  .contenido > p { color: #C5CEDB; max-width: 62ch; }
+  .contenido > p + p { margin-top: 12px; }
+  .contenido strong { color: #fff; }
+
+  /* 08:57 · La marca */
+  .rasgos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 32px; border-radius: 18px; overflow: hidden; }
+  .rasgos div { background: var(--superficie); padding: 22px 24px; }
+  .rasgos b { display: block; font-size: 1.15rem; margin-bottom: 4px; }
+  .rasgos span { color: var(--suave); font-size: .95rem; }
+
+  /* 09:30 · El símbolo */
+  .simbolo-doble { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: center; margin-top: 32px; }
+  .simbolo-doble img { border-radius: 36px; width: 100%; max-width: 320px; }
+  .piezas { list-style: none; display: grid; gap: 18px; }
+  .piezas li { display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-items: start; color: #C5CEDB; font-size: .97rem; }
+  .piezas i { width: 34px; height: 34px; border-radius: 10px; }
+  .piezas b { display: block; color: #fff; }
+
+  /* 10:45 · Familia de apps */
+  .familia { margin-top: 32px; display: grid; gap: 14px; }
+  .app { display: grid; grid-template-columns: 1fr 1fr 1.1fr; border: 1px solid var(--borde); border-radius: 20px; overflow: hidden; }
+  .app .claro, .app .oscuro { display: grid; place-items: center; padding: 30px 24px; min-height: 120px; }
+  .app .claro { background: #F6F6F8; }
+  .app .oscuro { background: var(--superficie); }
+  .app img { height: 40px; width: auto; }
+  .app .uso { padding: 22px 24px; align-self: center; }
+  .app .uso b { display: block; font-size: 1.05rem; }
+  .app .uso span { color: var(--suave); font-size: .92rem; }
+
+  /* 12:00 · Versiones */
+  .versiones { display: grid; grid-template-columns: 1.3fr 1fr; gap: 14px; margin-top: 32px; }
+  .versiones > div { border-radius: 20px; padding: 32px; display: grid; place-items: center; gap: 16px; min-height: 200px; }
+  .versiones .claro { background: #F6F6F8; color: #0F172A; }
+  .versiones .oscuro { background: var(--superficie); border: 1px solid var(--borde); }
+  .versiones small { font-size: .85rem; color: var(--tenue); justify-self: start; }
+  .tamanos { display: flex; align-items: end; gap: 22px; }
+
+  /* 14:00 · Pausa · Color */
+  .paleta { margin-top: 32px; display: grid; grid-template-columns: 2fr 2fr 1.4fr; grid-template-rows: 150px 110px; gap: 10px; }
+  .paleta div { border-radius: 18px; padding: 16px 18px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .paleta b { font-size: 1rem; }
+  .paleta span { font-size: .82rem; opacity: .8; }
+  .paleta .rosa { background: linear-gradient(135deg, var(--rosa), var(--rosa-claro)); }
+  .paleta .azul { background: linear-gradient(135deg, var(--azul-hondo), var(--azul)); }
+  .paleta .accion { background: var(--accion); }
+  .paleta .noche { background: var(--noche); border: 1px solid var(--borde); }
+  .paleta .superficie { background: var(--superficie); border: 1px solid var(--borde); }
+  .paleta .pizarra { background: var(--suave); color: #0F172A; }
+  .estados { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .estados span { font-size: .85rem; font-weight: 600; border-radius: 999px; padding: 6px 14px; }
+
+  /* 15:15 · Tipografía */
+  .tipo-muestra { margin-top: 32px; border: 1px solid var(--borde); border-radius: 20px; overflow: hidden; }
+  .tipo-muestra .grande { padding: 34px 32px; background: var(--superficie); }
+  .tipo-muestra .grande div { font-size: clamp(3.4rem, 9vw, 6rem); font-weight: 800; letter-spacing: -.04em; line-height: 1; }
+  .tipo-muestra .grande p { color: var(--suave); margin-top: 12px; max-width: 54ch; }
+  .tipo-muestra dl { display: grid; grid-template-columns: 120px 1fr; }
+  .tipo-muestra dt, .tipo-muestra dd { padding: 14px 32px; border-top: 1px solid var(--borde); }
+  .tipo-muestra dt { color: var(--tenue); font-size: .85rem; padding-right: 0; align-self: center; }
+
+  /* 16:30 · Interfaz */
+  .ui { margin-top: 32px; background: var(--fondo); border: 1px solid var(--borde); border-radius: 24px; padding: 28px; display: grid; grid-template-columns: 1.15fr 1fr; gap: 18px; }
+  .tarjeta { background: var(--superficie); border: 1px solid var(--borde); border-radius: 18px; padding: 24px; }
+  .tarjeta small { color: var(--suave); font-size: .85rem; }
+  .tarjeta .crono { font-size: 2.8rem; font-weight: 800; letter-spacing: -.04em; margin: 6px 0 18px; }
+  .boton { display: inline-block; font-weight: 700; font-size: .92rem; border-radius: 12px; padding: 12px 20px; margin-right: 8px; }
+  .boton.principal { background: var(--accion); box-shadow: 0 0 22px -6px rgba(19, 91, 236, .8); }
+  .boton.secundario { border: 1px solid var(--borde); color: #CBD5E1; }
+  .historial { display: grid; gap: 10px; align-content: start; }
+  .historial div { display: flex; justify-content: space-between; align-items: center; background: var(--superficie); border: 1px solid var(--borde); border-radius: 12px; padding: 12px 16px; font-size: .92rem; }
+  .historial em { font-style: normal; font-size: .76rem; font-weight: 600; border-radius: 999px; padding: 3px 10px; }
+  .reglas { list-style: none; margin-top: 26px; display: grid; gap: 14px; max-width: 62ch; color: #C5CEDB; }
+  .reglas li { padding-left: 22px; position: relative; }
+  .reglas li::before { content: ''; position: absolute; left: 0; top: .65em; width: 8px; height: 8px; border-radius: 50%; background: var(--azul); }
+
+  /* 17:30 · Salida · Aplicaciones */
+  .capturas { margin-top: 32px; display: grid; grid-template-columns: 2.3fr 1fr; gap: 16px; align-items: start; }
+  .capturas img { border-radius: 16px; border: 1px solid var(--borde); }
+  .capturas .pila { display: grid; gap: 16px; }
+
+  .cierre { text-align: center; padding: 120px 24px 160px; }
+  .cierre .total { font-size: clamp(3rem, 8vw, 5.6rem); font-weight: 800; letter-spacing: -.04em; line-height: 1; background: linear-gradient(90deg, var(--rosa-claro), var(--azul)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .cierre p { color: var(--suave); margin-top: 12px; }
+  .cierre .fichar { background: transparent; border: 1px solid var(--borde); box-shadow: none; }
+  .cierre .fichar.hecho { border-color: var(--ok); color: #34D399; }
+  .firma { margin-top: 56px; color: var(--tenue); font-size: .9rem; }
+  .ver-producto { display: flex; width: fit-content; align-items: center; gap: 10px; margin: 18px auto 0; padding: 16px 30px; border-radius: 14px; background: var(--accion); color: #fff; font-weight: 700; text-decoration: none; box-shadow: 0 0 28px -6px rgba(19, 91, 236, .8); transition: transform .2s ease, box-shadow .2s ease; }
+  .ver-producto:hover { transform: translateY(-2px); box-shadow: 0 0 36px -4px rgba(19, 91, 236, .95); }
+  .ver-producto svg { width: 20px; height: 20px; }
+
+  .jornada-movil, .velo { display: none; }
+  .contenido { min-width: 0; }
+
+  @media (max-width: 1100px) {
+    .portada, .jornada, .cierre { margin-left: 0; }
+    /* El índice pasa a ser una hoja que sube desde abajo */
+    .indice { top: auto; right: 0; width: auto; max-height: 72vh; padding: 22px 18px calc(22px + env(safe-area-inset-bottom)); border-right: 0; border-top: 1px solid var(--borde); border-radius: 22px 22px 0 0; background: var(--superficie); z-index: 60; transform: translateY(105%); transition: transform .3s cubic-bezier(.2, .8, .3, 1); box-shadow: 0 -20px 50px rgba(0,0,0,.5); }
+    .indice.abierta { transform: none; }
+    .indice a { font-size: 1rem; padding: 12px 10px; }
+    .indice a.aqui { background: var(--relieve); }
+    .velo { display: block; position: fixed; inset: 0; z-index: 55; background: rgba(0,0,0,.5); }
+    .velo[hidden] { display: none; }
+    .jornada-movil { display: flex; align-items: center; gap: 10px; position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 50; max-width: calc(100vw - 32px); padding: 12px 16px 12px 18px; border-radius: 999px; border: 1px solid var(--borde); background: rgba(21, 27, 43, .92); backdrop-filter: blur(12px); color: var(--texto); font: inherit; font-size: .95rem; box-shadow: 0 12px 30px rgba(0,0,0,.45); cursor: pointer; }
+    .jornada-movil time { font-weight: 800; }
+    .jornada-movil span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--suave); }
+    .jornada-movil svg { width: 18px; height: 18px; flex: none; color: var(--suave); }
+    .cierre { padding-bottom: 140px; }
+  }
+  @media (max-width: 860px) {
+    .reloj-barra { height: 64px; padding: 0 18px 0 84px; gap: 12px; }
+    .reloj-barra img { height: 22px; }
+    .reloj-barra .hora { font-size: 1.3rem; }
+    .back-to-lab-btn { top: 12px !important; left: 14px !important; padding: .6rem .8rem !important; }
+    .back-to-lab-btn span { display: none; }
+    .portada { padding-top: 104px; min-height: auto; }
+    .portada .simbolo { width: 170px; border-radius: 34px; margin-bottom: 28px; }
+    .fichaje { scroll-margin-top: 80px; }
+    .contenido h2 { font-size: 1.65rem; }
+    .simbolo-doble img { max-width: 220px; margin: 0 auto; }
+    .tipo-muestra .grande { padding: 24px 20px; }
+    .tipo-muestra .grande div { font-size: 3.2rem; }
+    .tipo-muestra dl { grid-template-columns: 1fr; }
+    .tipo-muestra dt { padding: 14px 20px 0; border-top: 1px solid var(--borde); }
+    .tipo-muestra dd { padding: 4px 20px 14px; border-top: 0; }
+    .ui { padding: 14px; }
+    .tarjeta { padding: 18px; }
+    .tarjeta .crono { font-size: 2.3rem; }
+    .versiones > div { padding: 22px; min-height: 160px; }
+    .app .claro, .app .oscuro { padding: 22px 14px; min-height: 92px; }
+    .app img { height: 30px; }
+    .reloj-barra { padding: 0 20px 0 150px; gap: 14px; }
+    .reloj-barra .estado { display: none; }
+    .jornada { padding: 20px 20px 0; }
+    .linea { left: 26px; }
+    .fichaje { grid-template-columns: 1fr; padding: 40px 0 48px 44px; }
+    .fichaje::before { left: 19px; top: 50px; }
+    .fichaje .cuando { text-align: left; padding: 0; margin-bottom: 14px; display: flex; gap: 12px; align-items: baseline; }
+    .rasgos, .simbolo-doble, .versiones, .ui, .capturas { grid-template-columns: 1fr; }
+    .app { grid-template-columns: 1fr 1fr; }
+    .app .uso { grid-column: 1 / -1; }
+    .paleta { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .paleta div { min-height: 96px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .fichar { transition: none; } }
+</style>
+<script src="../0.plantilla/back-button.js"></script>
+<style>
+  /* Botón «LAB»: arriba a la izquierda, dentro de la barra del reloj */
+  .back-to-lab-btn { position: fixed !important; top: 14px !important; left: 24px !important; bottom: auto !important; height: auto !important; width: auto !important; z-index: 20001; display: flex; align-items: center; gap: .8rem; padding: .7rem 1.4rem; border-radius: 100px; border: .5px solid #fff; color: #fff; background: rgba(16,16,16,.2); backdrop-filter: blur(4px) saturate(180%); text-decoration: none; font-family: sans-serif; mix-blend-mode: difference; }
+  .back-to-lab-btn span { font-size: .8rem; font-weight: 700; letter-spacing: .1em; }
+  .back-to-lab-btn svg { width: 20px; height: 20px; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2XQ78P8968"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2XQ78P8968');
+</script>
+</head>
+<body>
+
+<header class="reloj-barra" aria-label="Jornada">
+  <img src="assets/logotipo_bg-dark.svg" alt="Fycheo">
+  <span class="estado"><i></i><span id="estado">Antes de fichar</span></span>
+  <span class="hora" id="hora" aria-live="off">08:57</span>
+  <span class="progreso" id="progreso"></span>
+</header>
+
+<button class="jornada-movil" id="abrir-indice" type="button" aria-expanded="false" aria-controls="indice"><time id="movil-hora">08:57</time><span id="movil-nombre">La marca</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button>
+<div class="velo" id="velo" hidden></div>
+<nav class="indice" id="indice" aria-label="Índice de la jornada">
+  <p>La jornada</p>
+  <ol id="lista-fichajes"></ol>
+</nav>
+
+<section class="portada">
+  <div>
+    <img class="simbolo" src="assets/simbolo-animado.svg" alt="Símbolo animado de Fycheo">
+    <h1>La identidad de Fycheo, en una jornada</h1>
+    <p>Fycheo es un control horario para empresas españolas: siete aplicaciones y una sola marca, que tiene que reconocerse igual en el móvil del empleado, en la tablet del quiosco y en el ordenador de recursos humanos.</p>
+    <a class="fichar" href="#entrada"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Fichar entrada</a>
+  </div>
+</section>
+
+<main class="jornada" id="jornada">
+  <div class="linea" aria-hidden="true"><span id="relleno"></span></div>
+
+  <section class="fichaje" id="entrada" data-hora="08:57">
+    <div class="cuando"><time>08:57</time><span class="tipo">Entrada</span></div>
+    <div class="contenido">
+      <span class="chip ok">Fichaje correcto</span>
+      <h2>Fichar es un gesto de un segundo, y la marca no lo complica</h2>
+      <p><strong>Fycheo convierte en marca el verbo de todos los días.</strong> Compite con hojas de Excel y con herramientas de recursos humanos grandes, así que tiene que parecer igual de seria, pero mucho más sencilla de usar.</p>
+      <div class="rasgos">
+        <div><b>Sencilla</b><span>Un gesto principal en cada pantalla.</span></div>
+        <div><b>Fiable</b><span>Cumple el registro horario obligatorio y lo dice sin rodeos.</span></div>
+        <div><b>Moderna</b><span>Interfaz oscura, degradados y movimiento suave. Nada de software gris.</span></div>
+        <div><b>Para todos</b><span>La misma marca para el empleado, el responsable y el quiosco.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fichaje" data-hora="09:40">
+    <div class="cuando"><time>09:40</time><span class="tipo">El símbolo</span></div>
+    <div class="contenido">
+      <span class="chip ok">Fichaje correcto</span>
+      <h2>Dos flechas que se encuentran: la que entra y la que sale</h2>
+      <p>La rosa apunta hacia delante y la azul vuelve. Cuando están juntas, la rosa recorta a la azul con su sombra; cuando se separan, cada una es un triángulo entero. En movimiento, cada flecha avanza siempre hacia donde apunta.</p>
+      <div class="simbolo-doble">
+        <img src="assets/simbolo-animado.svg" alt="Símbolo de Fycheo animado">
+        <ul class="piezas">
+          <li><i style="background:linear-gradient(135deg,#E0378A,#FC8CC2)"></i><div><b>La rosa</b>Degradado de #E0378A a #FC8CC2. Entra desde la izquierda.</div></li>
+          <li><i style="background:linear-gradient(135deg,#0B3486,#3175FE)"></i><div><b>La azul</b>Degradado de #0B3486 a #3175FE. Entra desde la derecha.</div></li>
+          <li><i style="background:#0F172A;border:1px solid var(--borde)"></i><div><b>La sombra</b>Un hueco de 32 px que mantiene las dos piezas legibles incluso en el favicon.</div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="fichaje" data-hora="10:45">
+    <div class="cuando"><time>10:45</time><span class="tipo">Las aplicaciones</span></div>
+    <div class="contenido">
+      <span class="chip ok">Fichaje correcto</span>
+      <h2>Siete aplicaciones, un solo apellido corto para cada una</h2>
+      <p>Cada aplicación lleva el logotipo principal con un apellido en azul, para que nadie dude de en cuál está.</p>
+      <div class="familia">
+        <div class="app"><div class="claro"><img src="assets/logotipo_bg-light.svg" alt="Fycheo"></div><div class="oscuro"><img src="assets/logotipo_bg-dark.svg" alt=""></div><div class="uso"><b>Fycheo</b><span>La app del empleado, en web y móvil, y la web comercial.</span></div></div>
+        <div class="app"><div class="claro"><img src="assets/logotipo_ksk_bg-light.svg" alt="Fycheo ksk"></div><div class="oscuro"><img src="assets/logotipo_ksk_bg-dark.svg" alt=""></div><div class="uso"><b>Fycheo ksk</b><span>El quiosco: una tablet en la pared donde ficha toda la plantilla.</span></div></div>
+        <div class="app"><div class="claro"><img src="assets/logotipo_mng_bg-light.svg" alt="Fycheo Mngr"></div><div class="oscuro"><img src="assets/logotipo_mngr_bg-dark.svg" alt=""></div><div class="uso"><b>Fycheo Mngr</b><span>El panel para responsables y recursos humanos.</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fichaje" data-hora="12:10">
+    <div class="cuando"><time>12:10</time><span class="tipo">Las versiones</span></div>
+    <div class="contenido">
+      <span class="chip ok">Fichaje correcto</span>
+      <h2>Claro, oscuro y un símbolo que se reconoce a 16 píxeles</h2>
+      <div class="versiones">
+        <div class="claro"><img src="assets/logotipo_bg-light.svg" alt="Logotipo sobre fondo claro" style="height:58px"><small>Sobre fondos claros, el nombre va en tinta.</small></div>
+        <div class="oscuro"><div class="tamanos"><img src="assets/icono.svg" alt="Icono de app" style="height:96px;border-radius:22px"><img src="assets/favicon.svg" alt="" style="height:40px"><img src="assets/favicon.svg" alt="" style="height:24px"><img src="assets/favicon.svg" alt="" style="height:16px"></div><small>Icono de app y favicon a 40, 24 y 16 px.</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fichaje" data-hora="14:00">
+    <div class="cuando"><time>14:00</time><span class="tipo">Pausa</span></div>
+    <div class="contenido">
+      <span class="chip pausa">Pausa para comer</span>
+      <h2>El color: rosa y azul de firma, azul vivo para actuar</h2>
+      <p>El rosa y el azul del símbolo casi siempre van en degradado. En la interfaz manda un azul más vivo para las acciones, sobre una base de azules noche, y tres colores de estado cuentan qué ha pasado con cada fichaje.</p>
+      <div class="paleta">
+        <div class="rosa"><b>Rosa Fycheo</b><span>#E0378A → #FC8CC2</span></div>
+        <div class="azul"><b>Azul Fycheo</b><span>#0B3486 → #3175FE</span></div>
+        <div class="accion"><b>Azul acción</b><span>#135BEC</span></div>
+        <div class="noche"><b>Noche</b><span>#0B0E14</span></div>
+        <div class="superficie"><b>Superficie</b><span>#151B2B</span></div>
+        <div class="pizarra"><b>Pizarra</b><span>#94A3B8</span></div>
+      </div>
+      <div class="estados">
+        <span style="background:rgba(16,185,129,.14);color:#34D399">Fichaje correcto</span>
+        <span style="background:rgba(245,158,11,.14);color:#FBBF24">Pendiente de revisar</span>
+        <span style="background:rgba(239,68,68,.14);color:#F87171">Incidencia</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="fichaje" data-hora="15:15">
+    <div class="cuando"><time>15:15</time><span class="tipo">La tipografía</span></div>
+    <div class="contenido">
+      <span class="chip ok">Fichaje correcto</span>
+      <h2>Una sola letra, hecha para leer la hora de un vistazo</h2>
+      <p>Manrope, redonda y abierta, con cifras de ancho fijo: la hora y los saldos no bailan cuando cambian. Inter queda solo para textos largos, como guías y textos legales.</p>
+      <div class="tipo-muestra">
+        <div class="grande"><div>08:57:12</div><p>Manrope ExtraBold, con cifras tabulares.</p></div>
+        <dl>
+          <dt>Título</dt><dd style="font-weight:800;font-size:1.4rem;letter-spacing:-.02em">Planificación de turnos</dd>
+          <dt>Texto</dt><dd>Tu jornada de hoy: 8 h, con 30 min de descanso.</dd>
+          <dt>Detalle</dt><dd style="font-size:.9rem;color:var(--suave)">Fichaje registrado con ubicación. Se conserva 4 años.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="fichaje" data-hora="16:30">
+    <div class="cuando"><time>16:30</time><span class="tipo">La interfaz</span></div>
+    <div class="contenido">
+      <span class="chip ok">Fichaje correcto</span>
+      <h2>Modo oscuro, y solo brilla lo que hay que pulsar</h2>
+      <p>Es el que mejor funciona en una tablet de quiosco encendida todo el día. Las superficies son capas de azul noche y el botón principal es el único que brilla.</p>
+      <div class="ui">
+        <div class="tarjeta"><small>Hoy, jornada en curso</small><div class="crono">07:33:18</div><span class="boton principal">Fichar salida</span><span class="boton secundario">Pausa</span></div>
+        <div class="historial">
+          <div>Entrada, 08:57<em style="background:rgba(16,185,129,.14);color:#34D399">Correcto</em></div>
+          <div>Pausa, 14:00<em style="background:rgba(16,185,129,.14);color:#34D399">Correcto</em></div>
+          <div>Ausencia, viernes<em style="background:rgba(245,158,11,.14);color:#FBBF24">Pendiente</em></div>
+        </div>
+      </div>
+      <ul class="reglas">
+        <li><strong>Un gesto principal por pantalla:</strong> en la app del empleado, fichar; en el panel, aprobar o planificar.</li>
+        <li><strong>Radios generosos,</strong> de 8 a 24 px según el tamaño de la pieza, como las esquinas del símbolo.</li>
+        <li><strong>Iconos de Material Symbols,</strong> con un solo estilo de trazo en todas las aplicaciones.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="fichaje" data-hora="17:30">
+    <div class="cuando"><time>17:30</time><span class="tipo">Salida</span></div>
+    <div class="contenido">
+      <span class="chip ok">Fichaje correcto</span>
+      <h2>La marca, trabajando</h2>
+      <p>El panel de gestión, el quiosco de fichaje, la web comercial y la app del empleado.</p>
+      <div class="capturas">
+        <div class="pila">
+          <img src="../fycheo/assets/fycheo-manager.webp" alt="Panel de gestión de Fycheo">
+          <img src="../fycheo/assets/fycheo-kiosko.webp" alt="Quiosco de fichaje de Fycheo">
+          <img src="../fycheo/assets/fycheo-web.webp" alt="Web comercial de Fycheo">
+        </div>
+        <img src="../fycheo/assets/fycheo-app.webp" alt="App del empleado de Fycheo">
+      </div>
+    </div>
+  </section>
+</main>
+
+<section class="cierre">
+  <div class="total">8 h 33 min</div>
+  <p>Jornada completa, con 30 minutos de pausa.</p>
+  <a class="fichar" id="salida" href="#" role="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Fichar salida</span></a>
+  <a class="ver-producto" href="../fycheo/index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span>Ver cómo funciona el producto</span></a>
+  <div class="firma">Identidad de Fycheo, diseñada por Ronald Herrera</div>
+</section>
+
+<script>
+  // El reloj de la barra avanza de 08:57 a 17:30 según se lee la jornada
+  const hora = document.getElementById('hora');
+  const estado = document.getElementById('estado');
+  const progreso = document.getElementById('progreso');
+  const relleno = document.getElementById('relleno');
+  const jornada = document.getElementById('jornada');
+  const fichajes = [...document.querySelectorAll('.fichaje')];
+  const minutos = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+  const texto = (m) => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(Math.round(m % 60)).padStart(2, '0')}`;
+  const marcas = fichajes.map((f) => ({ el: f, m: minutos(f.dataset.hora) }));
+
+  // Índice lateral: un enlace por fichaje
+  const nombres = ['La marca', 'El símbolo', 'Las aplicaciones', 'Las versiones', 'El color', 'La tipografía', 'La interfaz', 'La marca, trabajando'];
+  const lista = document.getElementById('lista-fichajes');
+  marcas.forEach((marca, i) => {
+    marca.el.id = marca.el.id || `fichaje-${i + 1}`;
+    const item = document.createElement('li');
+    item.innerHTML = `<a href="#${marca.el.id}"><time>${marca.el.dataset.hora}</time><span>${nombres[i]}</span><i aria-hidden="true"></i></a>`;
+    lista.appendChild(item);
+    marca.enlace = item.firstChild;
+  });
+
+  function actualizar() {
+    const centro = window.scrollY + 170;   // justo bajo la barra: al saltar a un fichaje, el reloj marca su hora
+    let actual = marcas[0].m;
+    marcas.forEach((marca, i) => {
+      const inicio = marca.el.offsetTop + jornada.offsetTop;
+      const siguiente = marcas[i + 1];
+      const fin = siguiente ? siguiente.el.offsetTop + jornada.offsetTop : inicio + marca.el.offsetHeight;
+      const hecho = centro >= inicio;
+      marca.el.classList.toggle('hecho', hecho);
+      marca.enlace.classList.toggle('hecho', hecho);
+      marca.enlace.classList.toggle('aqui', hecho && centro < fin);
+      if (hecho) { document.getElementById('movil-hora').textContent = marca.el.dataset.hora; document.getElementById('movil-nombre').textContent = nombres[i]; }
+      if (centro >= inicio) {
+        const t = Math.min(1, (centro - inicio) / (fin - inicio));
+        actual = siguiente ? marca.m + (siguiente.m - marca.m) * t : marca.m;
+      }
+    });
+    const dentro = centro >= marcas[0].el.offsetTop + jornada.offsetTop;
+    hora.textContent = texto(actual);
+    estado.textContent = !dentro ? 'Antes de fichar' : actual >= 14 * 60 && actual < 14 * 60 + 30 ? 'En pausa' : 'Jornada en curso';
+    const recorrido = (actual - marcas[0].m) / (marcas[marcas.length - 1].m - marcas[0].m);
+    progreso.style.width = `${dentro ? recorrido * 100 : 0}%`;
+    const alto = jornada.offsetHeight;
+    relleno.style.height = `${Math.max(0, Math.min(alto, centro - jornada.offsetTop))}px`;
+  }
+  const indice = document.getElementById('indice');
+  const abrirIndice = document.getElementById('abrir-indice');
+  const velo = document.getElementById('velo');
+  const hoja = (abierta) => { indice.classList.toggle('abierta', abierta); velo.hidden = !abierta; abrirIndice.setAttribute('aria-expanded', String(abierta)); };
+  abrirIndice.addEventListener('click', () => hoja(!indice.classList.contains('abierta')));
+  velo.addEventListener('click', () => hoja(false));
+  indice.addEventListener('click', (e) => { if (e.target.closest('a')) hoja(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && indice.classList.contains('abierta')) { hoja(false); abrirIndice.focus(); } });
+
+  window.addEventListener('scroll', actualizar, { passive: true });
+  window.addEventListener('resize', actualizar);
+  actualizar();
+
+  // Al final, fichar la salida
+  document.getElementById('salida').addEventListener('click', (e) => {
+    e.preventDefault();
+    const boton = e.currentTarget;
+    boton.classList.add('hecho');
+    boton.querySelector('span').textContent = 'Salida fichada a las 17:30';
+    estado.textContent = 'Jornada terminada';
+  });
+</script>
+</body>
+</html>

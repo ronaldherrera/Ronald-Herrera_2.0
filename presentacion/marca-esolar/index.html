@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Identidad visual - eSolar Cantabria</title>
+<meta name="description" content="La identidad de eSolar Cantabria contada como un día de sol, del amanecer al atardecer: logotipo, color, tipografía, datos como imagen de marca y voz. Diseño de Ronald Herrera.">
+<link rel="icon" href="assets/icono-app.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cantabrico: #0F3B4C;
+    --hondo: #0A2C39;
+    --sol: #F2A71B;
+    --sol-suave: #FFF3D9;
+    --ria: #3B6E7E;
+    --ria-clara: #A9C9D3;
+    --prado: #2F7D4F;
+    --prado-suave: #E6F2EA;
+    --bruma: #EDF1F2;
+    --linea: #D5E0E3;
+    --pizarra: #1B2629;
+    --titular: 'Schibsted Grotesk', system-ui, sans-serif;
+    --texto: 'Atkinson Hyperlegible Next', system-ui, sans-serif;
+    --lateral: 300px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: #fff; color: var(--pizarra); font-family: var(--texto); font-size: 18px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; }
+  h1, h2, h3 { font-family: var(--titular); color: var(--cantabrico); letter-spacing: -0.02em; line-height: 1.08; }
+  strong { color: var(--cantabrico); }
+  :focus-visible { outline: 3px solid var(--sol); outline-offset: 3px; border-radius: 6px; }
+
+  /* Trayectoria del sol: el índice */
+  .trayectoria { position: fixed; top: 0; left: 0; bottom: 0; width: var(--lateral); z-index: 40; background: #fff; border-right: 1px solid var(--linea); padding: 104px 26px 28px; overflow-y: auto; }
+  .trayectoria .logo { height: 42px; margin: 0 0 26px 2px; }
+  .arco { width: 100%; height: auto; display: block; overflow: visible; }
+  .arco .altura { stroke: var(--linea); stroke-width: 1; stroke-dasharray: 2 4; }
+  .arco .grados { fill: #8AA3AB; font: 400 7px var(--texto); }
+  .arco .energia { fill: var(--sol-suave); }
+  .arco .camino { fill: none; stroke: #C9D7DB; stroke-width: 1.5; stroke-dasharray: 2 4; }
+  .arco .recorrido { fill: none; stroke: var(--sol); stroke-width: 2.5; stroke-linecap: round; }
+  .arco .horizonte { stroke: var(--cantabrico); stroke-width: 1.5; stroke-linecap: round; }
+  .arco .parada { fill: #fff; stroke: #B7CBD1; stroke-width: 1.5; cursor: pointer; transition: r .2s; }
+  .arco .parada.pasada { fill: var(--sol); stroke: #fff; }
+  .arco .parada.actual { r: 4.5; fill: #fff; stroke: var(--sol); stroke-width: 2.5; }
+  .arco .astro { fill: var(--sol); }
+  .arco .punto-cardinal { fill: var(--ria); font: 700 9px var(--titular); }
+  .hora-solar { font-family: var(--titular); font-weight: 800; color: var(--cantabrico); font-size: 1.8rem; letter-spacing: -.02em; margin: 14px 4px 2px; }
+  .hora-solar small { font-family: var(--texto); font-weight: 400; font-size: .85rem; color: var(--ria); margin-left: 6px; }
+  .horas { list-style: none; margin-top: 16px; }
+  .horas a { display: grid; grid-template-columns: 52px 1fr; gap: 6px; padding: 8px 10px; border-radius: 10px; text-decoration: none; color: var(--ria); font-size: .95rem; line-height: 1.3; }
+  .horas a:hover { background: var(--bruma); color: var(--cantabrico); }
+  .horas time { font-family: var(--titular); font-weight: 700; color: var(--cantabrico); font-variant-numeric: tabular-nums; }
+  .horas a.aqui { background: var(--sol-suave); color: var(--cantabrico); }
+
+  main, .amanecer, .atardecer { margin-left: var(--lateral); }
+
+  /* Amanecer: el cielo crece con el texto y el mar va siempre debajo; el sol sale por la línea del horizonte */
+  .amanecer { display: flex; flex-direction: column; min-height: 100vh; overflow: hidden; background: var(--hondo); color: #fff; }
+  .amanecer .cielo { position: relative; flex: 1 0 auto; overflow: hidden; padding: 104px 64px 170px; background: linear-gradient(180deg, #061A23 0%, var(--hondo) 34%, #1A4D60 72%, #C9894A 93%, #F0B25A 100%); }
+  .amanecer .sol { position: absolute; left: 68%; bottom: 0; width: min(36vw, 440px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 50% 45%, #FFE0A0 0%, var(--sol) 52%, #E58A17 100%); box-shadow: 0 0 140px 50px rgba(242, 167, 27, .32); transform: translate(-50%, 46%); animation: salir 3.4s cubic-bezier(.2, .7, .2, 1) .3s both; }
+  .amanecer .montes { position: absolute; left: 0; bottom: 0; width: 46%; height: 70px; fill: #0B3140; opacity: .9; }
+  .amanecer .texto { position: relative; z-index: 2; max-width: 600px; }
+  .amanecer .texto img { height: 64px; margin-bottom: 40px; }
+  .amanecer h1 { color: #fff; font-size: clamp(2.4rem, 4.2vw, 3.9rem); font-weight: 800; }
+  .amanecer p { color: rgba(255, 255, 255, .82); font-size: 1.1rem; margin-top: 22px; max-width: 46ch; }
+  .amanecer .mar { position: relative; height: max(24vh, 170px); flex: none; background: linear-gradient(180deg, #1B566A 0%, #123F50 40%, var(--hondo) 100%); border-top: 1px solid #F7C77A; }
+  .amanecer .reflejo { position: absolute; left: 68%; top: 0; width: min(34vw, 420px); height: 100%; transform: translateX(-50%); background: radial-gradient(ellipse 22% 60% at 50% 0%, rgba(255, 196, 102, .35), transparent 75%); opacity: 0; animation: brillo 2s ease 2.4s forwards; }
+  .amanecer .destellos { width: 100%; height: 100%; display: block; filter: blur(.4px); }
+  @keyframes salir { from { transform: translate(-50%, 100%); } to { transform: translate(-50%, 46%); } }
+  @keyframes brillo { to { opacity: .9; } }
+
+  /* Capítulos: horas de luz */
+  .hora { padding: 110px 64px 40px; max-width: 980px; scroll-margin-top: 20px; }
+  .hora > .cuando { font-family: var(--titular); font-weight: 700; color: var(--ria); font-size: 1rem; font-variant-numeric: tabular-nums; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+  .hora > .cuando::before { content: ''; width: 14px; height: 14px; border-radius: 50%; background: var(--sol); box-shadow: 0 0 0 5px var(--sol-suave); }
+  .hora h2 { font-size: clamp(2rem, 3.6vw, 2.9rem); font-weight: 800; max-width: 22ch; margin-bottom: 20px; }
+  .hora > p { max-width: 62ch; }
+  .hora > p + p { margin-top: 12px; }
+  .nota { font-size: .9rem; color: var(--ria); margin-top: 14px; max-width: 62ch; }
+
+  .rasgos { display: grid; grid-template-columns: repeat(2, 1fr); margin-top: 34px; border-top: 2px solid var(--cantabrico); }
+  .rasgos div { padding: 22px 26px 22px 0; border-bottom: 1px solid var(--linea); }
+  .rasgos div:nth-child(odd) { padding-right: 32px; border-right: 1px solid var(--linea); }
+  .rasgos div:nth-child(even) { padding-left: 32px; }
+  .rasgos b { font-family: var(--titular); font-size: 1.35rem; color: var(--cantabrico); display: block; }
+  .rasgos span { color: var(--ria); }
+
+  /* La idea: el parte solar */
+  .parte { margin-top: 32px; background: var(--cantabrico); color: #fff; border-radius: 26px; padding: 34px 34px 28px; }
+  .parte .cifra { font-family: var(--titular); font-weight: 800; font-size: clamp(3.2rem, 7vw, 5rem); line-height: 1; letter-spacing: -.03em; }
+  .parte .cifra small { font-family: var(--texto); font-weight: 400; font-size: 1rem; color: var(--ria-clara); letter-spacing: 0; margin-left: 10px; }
+  .barras { display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px; align-items: end; height: 210px; margin-top: 28px; }
+  .barra { position: relative; background: var(--sol); border-radius: 6px 6px 0 0; }
+  .barra i { position: absolute; left: -3px; right: -3px; height: 3px; background: #fff; border-radius: 2px; opacity: .85; }
+  .meses { display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px; margin-top: 8px; font-size: .75rem; color: var(--ria-clara); text-align: center; }
+  .leyenda { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 16px; font-size: .88rem; color: var(--ria-clara); }
+  .leyenda span::before { content: ''; display: inline-block; width: 12px; height: 12px; border-radius: 3px; background: var(--sol); margin-right: 8px; vertical-align: -1px; }
+  .leyenda span + span::before { height: 3px; background: #fff; vertical-align: 3px; }
+
+  /* Logotipo */
+  .logo-grande { margin-top: 32px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 36px; align-items: center; }
+  .logo-grande .lienzo { background: var(--bruma); border-radius: 26px; padding: 52px 40px; display: grid; place-items: center; }
+  .logo-grande .lienzo img { width: 100%; max-width: 360px; }
+  .claves { list-style: none; display: grid; gap: 18px; }
+  .claves li { display: grid; grid-template-columns: 40px 1fr; gap: 14px; }
+  .claves svg { width: 40px; height: 40px; }
+  .claves b { display: block; font-family: var(--titular); color: var(--cantabrico); font-size: 1.1rem; }
+  .claves span { color: var(--ria); font-size: .97rem; }
+
+  /* Versiones */
+  .versiones { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .versiones > div { border-radius: 24px; padding: 34px; display: grid; place-items: center; gap: 18px; min-height: 210px; }
+  .versiones small { justify-self: start; font-size: .88rem; }
+  .v-claro { background: var(--bruma); color: var(--ria); }
+  .v-oscuro { background: var(--cantabrico); color: var(--ria-clara); }
+  .v-sol { background: var(--sol); color: var(--cantabrico); }
+
+  /* Color: el paisaje hecho con la paleta */
+  .paisaje { position: relative; margin-top: 32px; height: 420px; border-radius: 28px; overflow: hidden; background: var(--bruma); }
+  .paisaje .p-sol { position: absolute; left: 66%; top: 16%; width: 120px; height: 120px; border-radius: 50%; background: var(--sol); }
+  .paisaje .p-prado { position: absolute; left: -8%; bottom: 44%; width: 62%; height: 46%; border-radius: 50% 50% 0 0 / 100% 100% 0 0; background: var(--prado); }
+  .paisaje .p-mar { position: absolute; left: 0; right: 0; bottom: 0; height: 38%; background: var(--cantabrico); }
+  .paisaje .p-ria { position: absolute; left: 0; right: 0; bottom: 38%; height: 6%; background: var(--ria); }
+  .paisaje .etiqueta { position: absolute; font-family: var(--titular); font-weight: 700; font-size: .95rem; line-height: 1.25; }
+  .paisaje .etiqueta small { display: block; font-family: var(--texto); font-weight: 400; font-size: .82rem; opacity: .85; }
+  .usos { margin-top: 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 28px; }
+  .usos div { padding: 14px 0; border-top: 1px solid var(--linea); }
+  .usos b { font-family: var(--titular); color: var(--cantabrico); }
+  .usos span { display: block; color: var(--ria); font-size: .93rem; }
+  .boton-prueba { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: 26px; }
+  .boton-prueba span { font-family: var(--titular); font-weight: 700; border-radius: 12px; padding: 13px 22px; }
+
+  /* Tipografía */
+  .tipos { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; border-top: 2px solid var(--cantabrico); }
+  .tipos > div { padding: 26px 30px 26px 0; }
+  .tipos > div + div { padding: 26px 0 26px 30px; border-left: 1px solid var(--linea); }
+  .tipos .aa { font-size: 5.4rem; line-height: 1; color: var(--cantabrico); }
+  .tipos b { display: block; font-family: var(--titular); color: var(--cantabrico); margin: 14px 0 4px; }
+  .tipos span { color: var(--ria); font-size: .97rem; }
+  .muestra { margin-top: 10px; border-top: 1px solid var(--linea); }
+  .muestra div { padding: 16px 0; border-bottom: 1px solid var(--linea); }
+
+  /* Voz */
+  .voz { margin-top: 32px; display: grid; gap: 14px; }
+  .voz div { display: grid; grid-template-columns: 1fr 1fr; border-radius: 18px; overflow: hidden; }
+  .voz p { padding: 18px 22px; }
+  .voz .no { background: #F7ECE7; color: #7A4430; text-decoration: line-through; text-decoration-color: rgba(166, 64, 28, .45); }
+  .voz .si { background: var(--prado-suave); color: var(--pizarra); }
+
+  /* Atardecer: aplicaciones y cierre */
+  .atardecer { background: linear-gradient(180deg, #fff 0, #fff 40px, #F6D9A8 30%, #D98A3A 52%, #6B3E4E 72%, var(--hondo) 100%); padding: 110px 64px 0; }
+  .atardecer .hora { padding: 0; }
+  .atardecer .cuando { color: var(--cantabrico); }
+  .capturas { margin-top: 32px; display: grid; grid-template-columns: 2.2fr 1fr; gap: 18px; align-items: start; max-width: 980px; }
+  .capturas img { border-radius: 18px; box-shadow: 0 20px 50px rgba(10, 44, 57, .25); }
+  .capturas .pila { display: grid; gap: 18px; }
+  .capturas .movil { max-height: 560px; object-fit: cover; object-position: top; }
+  .noche { text-align: center; padding: 160px 0 150px; color: #fff; }
+  .noche p { color: rgba(255, 255, 255, .78); max-width: 40ch; margin: 0 auto; font-size: 1.05rem; }
+  .noche .firma { margin-top: 30px; font-size: .9rem; color: var(--ria-clara); }
+  .ver-producto { display: inline-block; margin-top: 34px; padding: 15px 28px; border-radius: 999px; background: var(--sol); color: var(--cantabrico-hondo, #0A2C39); font-weight: 700; text-decoration: none; box-shadow: 0 0 40px -8px rgba(242, 167, 27, .7); transition: transform .2s ease, box-shadow .2s ease; }
+  .ver-producto:hover { transform: translateY(-2px); box-shadow: 0 0 52px -6px rgba(242, 167, 27, .85); }
+
+  /* Botón del índice en el móvil */
+  .indice-movil, .velo { display: none; }
+
+  @media (max-width: 1100px) {
+    main, .amanecer, .atardecer { margin-left: 0; }
+    .trayectoria { top: auto; right: 0; width: auto; max-height: 82vh; padding: 22px 22px calc(22px + env(safe-area-inset-bottom)); border-right: 0; border-radius: 26px 26px 0 0; box-shadow: 0 -20px 50px rgba(10, 44, 57, .3); transform: translateY(105%); transition: transform .3s cubic-bezier(.2, .8, .3, 1); z-index: 60; }
+    .trayectoria.abierta { transform: none; }
+    .trayectoria .logo { display: none; }
+    .arco { max-width: 320px; margin: 0 auto; }
+    .velo { display: block; position: fixed; inset: 0; z-index: 55; background: rgba(10, 44, 57, .45); }
+    .velo[hidden] { display: none; }
+    .indice-movil { display: flex; align-items: center; gap: 10px; position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 50; max-width: calc(100vw - 32px); padding: 11px 18px 11px 12px; border-radius: 999px; border: 1px solid var(--linea); background: rgba(255, 255, 255, .95); backdrop-filter: blur(10px); color: var(--cantabrico); font: inherit; font-size: .95rem; box-shadow: 0 12px 30px rgba(10, 44, 57, .25); cursor: pointer; }
+    .indice-movil i { width: 22px; height: 22px; border-radius: 50%; background: var(--sol); flex: none; box-shadow: 0 0 0 4px var(--sol-suave); }
+    .indice-movil time { font-family: var(--titular); font-weight: 800; }
+    .indice-movil span { color: var(--ria); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  }
+  @media (max-width: 760px) {
+    body { font-size: 17px; }
+    .amanecer { min-height: 92vh; }
+    .amanecer .cielo { padding: 96px 22px 130px; }
+    .amanecer .texto img { height: 52px; margin-bottom: 30px; }
+    .amanecer .sol { left: 66%; width: 68vw; }
+    .amanecer .montes { width: 70%; height: 46px; }
+    .amanecer .reflejo { left: 66%; width: 52vw; }
+    .parte .cifra small { display: block; margin: 8px 0 0; }
+    .hora { padding: 84px 22px 24px; }
+    .rasgos, .logo-grande, .versiones, .tipos, .capturas, .usos { grid-template-columns: 1fr; }
+    .rasgos div, .rasgos div:nth-child(odd), .rasgos div:nth-child(even) { padding: 18px 0; border-right: 0; }
+    .tipos > div, .tipos > div + div { padding: 22px 0; border-left: 0; }
+    .tipos > div + div { border-top: 1px solid var(--linea); }
+    .parte { padding: 24px 18px 20px; border-radius: 20px; }
+    .barras { height: 150px; gap: 4px; }
+    .meses { gap: 4px; font-size: .62rem; }
+    .paisaje { height: 340px; }
+    .paisaje .p-sol { width: 80px; height: 80px; }
+    .paisaje .etiqueta { font-size: .85rem; }
+    .voz div { grid-template-columns: 1fr; }
+    .atardecer { padding: 84px 22px 0; }
+    .noche { padding: 120px 0 140px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .amanecer .sol, .amanecer .reflejo { animation: none; }
+    .amanecer .reflejo { opacity: .9; }
+    .trayectoria { transition: none; }
+  }
+</style>
+<script src="../0.plantilla/back-button.js"></script>
+<style>
+  .back-to-lab-btn { position: fixed !important; top: 2rem !important; left: 2rem !important; bottom: auto !important; height: auto !important; width: auto !important; z-index: 20001; display: flex; align-items: center; gap: .8rem; padding: .8rem 1.6rem; border-radius: 100px; border: .5px solid #fff; color: #fff; background: rgba(16,16,16,.2); backdrop-filter: blur(4px) saturate(180%); text-decoration: none; font-family: sans-serif; mix-blend-mode: difference; }
+  .back-to-lab-btn span { font-size: .8rem; font-weight: 700; letter-spacing: .1em; }
+  .back-to-lab-btn svg { width: 20px; height: 20px; }
+  @media (max-width: 760px) {
+    .back-to-lab-btn { top: 14px !important; left: 14px !important; padding: .6rem .8rem !important; }
+    .back-to-lab-btn span { display: none; }
+  }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2XQ78P8968"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2XQ78P8968');
+</script>
+</head>
+<body>
+
+<button class="indice-movil" id="abrir-indice" type="button" aria-expanded="false" aria-controls="trayectoria"><i aria-hidden="true"></i><time id="movil-hora">07:00</time><span id="movil-nombre">La marca</span></button>
+<div class="velo" id="velo" hidden></div>
+
+<nav class="trayectoria" id="trayectoria" aria-label="Índice: el recorrido del sol">
+  <img class="logo" src="assets/logotipo.svg" alt="eSolar Cantabria">
+  <svg class="arco" viewBox="0 12 240 120" aria-hidden="true">
+    <defs>
+      <clipPath id="sobre-horizonte"><rect x="-20" y="-20" width="280" height="130"/></clipPath>
+      <radialGradient id="halo"><stop offset="0" stop-color="#F2A71B" stop-opacity=".45"/><stop offset="1" stop-color="#F2A71B" stop-opacity="0"/></radialGradient>
+    </defs>
+    <line class="altura" x1="16" y1="80" x2="224" y2="80"/>
+    <line class="altura" x1="16" y1="50" x2="224" y2="50"/>
+    <text class="grados" x="226" y="78">30°</text>
+    <text class="grados" x="226" y="48">60°</text>
+    <path class="energia" id="energia" d="M16 110 Z"/>
+    <path class="camino" d="M16 110 A104 70 0 0 1 224 110"/>
+    <path class="recorrido" id="recorrido" d="M16 110 A104 70 0 0 1 224 110"/>
+    <g id="paradas"></g>
+    <line class="horizonte" x1="4" y1="110" x2="236" y2="110"/>
+    <g clip-path="url(#sobre-horizonte)">
+      <circle id="halo-sol" r="18" cx="16" cy="110" fill="url(#halo)"/>
+      <circle class="astro" id="astro" r="8" cx="16" cy="110"/>
+    </g>
+    <text class="punto-cardinal" x="16" y="126" text-anchor="middle">E</text>
+    <text class="punto-cardinal" x="224" y="126" text-anchor="middle">O</text>
+    <text class="grados" x="120" y="22" text-anchor="middle">70° en verano</text>
+  </svg>
+  <div class="hora-solar" id="hora-solar">07:00<small>amanecer</small></div>
+  <ol class="horas" id="horas"></ol>
+</nav>
+
+<section class="amanecer">
+  <div class="cielo">
+    <div class="sol" aria-hidden="true"></div>
+    <svg class="montes" viewBox="0 0 800 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 120V78l38-14 30 9 44-32 26 14 40-27 34 20 30-11 52 29 36-9 46 22 40-6 58 21 50-4 60 18 70-6 72 14 74 2V120Z"/></svg>
+    <div class="texto">
+      <img src="assets/logotipo-negativo.svg" alt="eSolar Cantabria">
+      <h1>En Cantabria hay sol de sobra para tus placas.</h1>
+      <p>La identidad de una red de instaladores solares, contada como un día de luz: del amanecer al atardecer, con los datos de producción de cada municipio como argumento.</p>
+    </div>
+  </div>
+  <div class="mar" aria-hidden="true"><div class="reflejo"><svg class="destellos" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><rect x="26.1" y="41.0" width="8.2" height="1.4" rx="0.7" fill="#FFD07A" opacity="0.52"/><rect x="17.5" y="64.3" width="12.4" height="1.8" rx="0.9" fill="#FFE3A6" opacity="0.39"/><rect x="35.7" y="16.1" width="7.3" height="1.0" rx="0.5" fill="#F7B04A" opacity="0.44"/><rect x="16.5" y="64.3" width="9.8" height="1.8" rx="0.9" fill="#F7B04A" opacity="0.31"/><rect x="14.7" y="87.0" width="9.6" height="2.2" rx="1.1" fill="#F7B04A" opacity="0.27"/><rect x="40.9" y="26.4" width="9.1" height="1.2" rx="0.6" fill="#FFE3A6" opacity="0.58"/><rect x="45.8" y="62.7" width="12.4" height="1.8" rx="0.9" fill="#FFD07A" opacity="0.53"/><rect x="63.6" y="64.6" width="10.3" height="1.8" rx="0.9" fill="#FFE3A6" opacity="0.49"/><rect x="42.7" y="15.0" width="6.0" height="1.0" rx="0.5" fill="#F7B04A" opacity="0.57"/><rect x="66.5" y="96.5" width="11.8" height="2.4" rx="1.2" fill="#FFD07A" opacity="0.2"/><rect x="47.5" y="50.1" width="11.2" height="1.6" rx="0.8" fill="#FFD07A" opacity="0.6"/><rect x="59.7" y="42.5" width="8.9" height="1.5" rx="0.7" fill="#FFE3A6" opacity="0.3"/><rect x="4.7" y="93.7" width="16.0" height="2.3" rx="1.2" fill="#F7B04A" opacity="0.37"/><rect x="57.4" y="63.9" width="12.5" height="1.8" rx="0.9" fill="#FFD07A" opacity="0.57"/><rect x="38.8" y="6.6" width="6.0" height="0.9" rx="0.4" fill="#FFD07A" opacity="0.38"/><rect x="58.7" y="20.7" width="6.0" height="1.1" rx="0.6" fill="#FFD07A" opacity="0.36"/><rect x="42.8" y="48.3" width="7.3" height="1.6" rx="0.8" fill="#F7B04A" opacity="0.5"/><rect x="68.3" y="49.5" width="11.5" height="1.6" rx="0.8" fill="#FFE3A6" opacity="0.32"/><rect x="57.1" y="23.2" width="7.9" height="1.2" rx="0.6" fill="#FFD07A" opacity="0.4"/><rect x="48.4" y="3.2" width="5.6" height="0.8" rx="0.4" fill="#F7B04A" opacity="0.92"/><rect x="60.2" y="87.0" width="18.0" height="2.2" rx="1.1" fill="#F7B04A" opacity="0.32"/><rect x="13.7" y="82.1" width="12.0" height="2.1" rx="1.1" fill="#FFE3A6" opacity="0.4"/><rect x="30.2" y="27.5" width="11.1" height="1.2" rx="0.6" fill="#FFE3A6" opacity="0.61"/><rect x="45.6" y="2.1" width="3.9" height="0.8" rx="0.4" fill="#FFE3A6" opacity="0.37"/><rect x="35.9" y="67.0" width="8.3" height="1.9" rx="0.9" fill="#FFE3A6" opacity="0.36"/><rect x="45.2" y="19.1" width="8.4" height="1.1" rx="0.5" fill="#FFE3A6" opacity="0.48"/><rect x="56.6" y="17.5" width="6.1" height="1.1" rx="0.5" fill="#FFE3A6" opacity="0.41"/><rect x="51.7" y="29.0" width="10.9" height="1.3" rx="0.6" fill="#F7B04A" opacity="0.76"/><rect x="61.0" y="38.5" width="8.7" height="1.4" rx="0.7" fill="#FFE3A6" opacity="0.52"/><rect x="45.9" y="44.0" width="8.5" height="1.5" rx="0.7" fill="#F7B04A" opacity="0.56"/><rect x="63.9" y="83.2" width="19.5" height="2.2" rx="1.1" fill="#F7B04A" opacity="0.45"/><rect x="61.9" y="82.6" width="11.7" height="2.1" rx="1.1" fill="#FFD07A" opacity="0.51"/><rect x="36.4" y="54.7" width="9.7" height="1.7" rx="0.8" fill="#F7B04A" opacity="0.58"/><rect x="17.4" y="97.1" width="16.3" height="2.4" rx="1.2" fill="#FFE3A6" opacity="0.22"/><rect x="49.4" y="42.3" width="11.7" height="1.5" rx="0.7" fill="#F7B04A" opacity="0.27"/><rect x="25.8" y="42.9" width="12.1" height="1.5" rx="0.7" fill="#F7B04A" opacity="0.45"/><rect x="66.1" y="78.3" width="10.5" height="2.1" rx="1.0" fill="#F7B04A" opacity="0.31"/><rect x="55.6" y="47.7" width="11.8" height="1.6" rx="0.8" fill="#FFE3A6" opacity="0.33"/><rect x="49.9" y="7.4" width="7.0" height="0.9" rx="0.4" fill="#F7B04A" opacity="0.69"/><rect x="47.1" y="96.5" width="14.3" height="2.4" rx="1.2" fill="#FFE3A6" opacity="0.2"/><rect x="63.3" y="82.3" width="11.6" height="2.1" rx="1.1" fill="#FFE3A6" opacity="0.23"/><rect x="28.9" y="84.4" width="9.9" height="2.2" rx="1.1" fill="#F7B04A" opacity="0.26"/><rect x="23.9" y="41.2" width="11.3" height="1.5" rx="0.7" fill="#FFD07A" opacity="0.62"/><rect x="65.1" y="71.1" width="14.5" height="2.0" rx="1.0" fill="#FFE3A6" opacity="0.53"/><rect x="42.1" y="59.9" width="8.7" height="1.8" rx="0.9" fill="#FFE3A6" opacity="0.31"/><rect x="54.8" y="80.4" width="8.3" height="2.1" rx="1.1" fill="#FFE3A6" opacity="0.23"/><rect x="58.2" y="41.2" width="10.0" height="1.5" rx="0.7" fill="#F7B04A" opacity="0.32"/><rect x="37.6" y="11.7" width="4.6" height="1.0" rx="0.5" fill="#FFE3A6" opacity="0.59"/><rect x="50.7" y="79.1" width="15.2" height="2.1" rx="1.0" fill="#F7B04A" opacity="0.36"/><rect x="57.9" y="28.4" width="7.2" height="1.2" rx="0.6" fill="#FFE3A6" opacity="0.56"/><rect x="23.9" y="74.1" width="18.3" height="2.0" rx="1.0" fill="#FFE3A6" opacity="0.4"/><rect x="41.3" y="85.5" width="8.4" height="2.2" rx="1.1" fill="#FFE3A6" opacity="0.21"/><rect x="25.9" y="50.7" width="7.8" height="1.6" rx="0.8" fill="#F7B04A" opacity="0.59"/><rect x="20.7" y="69.5" width="9.8" height="1.9" rx="1.0" fill="#F7B04A" opacity="0.39"/><rect x="84.8" y="94.3" width="13.9" height="2.3" rx="1.2" fill="#FFE3A6" opacity="0.4"/><rect x="36.9" y="74.7" width="15.1" height="2.0" rx="1.0" fill="#FFE3A6" opacity="0.33"/></svg></div></div>
+</section>
+
+<main id="dia">
+  <section class="hora" id="marca" data-hora="08:00" data-nombre="La marca">
+    <div class="cuando">08:00, amanece</div>
+    <h2>Una red de instaladores que demuestra lo que dice</h2>
+    <p><strong>eSolar Cantabria conecta a quien quiere poner placas con un instalador de su red que trabaja cerca de casa.</strong> No es una instaladora, y lo dice claro. Su cliente suele tener entre 40 y 70 años, lee en el móvil y desconfía de las ofertas solares: la marca tiene que inspirar confianza técnica sin sonar a anuncio.</p>
+    <div class="rasgos">
+      <div><b>Seria</b><span>Suena a ingeniería y a datos públicos, no a promoción.</span></div>
+      <div><b>Demostrable</b><span>Cada cifra de producción, ayuda o ahorro dice de dónde sale.</span></div>
+      <div><b>Honesta</b><span>«Un instalador de la red», nunca «nuestros técnicos».</span></div>
+      <div><b>De aquí</b><span>Nombra municipios, la galerna o el salitre cuando aporta algo.</span></div>
+    </div>
+  </section>
+
+  <section class="hora" id="idea" data-hora="09:30" data-nombre="La idea">
+    <div class="cuando">09:30, el sol ya calienta</div>
+    <h2>En Cantabria hay más sol del que se cree</h2>
+    <p>La primera duda de cualquier cántabro es si las placas merecen la pena con tanta nube. La marca entera gira alrededor de responder con datos públicos: según PVGIS, la base de datos solar de la Comisión Europea, cada kWp instalado en Santander produce más que en Berlín, y Alemania es uno de los países con más placas de Europa.</p>
+    <div class="parte" role="img" aria-label="Producción mensual por kWp en Santander frente a Berlín">
+      <div class="cifra">1.202 kWh<small>al año por kWp en Santander</small></div>
+      <div class="barras" id="barras"></div>
+      <div class="meses"><span>ene</span><span>feb</span><span>mar</span><span>abr</span><span>may</span><span>jun</span><span>jul</span><span>ago</span><span>sep</span><span>oct</span><span>nov</span><span>dic</span></div>
+      <div class="leyenda"><span>Santander</span><span>Berlín, 1.053 kWh al año</span></div>
+    </div>
+    <p class="nota">En enero, Santander produce casi el doble que Berlín. Datos PVGIS-SARAH3, inclinación óptima y 14 % de pérdidas. Este «parte solar» es lo que se recuerda de la marca, y la web lo calcula para cada uno de los 102 municipios.</p>
+  </section>
+
+  <section class="hora" id="logotipo" data-hora="11:00" data-nombre="El logotipo">
+    <div class="cuando">11:00, sol alto sobre el mar</div>
+    <h2>La «e» es un sol saliendo sobre el Cantábrico</h2>
+    <p>No es un dibujo puesto delante de la palabra: es la «e» auténtica de la tipografía, con el mismo grosor y el mismo remate que «solar», así que el conjunto se lee como una sola palabra.</p>
+    <div class="logo-grande">
+      <div class="lienzo"><img src="assets/logotipo.svg" alt="Logotipo de eSolar Cantabria"></div>
+      <ul class="claves">
+        <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 24a14 14 0 0 1 28 0Z" fill="#F2A71B"/></svg><div><b>El sol</b><span>Todo lo que queda por encima de la barra de la «e», en amarillo.</span></div></li>
+        <li><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="18" width="32" height="4" rx="2" fill="#0F3B4C"/></svg><div><b>El horizonte</b><span>Una línea blanca separa el sol del mar, para que se lea como sol y no como una letra pintada a medias.</span></div></li>
+        <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 18h28a14 14 0 0 1-28 0Z" fill="#0F3B4C"/></svg><div><b>El mar</b><span>El resto de la letra, en azul Cantábrico, igual que «solar».</span></div></li>
+        <li><svg viewBox="0 0 40 40" aria-hidden="true"><text x="5" y="30" font-family="Schibsted Grotesk" font-weight="800" font-size="26" fill="#0F3B4C">Aa</text></svg><div><b>La tipografía</b><span>Schibsted Grotesk, la misma de los titulares: logotipo y web hablan con la misma letra.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="hora" id="versiones" data-hora="12:30" data-nombre="Las versiones">
+    <div class="cuando">12:30, casi mediodía</div>
+    <h2>Se reconoce sobre claro, sobre el mar y a 16 píxeles</h2>
+    <div class="versiones">
+      <div class="v-claro"><img src="assets/logotipo.svg" alt="Logotipo en positivo" style="height:84px"><small>Positivo, sobre blanco o bruma.</small></div>
+      <div class="v-oscuro"><img src="assets/logotipo-negativo.svg" alt="Logotipo en negativo" style="height:84px"><small>Negativo, sobre azul Cantábrico.</small></div>
+      <div class="v-claro"><img src="assets/icono-app.svg" alt="Icono de app" style="height:104px;border-radius:24px"><small>Icono de app y favicon.</small></div>
+      <div class="v-sol"><img src="assets/foto-perfil-animada.gif" alt="Avatar animado de eSolar Cantabria" style="height:130px;border-radius:50%"><small>Avatar animado para redes.</small></div>
+    </div>
+  </section>
+
+  <section class="hora" id="color" data-hora="14:15" data-nombre="El color">
+    <div class="cuando">14:15, mediodía solar en verano</div>
+    <h2>Una paleta que es el propio paisaje</h2>
+    <p>Azul del Cantábrico para la confianza y el amarillo del sol solo donde importa: el símbolo, los datos de producción y el botón de pedir presupuesto. El verde prado se reserva para el ahorro.</p>
+    <div class="paisaje" role="img" aria-label="Paisaje hecho con los colores de la marca: cielo bruma, sol amarillo, prado verde, ría y mar Cantábrico">
+      <div class="p-sol"></div>
+      <div class="p-prado"></div>
+      <div class="p-ria"></div>
+      <div class="p-mar"></div>
+      <span class="etiqueta" style="left:24px;top:22px;color:#0F3B4C">Bruma<small>#EDF1F2, fondos y calculadoras</small></span>
+      <span class="etiqueta" style="left:calc(66% + 132px);top:20%;color:#0F3B4C">Sol<small>#F2A71B</small></span>
+      <span class="etiqueta" style="left:24px;bottom:52%;color:#fff">Prado<small>#2F7D4F, solo ahorro</small></span>
+      <span class="etiqueta" style="right:24px;bottom:calc(44% + 8px);color:#0F3B4C">Ría<small>#3B6E7E, enlaces</small></span>
+      <span class="etiqueta" style="left:24px;bottom:22px;color:#fff">Cantábrico<small>#0F3B4C, titulares, cabecera y pie</small></span>
+    </div>
+    <div class="usos">
+      <div><b>Pizarra #1B2629</b><span>El texto de lectura.</span></div>
+      <div><b>Contraste AA</b><span>En todas las combinaciones de texto.</span></div>
+      <div><b>Botón azul sobre sol</b><span>5,9:1. El blanco sobre amarillo no se lee.</span></div>
+    </div>
+    <div class="boton-prueba">
+      <span style="background:#F2A71B;color:#0F3B4C">Pedir presupuesto</span>
+      <span style="background:#F2A71B;color:#fff;text-decoration:line-through;opacity:.7">Pedir presupuesto</span>
+    </div>
+  </section>
+
+  <section class="hora" id="tipografia" data-hora="16:00" data-nombre="La tipografía">
+    <div class="cuando">16:00, la luz de la tarde</div>
+    <h2>Letra de periódico serio y letra para leer bien</h2>
+    <div class="tipos">
+      <div><div class="aa" style="font-family:var(--titular);font-weight:800">Aa</div><b>Schibsted Grotesk</b><span>Titulares y cifras. Firme, con aire de periódico serio, sin ser fría. Es la letra del logotipo.</span></div>
+      <div><div class="aa">Aa</div><b>Atkinson Hyperlegible Next</b><span>El texto. Diseñada para lectores con baja visión: cada letra se distingue de las demás.</span></div>
+    </div>
+    <div class="muestra">
+      <div style="font-family:var(--titular);font-weight:800;font-size:2rem;color:var(--cantabrico);line-height:1.1">Placas solares en Santander</div>
+      <div style="font-family:var(--titular);font-weight:800;font-size:2rem;color:var(--cantabrico)">1.202 kWh</div>
+      <div>Cada kWp instalado en Santander produce unos 1.202 kWh al año.</div>
+    </div>
+    <p class="nota">Las cifras dentro del texto se dibujan con Schibsted, porque el cero de Atkinson lleva barra. Siempre con punto de millar y espacio fino antes de €, % y kWh.</p>
+  </section>
+
+  <section class="hora" id="voz" data-hora="18:00" data-nombre="La voz">
+    <div class="cuando">18:00, empieza a caer la tarde</div>
+    <h2>De tú, directa y con números</h2>
+    <p>Su seriedad viene de las fuentes, no de los adjetivos. Nada de plazos ni cifras que el negocio no haya comprobado.</p>
+    <div class="voz">
+      <div><p class="no">Soluciones energéticas integrales para tu hogar.</p><p class="si">Con una factura de 90 € al mes, 8 placas cubren dos tercios de tu consumo.</p></div>
+      <div><p class="no">Nuestros técnicos instalarán tus placas en 48 h.</p><p class="si">Un instalador de la red que trabaja cerca de tu casa te prepara el presupuesto.</p></div>
+      <div><p class="no">Las placas funcionan incluso con nubes.</p><p class="si">Una placa en Santander produce un 14 % más que en Berlín, según PVGIS.</p></div>
+    </div>
+  </section>
+</main>
+
+<section class="atardecer">
+  <div class="hora" id="aplicaciones" data-hora="20:30" data-nombre="Las aplicaciones">
+    <div class="cuando">20:30, atardecer</div>
+    <h2>La marca, aplicada a la web</h2>
+    <p>El parte solar de cada municipio, el botón amarillo de pedir presupuesto y la imagen que aparece al compartir un enlace.</p>
+    <div class="capturas">
+      <div class="pila">
+        <img src="assets/esolar-escritorio.webp" alt="Portada de la web de eSolar Cantabria">
+        <img src="assets/esolar-municipio.webp" alt="Página de Santander con su producción solar">
+        <img src="assets/compartir.webp" alt="Imagen para compartir enlaces">
+      </div>
+      <img class="movil" src="assets/esolar-movil.webp" alt="Portada de la web en el móvil">
+    </div>
+  </div>
+  <div class="noche">
+    <p>Mañana vuelve a salir. En Cantabria, unos 1.202 kWh por cada kWp instalado.</p>
+    <a class="ver-producto" href="../esolar/index.html">Ver cómo funciona la web</a>
+    <div class="firma">Identidad de eSolar Cantabria, diseñada por Ronald Herrera</div>
+  </div>
+</section>
+
+<script>
+  // Parte solar: producción mensual por kWp (PVGIS), Santander frente a Berlín
+  const santander = [63.6, 76.6, 105.8, 116.6, 126.5, 118.7, 127, 124.7, 116.6, 95.9, 66.3, 63.6];
+  const berlin = [33, 57, 91, 121, 130, 130, 127, 120, 104, 72, 40, 29];
+  document.getElementById('barras').innerHTML = santander.map((v, i) =>
+    `<div class="barra" style="height:${(v / 135) * 100}%"><i style="bottom:${(berlin[i] / v) * 100}%"></i></div>`).join('');
+
+  // Trayectoria del sol: cada capítulo es una hora del día y una parada en el arco
+  const capitulos = [...document.querySelectorAll('[data-hora]')];
+  const minutos = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+  const texto = (m) => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(Math.round(m % 60)).padStart(2, '0')}`;
+  const SALIDA = 7 * 60, PUESTA = 22 * 60;   // el sol sale antes de la primera sección y se pone después de la última
+  const punto = (m) => {   // posición en el arco según la hora
+    const t = Math.min(1, Math.max(0, (m - SALIDA) / (PUESTA - SALIDA)));
+    const ang = Math.PI * (1 - t);
+    return { x: 120 + 104 * Math.cos(ang), y: 110 - 70 * Math.sin(ang), t };   // 1 unidad = 1°: en Santander el sol llega a unos 70° en verano
+  };
+  const paradas = document.getElementById('paradas');
+  const lista = document.getElementById('horas');
+  const recorrido = document.getElementById('recorrido');
+  const longitud = recorrido.getTotalLength();
+  recorrido.style.strokeDasharray = longitud;
+  const datos = capitulos.map((c) => {
+    const m = minutos(c.dataset.hora);
+    const p = punto(m);
+    const circulo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circulo.setAttribute('class', 'parada'); circulo.setAttribute('r', 3.2); circulo.setAttribute('cx', p.x); circulo.setAttribute('cy', p.y);
+    circulo.addEventListener('click', () => c.scrollIntoView({ behavior: 'smooth' }));
+    paradas.appendChild(circulo);
+    const li = document.createElement('li');
+    li.innerHTML = `<a href="#${c.id}"><time>${c.dataset.hora}</time><span>${c.dataset.nombre}</span></a>`;
+    lista.appendChild(li);
+    return { el: c, m, circulo, enlace: li.firstChild };
+  });
+  const momento = (m) => m < 8 * 60 ? 'amanecer' : m < 13 * 60 ? 'mañana' : m < 15 * 60 ? 'mediodía' : m < 20 * 60 ? 'tarde' : m < PUESTA ? 'atardecer' : 'anochece';
+  const astro = document.getElementById('astro');
+  const halo = document.getElementById('halo-sol');
+  const energia = document.getElementById('energia');
+  const horaSolar = document.getElementById('hora-solar');
+
+  function actualizar() {
+    const ref = window.scrollY + 170;
+    const arriba = (el) => el.getBoundingClientRect().top + window.scrollY;
+    // En la portada, el sol va saliendo de las 07:00 a la primera sección
+    const primera = arriba(datos[0].el);
+    let actual = SALIDA + (datos[0].m - SALIDA) * Math.min(1, Math.max(0, window.scrollY / Math.max(1, primera - 170)));
+    datos.forEach((d, i) => {
+      const inicio = arriba(d.el);
+      const sig = datos[i + 1];
+      const fin = sig ? arriba(sig.el) : inicio + d.el.offsetHeight;
+      const pasado = ref >= inicio;
+      d.circulo.classList.toggle('pasada', pasado);
+      d.circulo.classList.toggle('actual', pasado && ref < fin);
+      d.enlace.classList.toggle('aqui', pasado && ref < fin);
+      if (pasado) {
+        const t = Math.min(1, (ref - inicio) / (fin - inicio));
+        actual = sig ? d.m + (sig.m - d.m) * t : d.m + (PUESTA - d.m) * t;
+        document.getElementById('movil-hora').textContent = d.el.dataset.hora;
+        document.getElementById('movil-nombre').textContent = d.el.dataset.nombre;
+      }
+    });
+    const p = punto(actual);
+    astro.setAttribute('cx', p.x); astro.setAttribute('cy', p.y);
+    halo.setAttribute('cx', p.x); halo.setAttribute('cy', p.y);
+    energia.setAttribute('d', p.t > 0 ? `M16 110 A104 70 0 0 1 ${p.x.toFixed(1)} ${p.y.toFixed(1)} L${p.x.toFixed(1)} 110 Z` : 'M16 110 Z');
+    recorrido.style.strokeDashoffset = longitud * (1 - p.t);
+    horaSolar.innerHTML = `${texto(actual)}<small>${momento(actual)}</small>`;
+  }
+  window.addEventListener('scroll', actualizar, { passive: true });
+  window.addEventListener('resize', actualizar);
+  actualizar();
+
+  // Índice como hoja inferior en el móvil
+  const nav = document.getElementById('trayectoria');
+  const abrir = document.getElementById('abrir-indice');
+  const velo = document.getElementById('velo');
+  const hoja = (si) => { nav.classList.toggle('abierta', si); velo.hidden = !si; abrir.setAttribute('aria-expanded', String(si)); };
+  abrir.addEventListener('click', () => hoja(!nav.classList.contains('abierta')));
+  velo.addEventListener('click', () => hoja(false));
+  nav.addEventListener('click', (e) => { if (e.target.closest('a')) hoja(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && nav.classList.contains('abierta')) { hoja(false); abrir.focus(); } });
+</script>
+</body>
+</html>

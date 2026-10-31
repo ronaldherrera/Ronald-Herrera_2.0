@@ -1,0 +1,176 @@
+/* Secciones técnicas de las presentaciones de producto: arquitectura, decisiones y código.
+   Usan los colores de cada presentación (--accent, --border, --muted, --text, --bg). */
+
+/* Cifras técnicas pequeñas, bajo el título de la sección */
+.datos-tecnicos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0 0 2.5rem;
+    padding: 0;
+    list-style: none;
+}
+
+.datos-tecnicos li {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.45rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--muted);
+}
+
+.datos-tecnicos b { color: var(--text); font-weight: 700; margin-right: 0.3em; }
+
+/* Arquitectura: capas apiladas, de quien usa el producto a quien lo entrega */
+.capas { display: grid; gap: 1.6rem; margin-bottom: 3.5rem; }
+
+.capa {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 1.2rem;
+    align-items: start;
+    position: relative;
+}
+
+.capa + .capa::before {
+    content: '';
+    position: absolute;
+    left: 84px;
+    top: -1.6rem;
+    height: 1.6rem;
+    border-left: 2px dashed color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.capa > h5 {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    font-size: 0.9rem;
+    line-height: 1.3;
+    text-align: center;
+}
+
+.capa > h5 small {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 400;
+    color: var(--muted);
+    margin-top: 0.2rem;
+}
+
+.nodos { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+.nodo {
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    line-height: 1.35;
+    background: color-mix(in srgb, var(--bg) 70%, transparent);
+}
+
+.nodo small { display: block; color: var(--muted); font-size: 0.75rem; }
+
+/* Decisiones: el problema, lo que se hizo y por qué no la alternativa obvia */
+.decisiones { display: grid; gap: 0.8rem; }
+
+.decision {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr 1fr;
+    gap: 1.4rem;
+    padding: 1.2rem 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    font-size: 0.88rem;
+    line-height: 1.6;
+}
+
+.decision > div > small {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+}
+
+.decision > div:last-child { color: var(--muted); }
+
+.decisiones-cabecera {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin: 0 0 1rem;
+}
+
+/* Código: explicación a un lado y el fragmento real al otro */
+.codigo {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2.5rem;
+    align-items: start;
+    margin-bottom: 3rem;
+}
+
+.codigo:last-child { margin-bottom: 0; }
+
+.codigo h5 { font-size: 1.15rem; margin: 0 0 0.8rem; }
+
+.codigo p { font-size: 0.95rem; line-height: 1.75; opacity: 0.8; margin: 0 0 1rem; }
+
+.editor {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: color-mix(in srgb, #000 35%, var(--bg));
+    min-width: 0;
+}
+
+.editor-pestana {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 1rem;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+}
+
+.editor-pestana b { color: var(--text); font-weight: 600; }
+
+.editor pre {
+    margin: 0;
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    line-height: 1.65;
+    color: var(--text);
+    tab-size: 2;
+}
+
+.editor pre code {
+    color: inherit;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+    font-variant-ligatures: none;
+    font-feature-settings: "liga" 0, "calt" 0;
+}
+
+.editor pre i { font-style: normal; color: var(--muted); }
+.editor pre em { font-style: normal; color: var(--accent); }
+
+@media (max-width: 900px) {
+    .capa { grid-template-columns: 1fr; gap: 0.7rem; }
+    .capa + .capa::before { left: 50%; }
+    .decision { grid-template-columns: 1fr; gap: 0.8rem; }
+    .codigo { grid-template-columns: 1fr; gap: 1.2rem; }
+}

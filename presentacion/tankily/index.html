@@ -3,83 +3,681 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plantilla Base - Proyecto</title>
-    <link rel="stylesheet" href="base-presentacion.css">
-    <script src="back-button.js"></script>
-    <script src="lightbox.js"></script>
+    <title>Proyecto - Tankily</title>
+    <meta name="description" content="Tankily: red social y herramienta de gestión para acuariofilia. Next.js 16, Supabase, 8 idiomas y 1.847 fichas de especies. Diseño y desarrollo de Ronald Herrera.">
+    <link rel="stylesheet" href="../0.plantilla/base-presentacion.css">
+    <link rel="stylesheet" href="../0.plantilla/tecnica.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+    <script src="../0.plantilla/back-button.js"></script>
+    <script src="../0.plantilla/lightbox.js"></script>
+    <script src="../0.plantilla/indice-producto.js"></script>
+    <style>
+        /* Paleta de Tankily: abismo + ola (turquesa → azul) */
+        :root {
+            --bg: #050b14;
+            --accent: #9fe7f5;
+            --accent-rgb: 159, 231, 245;
+            --accent-alt: #5aa8ff;
+            --border: rgba(159, 231, 245, 0.12);
+            --muted: rgba(230, 241, 247, 0.45);
+            --text: #e6f1f7;
+        }
+
+        body {
+            overflow-y: auto;
+            background:
+                radial-gradient(1100px 700px at 85% -10%, rgba(79, 195, 232, 0.12), transparent 70%),
+                radial-gradient(900px 600px at 0% 40%, rgba(47, 128, 255, 0.07), transparent 70%),
+                var(--bg);
+        }
+
+        .tag { color: var(--accent); }
+
+        /* Cabecera con luz de cáusticas, como la propia web */
+        .project-header {
+            background:
+                repeating-linear-gradient(100deg, rgba(159, 231, 245, 0.04) 0 40px, transparent 40px 130px),
+                radial-gradient(700px 400px at 50% 0%, rgba(79, 195, 232, 0.25), transparent 70%),
+                linear-gradient(160deg, #0d2a44 0%, #06101d 55%, #050b14 100%);
+            border: 1px solid rgba(159, 231, 245, 0.2);
+            border-radius: 20px;
+            padding: 7rem 3rem 5rem;
+            min-height: 420px;
+            margin-bottom: 3rem;
+        }
+
+        .tankily-logo {
+            display: inline-flex;
+            align-items: flex-end;
+            margin: 1.5rem 0 1rem;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 500;
+            font-size: clamp(3.5rem, 9vw, 6.5rem);
+            line-height: 1;
+            letter-spacing: -0.02em;
+            color: var(--text);
+        }
+
+        .tankily-logo img {
+            height: 1.05em;
+            margin-right: -0.14em;
+            margin-bottom: -0.05em;
+        }
+
+        .lead {
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+            max-width: 640px;
+            font-weight: 500;
+        }
+
+        .header-actions { flex-wrap: wrap; }
+
+        .btn-action {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+            color: #04101c !important;
+            font-weight: 700;
+            padding: 0.8rem 1.6rem;
+            border-radius: 999px;
+            box-shadow: 0 4px 20px rgba(79, 195, 232, 0.3);
+            font-size: 0.85rem;
+        }
+
+        .btn-action:hover {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+            box-shadow: 0 6px 26px rgba(79, 195, 232, 0.5);
+            filter: brightness(1.08);
+        }
+
+        .btn-action.secundario {
+            background: rgba(10, 24, 40, 0.6);
+            color: var(--text) !important;
+            border: 1px solid rgba(159, 231, 245, 0.3);
+            box-shadow: none;
+        }
+
+        /* Portada grande */
+        .hero-shot {
+            margin-bottom: 4rem;
+        }
+
+        .hero-shot img {
+            width: 100%;
+            display: block;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Cifras */
+        .cifras {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 5rem;
+        }
+
+        .cifra {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.4rem 1.2rem;
+            background: rgba(10, 24, 40, 0.5);
+        }
+
+        .cifra b {
+            display: block;
+            font-family: 'Bricolage Grotesque', var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            background: linear-gradient(90deg, var(--accent), var(--accent-alt));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .cifra span {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* Secciones del producto (mismo patrón que Fycheo) */
+        .ecosystem-section {
+            grid-column: 1 / -1;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            padding-top: 4rem;
+        }
+
+        .ecosystem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .ecosystem-grid.reversed { direction: rtl; }
+        .ecosystem-grid.reversed > * { direction: ltr; }
+
+        .ecosystem-content h3 {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .ecosystem-content h4 {
+            font-family: 'Bricolage Grotesque', var(--font-heading);
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .ecosystem-content p {
+            font-size: 1rem;
+            line-height: 1.8;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .ecosystem-specs {
+            list-style: none;
+            margin-top: 1.5rem;
+            padding-left: 0;
+        }
+
+        .ecosystem-specs li {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.9rem;
+            display: block;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .ecosystem-specs li::before {
+            content: "→";
+            color: var(--accent-alt);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .ecosystem-specs li span {
+            font-family: var(--font-mono);
+            color: var(--accent);
+            font-weight: 700;
+            min-width: 0;
+        }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            color: var(--accent);
+            background: rgba(159, 231, 245, 0.08);
+            padding: 0.1em 0.35em;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 900px) {
+            .ecosystem-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .ecosystem-grid.reversed { direction: ltr; }
+            .project-header { padding: 6rem 1.5rem 4rem; }
+            .project-container { padding: 3rem 1rem; }
+        }
+
+        /* Mockups */
+        .mockup-browser {
+            background: #06101d;
+            border: 1px solid rgba(159, 231, 245, 0.12);
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.65);
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .mockup-browser-header {
+            background: #081422;
+            padding: 0.4rem 0.6rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(159, 231, 245, 0.06);
+            height: 24px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .mockup-browser-dots { display: flex; gap: 4px; position: absolute; left: 10px; }
+        .mockup-browser-dot { width: 6px; height: 6px; border-radius: 50%; background: #23374b; }
+
+        .mockup-browser-address {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            color: rgba(230, 241, 247, 0.3);
+            margin: 0 auto;
+            letter-spacing: 0.05em;
+            user-select: none;
+        }
+
+        .mockup-phone {
+            background: #050b14;
+            border: 9px solid #0f1d2c;
+            border-radius: 36px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(159, 231, 245, 0.12);
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 9 / 19.5;
+            width: 250px;
+            margin: 0 auto;
+        }
+
+        .mockup-phone::before {
+            content: '';
+            position: absolute;
+            top: 9px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 74px;
+            height: 20px;
+            border-radius: 20px;
+            background: #000;
+            z-index: 10;
+        }
+
+        .phones-row {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .phones-row .media-item:nth-child(2) { transform: translateY(-2rem); }
+        .phones-row .media-item:nth-child(2):hover { transform: translateY(-2rem) scale(1.02); }
+
+        @media (max-width: 900px) {
+            .phones-row { flex-direction: column; align-items: center; }
+            .phones-row .media-item:nth-child(2) { transform: none; }
+        }
+
+        .media-item {
+            padding: 0 !important;
+            background: transparent !important;
+            border: none !important;
+            gap: 0.5rem !important;
+            cursor: zoom-in;
+            overflow: visible !important;
+            box-shadow: none !important;
+        }
+
+        .media-item:hover { transform: scale(1.02); }
+
+        .media-caption {
+            padding: 0 0.5rem;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .mockup-browser img.media-content {
+            width: 100% !important;
+            height: auto !important;
+            aspect-ratio: auto !important;
+            object-fit: contain !important;
+            display: block !important;
+            border-radius: 0;
+        }
+
+        .mockup-phone img.media-content {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 0;
+            aspect-ratio: auto;
+        }
+
+        /* Zoom suave (la plantilla base amplía un 15 %) y sin zoom en la imagen grande */
+        .media-item:hover .media-content { transform: scale(1.02); }
+        .hero-shot.media-item:hover,
+        .hero-shot.media-item:hover .media-content { transform: none; }
+
+        /* Pipeline de despliegue */
+        .pipeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.8rem;
+            margin-top: 2rem;
+        }
+
+        .paso {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            background: rgba(10, 24, 40, 0.5);
+            position: relative;
+        }
+
+        .paso small { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.12em; color: var(--accent-alt); }
+        .paso b { display: block; margin: 0.3rem 0; font-size: 0.95rem; }
+        .paso p { font-size: 0.8rem; opacity: 0.6; line-height: 1.5; }
+
+        @media (max-width: 900px) {
+            .pipeline { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XQ78P8968"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-2XQ78P8968');
+    </script>
 </head>
 <body>
     <div class="project-container">
         <header class="project-header">
             <div class="header-content">
-                <span class="tag">// NOMBRE DE CATEGORÍA</span>
-                <h1>TÍTULO DEL PROYECTO<span class="dot">.</span></h1>
-                <p style="color: var(--muted); max-width: 600px;">Descripción breve o subtítulo llamativo del proyecto. Utiliza este espacio para enganchar al usuario.</p>
+                <span class="tag">// RED SOCIAL · ACUARIOFILIA · PRODUCTO EN PRODUCCIÓN</span>
+                <h1 class="tankily-logo"><img src="assets/logo.svg" alt="">ankily</h1>
+                <p class="lead">El diario de tu acuario y la gente que lo entiende. Una plataforma social y técnica, en 8 idiomas, donde cada usuario registra sus tanques, mide su agua y comparte con acuaristas de todo el mundo.</p>
                 <div class="header-actions">
-                    <a href="#" class="btn-action">
-                        <span>🚀</span> ACCIÓN PRINCIPAL
+                    <a href="https://tankily.com/" target="_blank" rel="noopener noreferrer" class="btn-action">
+                        <span>🌊</span> VISITAR TANKILY.COM
+                    </a>
+                    <a href="https://tankily.com/es/herramientas/compatibilidad/" target="_blank" rel="noopener noreferrer" class="btn-action secundario">
+                        PROBAR COMPATIBILIDAD
+                    </a>
+                    <a href="https://tankily.com/es/wiki/especies/" target="_blank" rel="noopener noreferrer" class="btn-action secundario">
+                        WIKITANK
                     </a>
                 </div>
             </div>
         </header>
 
+        <div class="hero-shot media-item">
+            <img src="assets/portada-mockups.webp" class="media-content" alt="Tankily en escritorio y móvil: diario de un tanque de arrecife y ficha de especie">
+        </div>
+
+        <div class="cifras">
+            <div class="cifra"><b>1.847</b><span>Fichas de especies</span></div>
+            <div class="cifra"><b>8</b><span>Idiomas completos</span></div>
+            <div class="cifra"><b>16k+</b><span>URLs indexables</span></div>
+            <div class="cifra"><b>105</b><span>Políticas RLS</span></div>
+            <div class="cifra"><b>7</b><span>Calculadoras</span></div>
+            <div class="cifra"><b>1</b><span>Persona detrás</span></div>
+        </div>
+
         <main class="project-grid">
             <section class="info-block">
-                <h2>EL CONCEPTO</h2>
-                <p>Describe el problema o la inspiración principal que llevó a crear este proyecto. Este bloque es ideal para detallar el porqué de la solución y las metas iniciales marcadas antes del desarrollo.</p>
+                <h2>EL PRODUCTO</h2>
+                <p>Los acuaristas apuntan sus mediciones en libretas, preguntan en foros de hace quince años y compran peces sin saber si van a convivir. Tankily une todo eso en un solo sitio que gira alrededor del <strong>tanque</strong>: cada acuario tiene su agua, sus habitantes, su diario y sus recordatorios. Alrededor nace la comunidad: muro, foro, compraventa entre aficionados, directorio de tiendas y WikiTank, una enciclopedia con fichas técnicas que alimenta todo lo demás. Lo he concebido, diseñado, programado y lanzado yo solo, y hoy está en producción con usuarios reales, plan de pago y campaña en redes.</p>
             </section>
 
             <section class="info-block specs">
-                <h2>ESPECIFICACIONES</h2>
+                <h2>INFRAESTRUCTURA TÉCNICA</h2>
                 <ul>
-                    <li><span>DATO 1:</span> Descripción de la característica o tecnología.</li>
-                    <li><span>DATO 2:</span> Descripción de la característica.</li>
-                    <li><span>DATO 3:</span> Otra tecnología clave utilizada.</li>
+                    <li><span>FRONT-END:</span> Next.js 16 (App Router) y React 19 con export estático: miles de páginas pregeneradas, servidas como HTML plano.</li>
+                    <li><span>BACKEND:</span> Supabase: Postgres con RLS en todas las tablas, Auth (email, Google y Apple), Storage y Realtime.</li>
+                    <li><span>SERVIDOR:</span> Edge Functions en Deno (avisos, push, Stripe, traducción) y tareas programadas con pg_cron.</li>
+                    <li><span>PAGOS Y DATOS:</span> Stripe para el plan Pro, Umami para analítica sin cookies, IndexNow y sitemaps por idioma.</li>
                 </ul>
             </section>
 
-            <section class="info-block full-width">
-                <h2>PROCESO</h2>
-                <div class="steps">
-                    <div class="step">
-                        <h3>01. FASE UNO</h3>
-                        <p>Descripción de la primera parte del proceso de trabajo o metodología utilizada.</p>
+            <!-- 01 · Tanque -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid">
+                    <div class="ecosystem-content">
+                        <h3>01 / EL CORAZÓN DEL PRODUCTO</h3>
+                        <h4>El diario del tanque</h4>
+                        <p>Cada acuario es una ficha viva: volumen, días en marcha, parámetros del agua con gráficas, habitantes enlazados a WikiTank, diario de mantenimiento y publicaciones. Los tanques públicos se pueden seguir, y cada uno es también una página indexable que trae visitas desde buscadores.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Mantenimiento:</span> tareas periódicas por tanque; el cambio de agua es una tarea virtual que se calcula a partir del último evento del diario. Un tanque nuevo nace con recordatorios sugeridos según su tipo.</li>
+                            <li><span>Panel «Hoy»:</span> la portada reúne lo pendiente de todos los tanques del usuario, con avisos por email y notificaciones push.</li>
+                            <li><span>Unidades:</span> en la base de datos todo es métrico; <code>useUnidades()</code> convierte al sistema imperial al mostrar y al guardar.</li>
+                        </ul>
                     </div>
-                    <div class="step">
-                        <h3>02. FASE DOS</h3>
-                        <p>Desarrollo técnico o pasos intermedios críticos para lograr la solución.</p>
-                    </div>
-                    <div class="step">
-                        <h3>03. RESULTADO</h3>
-                        <p>El cierre del ciclo de producto y qué conclusiones o hitos se alcanzaron.</p>
+                    <div class="media-item">
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-header">
+                                <div class="mockup-browser-dots"><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span></div>
+                                <div class="mockup-browser-address">tankily.com/es/tanque/arrecife-del-salon</div>
+                            </div>
+                            <img src="assets/tankily-tanque.webp" class="media-content" alt="Tankily - ficha pública de un tanque de arrecife con sus parámetros">
+                        </div>
+                        <p class="media-caption">// Pantalla: tanque público con mediciones de agua de arrecife.</p>
                     </div>
                 </div>
             </section>
 
-            <section class="info-block full-width conclusion">
-                <h2>RESUMEN Y CONCLUSIÓN</h2>
-                <p>Un texto destacado para cerrar la narración del proyecto, resaltando el aprendizaje o el impacto generado por el producto final desarrollado en el Laboratorio.</p>
-            </section>
-
-            <section class="info-block full-width">
-                <h2>GALERÍA / RECURSOS</h2>
-                <div class="media-grid">
-                    <div class="media-item">
-                        <div class="media-content"></div>
-                        <p class="media-caption">// Descripción de la imagen 1</p>
+            <!-- 02 · Compatibilidad -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid reversed">
+                    <div class="ecosystem-content">
+                        <h3>02 / LÓGICA DE DOMINIO</h3>
+                        <h4>Motor de compatibilidad</h4>
+                        <p>La pregunta que más se repite en acuariofilia es «¿pueden convivir?». La respuesta sale de un módulo de funciones puras, con pruebas, que cruza las fichas de las especies entre sí y con la última medición real del tanque.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Qué detecta:</span> agua dulce o marina equivocada, especies no aptas para arrecife, rangos sin solape de temperatura, pH, GH y salinidad, litros insuficientes, grupos demasiado pequeños y agresivos junto a pacíficos.</li>
+                            <li><span>Dónde vive:</span> en la pestaña Habitantes, como vista previa al añadir una especie y como calculadora pública sin registro, que es también la mejor puerta de entrada al producto.</li>
+                            <li><span>Embudo:</span> la calculadora guarda las especies elegidas como «tanque pendiente» y las añade solas cuando el visitante crea su cuenta.</li>
+                        </ul>
                     </div>
                     <div class="media-item">
-                        <div class="media-content"></div>
-                        <p class="media-caption">// Descripción de la imagen 2</p>
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-header">
+                                <div class="mockup-browser-dots"><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span></div>
+                                <div class="mockup-browser-address">tankily.com/es/herramientas/compatibilidad</div>
+                            </div>
+                            <img src="assets/tankily-compatibilidad.webp" class="media-content" alt="Tankily - calculadora de compatibilidad entre especies">
+                        </div>
+                        <p class="media-caption">// Pantalla: betta y gamba cherry en 60 litros, con el agua ideal para ambos.</p>
                     </div>
                 </div>
+            </section>
+
+            <!-- 03 · WikiTank -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid">
+                    <div class="ecosystem-content">
+                        <h3>03 / CONTENIDO COMO MOTOR</h3>
+                        <h4>WikiTank y 1.847 especies</h4>
+                        <p>La enciclopedia es el sistema nervioso de Tankily: sus fichas técnicas alimentan el autocompletado de habitantes, el motor de compatibilidad, las calculadoras y el SEO. En el build se leen los Markdown, se unen duplicados por nombre científico y se genera un índice compartido por todo el producto.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Datos contrastados:</span> nombres y familias validados con GBIF; temperatura, pH y tamaño cotejados con FishBase como referencia.</li>
+                            <li><span>Fotos con licencia:</span> imágenes de Wikimedia Commons con licencia libre y crédito visible, revisadas a ojo en hojas de contactos para descartar ejemplares de museo y dibujos.</li>
+                            <li><span>8 idiomas:</span> fichas y artículos traducidos pieza a pieza, con canónica y hreflang propios; una ficha solo se indexa en un idioma cuando está traducida entera.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-header">
+                                <div class="mockup-browser-dots"><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span></div>
+                                <div class="mockup-browser-address">tankily.com/es/wiki/especies</div>
+                            </div>
+                            <img src="assets/tankily-especies.webp" class="media-content" alt="Tankily - catálogo de especies de WikiTank con filtros">
+                        </div>
+                        <p class="media-caption">// Pantalla: catálogo con filtros por tipo, agua, dificultad y aptitud para arrecife.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 04 · Móvil -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px; margin-bottom: 3rem;">
+                    <h3>04 / MOBILE FIRST · PWA</h3>
+                    <h4>Pensado para el móvil, junto al acuario</h4>
+                    <p>Tres de cada cuatro visitas llegan desde el teléfono, normalmente con el test de agua en la mano. La interfaz cambia la barra lateral por una barra inferior de cristal, prioriza las cifras grandes y se instala como app (PWA) con iconos propios, modo sin conexión y notificaciones push.</p>
+                    <ul class="ecosystem-specs">
+                        <li><span>Navegadores de apps:</span> detecta el navegador interno de Instagram y Facebook, donde Google bloquea el acceso con su cuenta, y guía al usuario para abrir Chrome o Safari.</li>
+                        <li><span>Rendimiento:</span> la refracción de cristal en SVG se reserva para modales y fichas; el resto usa cristal ligero para mantener el scroll fluido en móviles modestos.</li>
+                    </ul>
+                </div>
+                <div class="phones-row">
+                    <div class="media-item">
+                        <div class="mockup-phone"><img src="assets/tankily-portada-movil.webp" class="media-content" alt="Tankily - portada en móvil"></div>
+                        <p class="media-caption">// Portada</p>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-phone"><img src="assets/tankily-ficha-movil.webp" class="media-content" alt="Tankily - ficha de especie en móvil"></div>
+                        <p class="media-caption">// Ficha de especie</p>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-phone"><img src="assets/tankily-tanque-movil.webp" class="media-content" alt="Tankily - tanque en móvil"></div>
+                        <p class="media-caption">// Tanque</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 05 · Comunidad -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid reversed">
+                    <div class="ecosystem-content">
+                        <h3>05 / COMUNIDAD SIN FRONTERAS</h3>
+                        <h4>Foro, muro y mercado</h4>
+                        <p>Un acuarista polaco puede responder al hilo de uno brasileño. Cada publicación guarda su idioma y, si no coincide con el del lector, se traduce sola con «Traducido del francés · Ver original».</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Traducción por capas:</span> caché local y tabla compartida, luego el traductor integrado de Chrome y, en último caso, una Edge Function que solo traduce filas existentes. Etiquetas, menciones y enlaces nunca se tocan.</li>
+                            <li><span>Antispam en la base de datos:</span> un trigger genérico <code>limitar_frecuencia()</code> limita publicaciones, mensajes, anuncios y reseñas por usuario y periodo.</li>
+                            <li><span>Campos blindados:</span> permisos por columna para que nadie pueda marcarse como admin, verificar su tienda o destacar su anuncio desde el cliente.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-header">
+                                <div class="mockup-browser-dots"><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span></div>
+                                <div class="mockup-browser-address">tankily.com/es/foro</div>
+                            </div>
+                            <img src="assets/tankily-foro.webp" class="media-content" alt="Tankily - foro por categorías">
+                        </div>
+                        <p class="media-caption">// Pantalla: foro organizado por tipo de acuario y ayuda.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 06 · Despliegue -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px;">
+                    <h3>06 / INGENIERÍA DE ENTREGA</h3>
+                    <h4>Del commit a producción, sin servidor que mantener</h4>
+                    <p>El export estático multiplicaba las páginas por ocho idiomas y el primer build pesó 5,6 GB en 184.000 archivos: el despliegue por FTP no terminaba nunca. Cargar el diccionario por idioma en lugar de incrustarlo en cada página y cambiar a rsync por SSH lo dejó en menos de la mitad, con despliegues incrementales en minutos.</p>
+                </div>
+                <div class="pipeline">
+                    <div class="paso"><small>01 · PUSH</small><b>GitHub</b><p>Push a main lanza el flujo de GitHub Actions.</p></div>
+                    <div class="paso"><small>02 · BUILD</small><b>Next.js export</b><p>Índice de especies, ads.txt, sitemaps y páginas por idioma.</p></div>
+                    <div class="paso"><small>03 · DEPLOY</small><b>rsync / SSH</b><p>Solo sube lo que cambia, con clave dedicada.</p></div>
+                    <div class="paso"><small>04 · NOCHE</small><b>Build nocturno</b><p>Regenera tanques, hilos y anuncios públicos y avisa con IndexNow.</p></div>
+                </div>
+            </section>
+
+            <!-- TECNICA -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px;">
+                    <h3>07 / ARQUITECTURA</h3>
+                    <h4>Cómo encajan las piezas</h4>
+                </div>
+                <ul class="datos-tecnicos"><li><b>43</b>migraciones SQL</li><li><b>32</b>tablas</li><li><b>105</b>políticas RLS</li><li><b>32</b>pruebas con node --test</li><li><b>4</b>Edge Functions</li><li><b>8</b>idiomas</li></ul>
+                <div class="capas">
+                    <div class="capa"><h5>Navegador<small>lo que recibe el usuario</small></h5><div class="nodos"><div class="nodo">HTML pregenerado<small>más de 16.000 URLs indexables</small></div><div class="nodo">React 19<small>hidrata y habla con Supabase</small></div><div class="nodo">PWA<small>instalable, sin conexión y push</small></div><div class="nodo">Traductor de Chrome<small>segunda capa de traducción</small></div></div></div>
+                    <div class="capa"><h5>Supabase<small>datos y reglas</small></h5><div class="nodos"><div class="nodo">Postgres con RLS<small>en todas las tablas</small></div><div class="nodo">Auth<small>email, Google y Apple</small></div><div class="nodo">Storage<small>fotos y archivos de los usuarios</small></div><div class="nodo">Realtime<small>muro y usuarios en línea</small></div></div></div>
+                    <div class="capa"><h5>Servidor<small>sin servidor que mantener</small></h5><div class="nodos"><div class="nodo">Edge Functions (Deno)<small>avisos, push, Stripe y traducción</small></div><div class="nodo">pg_cron<small>tareas programadas</small></div><div class="nodo">Stripe<small>plan Pro</small></div></div></div>
+                    <div class="capa"><h5>Entrega<small>del commit a producción</small></h5><div class="nodos"><div class="nodo">GitHub Actions<small>build y build nocturno</small></div><div class="nodo">rsync por SSH<small>solo lo que cambia</small></div><div class="nodo">Hostinger<small>HTML estático</small></div><div class="nodo">IndexNow<small>aviso a buscadores</small></div></div></div>
+                </div>
+                <p class="decisiones-cabecera">// Decisiones técnicas y por qué</p>
+                <div class="decisiones">
+                    <div class="decision"><div><small>Problema</small>Miles de páginas en 8 idiomas en un hosting compartido.</div><div><small>Decisión</small>Next.js con export estático: cada página sale como HTML y los datos privados llegan desde el navegador directamente a Supabase.</div><div><small>En vez de</small>Un servidor Node propio, que una sola persona tendría que mantener y pagar.</div></div>
+                    <div class="decision"><div><small>Problema</small>El navegador habla directo con la base de datos.</div><div><small>Decisión</small>Las reglas viven en Postgres: RLS en todas las tablas, permisos por columna y triggers para lo que no se puede dejar al cliente.</div><div><small>En vez de</small>Una API intermedia que duplicaría cada regla.</div></div>
+                    <div class="decision"><div><small>Problema</small>Spam en foro, mensajes y anuncios.</div><div><small>Decisión</small>Un único trigger genérico, <code>limitar_frecuencia()</code>, con índices por autor y fecha para que el recuento no recorra la tabla.</div><div><small>En vez de</small>Un servicio externo de límites o Redis.</div></div>
+                    <div class="decision"><div><small>Problema</small>Traducir publicaciones entre 8 idiomas cuesta dinero.</div><div><small>Decisión</small>Traducción por capas: caché local, tabla compartida, traductor integrado de Chrome y, solo al final, una Edge Function.</div><div><small>En vez de</small>Mandar cada texto a una API de pago.</div></div>
+                    <div class="decision"><div><small>Problema</small>La compatibilidad entre especies es la lógica más delicada.</div><div><small>Decisión</small>Funciones puras en <code>src/lib</code>, sin React, cubiertas con pruebas de <code>node --test</code>.</div><div><small>En vez de</small>Lógica repartida dentro de los componentes, imposible de probar.</div></div>
+                </div>
+            </section>
+
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px; margin-bottom: 3rem;">
+                    <h3>08 / EN EL CÓDIGO</h3>
+                    <h4>Fragmentos reales del repositorio</h4>
+                </div>
+                <div class="codigo">
+                    <div>
+                        <h5>Motor de compatibilidad</h5>
+                        <p>Para saber si varias especies pueden compartir agua, se cruzan sus rangos de temperatura, pH, GH y salinidad. Si la intersección está vacía, hay conflicto. Cada parámetro tiene un margen de tolerancia para no avisar por diferencias que no importan.</p><p>Es una función pura: recibe datos y devuelve avisos, así que se prueba sin navegador ni base de datos.</p>
+                    </div>
+                    <div class="editor">
+                        <div class="editor-pestana"><b>src/lib/compatibilidad.js</b><span>JavaScript</span></div>
+                        <pre><code><i>// Rango común de una lista de rangos [min, max]; null si no se solapan</i>
+function interseccion(rangos) {
+  if (!rangos.length) return undefined;
+  const min = Math.max(...rangos.map((r) =&gt; r[0]));
+  const max = Math.min(...rangos.map((r) =&gt; r[1]));
+  return min &lt;= max ? [min, max] : null;
+}
+
+const PARAMS = [
+  <i>// margen: tolerancia de medida para no avisar por diferencias que no importan</i>
+  { clave: 't', parametro: 'temperatura', margen: 0.5 },
+  { clave: 'ph', parametro: 'ph', margen: 0.1 },
+  { clave: 'gh', parametro: 'gh', soloDulce: true, margen: 1 },
+  { clave: 'sal', parametro: 'salinidad', soloMarino: true,
+    convertir: densidadAPpt, margen: 2 },
+];</code></pre>
+                    </div>
+                </div>
+                <div class="codigo">
+                    <div>
+                        <h5>Antispam en la base de datos</h5>
+                        <p>Un solo trigger sirve para ocho tablas: recibe por argumentos qué columna identifica al autor, cuántas inserciones se permiten y en qué periodo. Si se supera, Postgres rechaza la inserción con un código que la interfaz traduce a un mensaje claro.</p>
+                    </div>
+                    <div class="editor">
+                        <div class="editor-pestana"><b>supabase/migrations/…_limite_frecuencia.sql</b><span>SQL</span></div>
+                        <pre><code>create or replace function public.limitar_frecuencia()
+returns trigger language plpgsql security definer set search_path = '' as $$
+declare
+  columna text := tg_argv[0];               <i>-- columna con el autor</i>
+  maximo int := tg_argv[1]::int;            <i>-- inserciones permitidas…</i>
+  periodo interval := tg_argv[2]::interval; <i>-- …en este periodo</i>
+  autor uuid := (to_jsonb(new) -&gt;&gt; columna)::uuid;
+  recientes int;
+begin
+  if autor is null or (select auth.uid()) is null or public.es_admin() then return new; end if;
+  execute format('select count(*) from %I.%I where %I = $1 and creado_en &gt; now() - $2',
+    tg_table_schema, tg_table_name, columna) into recientes using autor, periodo;
+  if recientes &gt;= maximo then
+    raise exception 'LIMITE_FRECUENCIA' using errcode = 'P0001';
+  end if;
+  return new;
+end $$;
+
+create trigger limite_mensajes before insert on public.mensajes
+  for each row execute function public.limitar_frecuencia('emisor_id', '60', '10 minutes');</code></pre>
+                    </div>
+                </div>
+            </section>
+            <!-- /TECNICA -->
+
+            <section class="info-block full-width conclusion" data-indice="Resumen" style="margin-top: 4rem;">
+                <h2>RESUMEN DEL IMPACTO</h2>
+                <p>Tankily es un producto completo construido por una sola persona: investigación del nicho, marca, diseño de interfaz, modelo de datos con seguridad a nivel de fila, lógica de dominio con pruebas, internacionalización real en ocho idiomas, SEO técnico a escala de miles de páginas, pagos, notificaciones y una campaña de contenido en redes. Es la demostración más clara de cómo trabajo: entender un problema concreto y llevarlo hasta algo que funciona en producción.</p>
             </section>
         </main>
 
+        <nav class="seguir" aria-label="Seguir viendo">
+            <a class="identidad" style="--portada: url('../marca-tankily/assets/tarjeta.webp'); --pos: right 25%" href="../marca-tankily/index.html"><small>Identidad visual</small><b>Inmersión, la identidad de Tankily</b></a>
+            <a href="../fycheo/index.html"><small>Siguiente producto</small><b>Fycheo</b></a>
+        </nav>
+
         <footer class="project-footer">
             <div class="status-badge">
-                <span class="status-dot"></span>
-                ESTADO_PROYECTO_FINALIZADO
+                <span class="status-dot" style="background-color: #9fe7f5; box-shadow: 0 0 10px rgba(159, 231, 245, 0.5);"></span>
+                ESTADO_PROYECTO_EN_PRODUCCIÓN
             </div>
         </footer>
     </div>
@@ -89,8 +687,6 @@
         const title = params.get('title');
         if (title) {
             document.title = 'Proyecto - ' + title;
-            const heroTitle = document.querySelector('.header-content h1');
-            if (heroTitle) heroTitle.innerHTML = title + '<span class="dot">.</span>';
         }
 
         function handleBack() {
