@@ -42,7 +42,8 @@ function pastilla(ctx, x, y, w, h, r) {
 function dibujarBug(ctx, b, t) {
   ctx.save();
   ctx.translate(b.x, b.y);
-  ctx.rotate(Math.sin(t * 6 + b.fase) * 0.25);
+  // Se dibuja con la cabeza arriba; girado media vuelta, baja de frente hacia producción
+  ctx.rotate(Math.PI + Math.sin(t * 6 + b.fase) * 0.25);
   const patas = Math.sin(t * 22 + b.fase) * 3;
   ctx.strokeStyle = '#7a1f22';
   ctx.lineWidth = 2;
@@ -396,8 +397,9 @@ const Despliegue = () => {
     const j = juego.current;
     if (j) {
       j.w = w; j.h = h; j.dpr = dpr;
-      j.ancho = w < 600 ? 120 : 180;
-      j.letra = w < 600 ? 13 : 16;
+      // En un móvil en vertical, robot y habilidades más pequeños para que quepan y se vea venir lo que cae
+      j.ancho = w < 430 ? 96 : w < 600 ? 120 : 180;
+      j.letra = w < 430 ? 11 : w < 600 ? 13 : 16;
       if (!j.x) j.x = j.objetivo = w / 2;
     }
   }, []);
@@ -845,7 +847,7 @@ const Despliegue = () => {
                 <IconoSonido activo={conEfectos} /> Efectos
               </button>
             </div>
-            <small className="pista">Se juega a pantalla completa. Esc para salir; M y N, música y efectos. <button type="button" className="enlace" onClick={() => irA('todas-las-skills')}>Ver mis skills sin jugar</button></small>
+            <small className="pista">Se juega a pantalla completa.<span className="solo-teclado"> Esc para salir; M y N, música y efectos.</span> <button type="button" className="enlace" onClick={() => irA('todas-las-skills')}>Ver mis skills sin jugar</button></small>
           </div>
         )}
 
@@ -894,7 +896,7 @@ const Despliegue = () => {
                 : <button type="button" onClick={() => irA('todas-las-skills')}>VER TODAS</button>}
               <button type="button" onClick={() => irA('ranking')}>VER EL RANKING</button>
             </div>
-            {cine && <small className="pista">Pulsa Esc para salir de la pantalla completa.</small>}
+            {cine && <small className="pista solo-teclado">Pulsa Esc para salir de la pantalla completa.</small>}
           </div>
         )}
       </div>

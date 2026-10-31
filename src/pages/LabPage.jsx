@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import setupImg from '../assets/setup.webp';
 import portfolioV1Img from '../assets/portfolio-v1.webp';
-import imagymPortadaImg from '../assets/imagym-portada.webp';
 import fycheoPortadaImg from '../assets/fycheo-portada.webp';
 import './LabPage.css';
 
@@ -373,7 +372,7 @@ const LabPage = () => {
           tags: ["FIGMA", "UX RESEARCH", "MOBILE"],
           description: "Rediseño completo de la app de una cadena de gimnasios low cost. Research real, Tree Testing, sistema de diseño y prototipo de alta fidelidad.",
           url: "/presentacion/Imagym/index.html",
-          image: imagymPortadaImg
+          image: "/presentacion/Imagym/portada.webp"
         }
       ]
     },
@@ -417,9 +416,18 @@ const LabPage = () => {
           title: "LÁMPARA AQUARIUM LED",
           category: "HARDWARE / IOT",
           tags: ["ESP32", "3D MODEL", "UX"],
-          description: "Diseño y fabricación de una lámpara inteligente personalizada, desde el modelado 3D hasta el control por app.",
+          description: "Lámpara LED de cinco canales que diseñé, monté y programé: ESP32, protección térmica y una app web que sirve la propia lámpara.",
           url: "/presentacion/aquarium-led/index.html",
-          image: "/presentacion/aquarium-led/assets/lampara encendida.JPG"
+          image: "/presentacion/aquarium-led/assets/lampara.webp"
+        },
+        {
+          id: 1,
+          title: "WALKITON",
+          category: "HARDWARE / KIOSCO NFC",
+          tags: ["ESP32-S3", "NFC", "LVGL"],
+          description: "Kiosco táctil que registra quién coge y devuelve cada walkie en Obramat: lector NFC, piezas impresas en 3D e informes sin internet.",
+          url: "/presentacion/walkiton/index.html",
+          image: "/presentacion/walkiton/assets/portada.webp"
         }
       ]
     },

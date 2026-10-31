@@ -202,7 +202,8 @@ body.despliegue-cine .btn-back-home { display: none; }
 
 /* Las teclas solo se enseñan donde hay teclado: en pantallas táctiles basta con tocar el botón */
 @media (hover: none), (pointer: coarse) {
-  .despliegue-salir kbd { display: none; }
+  .despliegue-salir kbd,
+  .despliegue .solo-teclado { display: none; }
 }
 
 .despliegue-salir kbd {
@@ -520,16 +521,26 @@ body.despliegue-cine .btn-back-home { display: none; }
 @media (max-width: 768px) {
   .despliegue { padding: 90px 1.2rem 4rem; }
   .btn-back-home { left: 1.2rem; top: 18px; height: 40px; }
-  .despliegue-juego { height: 60vh; min-height: 400px; }
+  /* Alto suficiente para que la pantalla de inicio quepa entera; si aun así no cabe, se desplaza */
+  .despliegue-juego { height: min(78vh, 640px); min-height: 520px; }
+  .despliegue-pantalla { justify-content: safe center; overflow-y: auto; padding: 1.4rem 1.1rem; }
+  .despliegue-pantalla p { font-size: 0.9rem; margin-bottom: 1.3rem; }
+  .despliegue-pantalla button,
+  .despliegue-pantalla a { padding: 0.8rem 1.3rem; }
+  .despliegue .niveles button { min-width: 0; padding: 0.45rem 0.9rem; }
   .despliegue-marcador .etiqueta-barra { display: none; }
   .despliegue-registro li:nth-child(n + 2) { display: none; }
-  .despliegue-registro li { grid-template-columns: 1fr; gap: 0.35rem; font-size: 0.8rem; }
-  .despliegue-registro b { justify-self: start; }
-  .despliegue-aviso { font-size: 0.8rem; flex-direction: column; align-items: flex-start; gap: 0.4rem; }
-  .despliegue-lista .grupos { grid-template-columns: 1fr; }
-  .despliegue-lista .grupo ul { grid-template-columns: 1fr; row-gap: 1rem; }
-  .despliegue-lista li { grid-template-columns: 1fr; row-gap: 0.35rem; }
-  .despliegue-lista li b { justify-self: start; }
+  .despliegue-registro li { grid-template-columns: 1fr; gap: 0.3rem; padding: 0.5rem 0.65rem; font-size: 0.74rem; line-height: 1.4; }
+  .despliegue-registro b { justify-self: start; font-size: 0.68rem; }
+  /* El aviso y el registro salen en el mismo sitio: mientras hay aviso, el registro se aparta */
+  .despliegue-juego:has(.despliegue-aviso) .despliegue-registro { opacity: 0; }
+  .despliegue-aviso { font-size: 0.76rem; flex-direction: column; align-items: flex-start; gap: 0.35rem; padding: 0.55rem 0.7rem; }
+  .despliegue-aviso b { font-size: 0.7rem; }
+  .despliegue-lista .grupos { grid-template-columns: 1fr; gap: 1.8rem; }
+  /* Dos columnas: cada habilidad es una ficha con la pastilla encima de su prueba */
+  .despliegue-lista .grupo ul { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 0.9rem; row-gap: 1.1rem; }
+  .despliegue-lista li { grid-column: auto; grid-template-columns: 1fr; row-gap: 0.35rem; font-size: 0.8rem; line-height: 1.45; }
+  .despliegue-lista li b { justify-self: start; max-width: 100%; overflow: hidden; text-overflow: ellipsis; font-size: 0.72rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

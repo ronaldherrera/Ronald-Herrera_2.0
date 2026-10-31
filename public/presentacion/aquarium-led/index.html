@@ -3,10 +3,367 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lámpara Aquarium LED - Proyecto</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Proyecto - Lámpara para acuario</title>
+    <meta name="description" content="Lámpara LED para acuario diseñada, montada y programada por Ronald Herrera: ESP32, cinco canales de luz, protección térmica y una app web que sirve la propia lámpara.">
+    <link rel="stylesheet" href="../0.plantilla/base-presentacion.css">
+    <link rel="stylesheet" href="../0.plantilla/tecnica.css">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&display=swap" rel="stylesheet">
     <script src="../0.plantilla/back-button.js"></script>
     <script src="../0.plantilla/lightbox.js"></script>
+    <script src="../0.plantilla/indice-producto.js"></script>
+    <style>
+        /* Paleta de la lámpara: agua de noche, azul real y ultravioleta */
+        :root {
+            --bg: #04061a;
+            --accent: #5c6cff;
+            --accent-rgb: 92, 108, 255;
+            --accent-alt: #9a4dff;
+            --border: rgba(160, 175, 255, 0.16);
+            --muted: rgba(230, 236, 255, 0.5);
+            --text: #e6ecff;
+        }
+
+        body {
+            overflow-y: auto;
+            background:
+                radial-gradient(1100px 700px at 85% -10%, rgba(92, 108, 255, 0.16), transparent 70%),
+                radial-gradient(900px 600px at 0% 40%, rgba(154, 77, 255, 0.12), transparent 70%),
+                var(--bg);
+        }
+
+        /* Cabecera: la luz de la lámpara cayendo sobre el agua */
+        .project-header {
+            background:
+                radial-gradient(520px 260px at 50% -10%, rgba(92, 108, 255, 0.6), rgba(92, 108, 255, 0.12) 50%, transparent 75%),
+                radial-gradient(380px 200px at 75% -5%, rgba(154, 77, 255, 0.45), transparent 70%),
+                linear-gradient(180deg, #0b1030 0%, #060920 75%, #04061a 100%);
+            border: 1px solid rgba(160, 175, 255, 0.2);
+            border-radius: 20px;
+            padding: 7rem 3rem 5rem;
+            min-height: 420px;
+            margin-bottom: 3rem;
+        }
+
+        .esquema { background: #e9ecf4; border-radius: 14px; padding: 1.2rem; }
+        .esquema img, .esquema .media-content { width: 100%; display: block; aspect-ratio: auto; object-fit: contain; background: transparent; }
+        .canales { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 0.8rem; margin: 2.5rem 0; }
+        .canales li { border: 1px solid var(--border); border-radius: 12px; padding: 1rem; background: rgba(14, 20, 60, 0.45); }
+        .canales li::before { content: ''; display: block; height: 4px; border-radius: 4px; background: var(--c); box-shadow: 0 0 14px var(--c); margin-bottom: 0.9rem; }
+        .canales b { display: block; font-size: 0.95rem; }
+        .canales small { display: block; color: var(--muted); font-size: 0.8rem; line-height: 1.45; margin-top: 0.3rem; }
+
+        .visor { border: 1px solid var(--border); border-radius: 16px; aspect-ratio: 16 / 9; position: relative; overflow: hidden; background: radial-gradient(circle at 50% 30%, rgba(92, 108, 255, 0.18), transparent 70%), #03050f; }
+        .visor model-viewer { width: 100%; height: 100%; background: transparent; }
+        .visor-capa { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.8rem; text-align: center; padding: 1.5rem; z-index: 2; }
+        .visor-capa p { color: var(--muted); font-size: 0.85rem; margin: 0; }
+        .visor-capa .barra { width: min(280px, 70%); height: 3px; border-radius: 3px; background: var(--border); overflow: hidden; }
+        .visor-capa .barra i { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.2s; }
+        .visor.cargado .visor-capa { display: none; }
+        @media (max-width: 768px) { .visor { aspect-ratio: 4 / 5; } }
+
+
+
+
+        .tag { color: var(--accent); }
+
+
+
+        .lead {
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+            max-width: 640px;
+            font-weight: 500;
+        }
+
+        .header-actions { flex-wrap: wrap; }
+
+        .btn-action {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+            color: #ffffff !important;
+            font-weight: 700;
+            padding: 0.8rem 1.6rem;
+            border-radius: 999px;
+            box-shadow: 0 4px 20px rgba(154, 77, 255, 0.35);
+            font-size: 0.85rem;
+        }
+
+        .btn-action:hover {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+            box-shadow: 0 6px 26px rgba(154, 77, 255, 0.55);
+            filter: brightness(1.08);
+        }
+
+        .hero-shot { margin-bottom: 4rem; }
+
+        .hero-shot img {
+            width: 100%;
+            display: block;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Cifras */
+        .cifras {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 5rem;
+        }
+
+        .cifra {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.4rem 1.2rem;
+            background: rgba(14, 20, 60, 0.55);
+        }
+
+        .cifra b {
+            display: block;
+            font-family: 'Archivo', var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            background: linear-gradient(90deg, var(--accent), var(--accent-alt));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .cifra span {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* Secciones del producto (mismo patrón que Tankily y Fycheo) */
+        .ecosystem-section {
+            grid-column: 1 / -1;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            padding-top: 4rem;
+        }
+
+        .ecosystem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .ecosystem-grid.reversed { direction: rtl; }
+        .ecosystem-grid.reversed > * { direction: ltr; }
+
+        .ecosystem-content h3 {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .ecosystem-content h4 {
+            font-family: 'Archivo', var(--font-heading);
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .ecosystem-content p {
+            font-size: 1rem;
+            line-height: 1.8;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .ecosystem-specs {
+            list-style: none;
+            margin-top: 1.5rem;
+            padding-left: 0;
+        }
+
+        .ecosystem-specs li {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.9rem;
+            display: block;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .ecosystem-specs li::before {
+            content: "→";
+            color: var(--accent-alt);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .ecosystem-specs li span {
+            font-family: var(--font-mono);
+            color: var(--accent);
+            font-weight: 700;
+            min-width: 0;
+        }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            color: var(--accent);
+            background: rgba(92, 108, 255, 0.1);
+            padding: 0.1em 0.35em;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 900px) {
+            .ecosystem-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .ecosystem-grid.reversed { direction: ltr; }
+            .project-header { padding: 6rem 1.5rem 4rem; }
+            .project-container { padding: 3rem 1rem; }
+        }
+
+        /* Mockups */
+        .mockup-browser {
+            background: #0b1030;
+            border: 1px solid rgba(92, 108, 255, 0.14);
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.65);
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .mockup-browser-header {
+            background: #10163d;
+            padding: 0.4rem 0.6rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(92, 108, 255, 0.08);
+            height: 24px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .mockup-browser-dots { display: flex; gap: 4px; position: absolute; left: 10px; }
+        .mockup-browser-dot { width: 6px; height: 6px; border-radius: 50%; background: #2a3370; }
+
+        .mockup-browser-address {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            color: rgba(251, 250, 248, 0.32);
+            margin: 0 auto;
+            letter-spacing: 0.05em;
+            user-select: none;
+        }
+
+        .mockup-phone {
+            background: #060920;
+            border: 9px solid #121a45;
+            border-radius: 36px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(92, 108, 255, 0.14);
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 9 / 19.5;
+            width: 250px;
+            margin: 0 auto;
+        }
+
+        .mockup-phone::before {
+            content: '';
+            position: absolute;
+            top: 9px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 74px;
+            height: 20px;
+            border-radius: 20px;
+            background: #000;
+            z-index: 10;
+        }
+
+        .phones-row {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .phones-row .media-item:nth-child(2) { transform: translateY(-2rem); }
+        .phones-row .media-item:nth-child(2):hover { transform: translateY(-2rem) scale(1.02); }
+
+        @media (max-width: 900px) {
+            .phones-row { flex-direction: column; align-items: center; }
+            .phones-row .media-item:nth-child(2) { transform: none; }
+        }
+
+        .media-item {
+            padding: 0 !important;
+            background: transparent !important;
+            border: none !important;
+            gap: 0.5rem !important;
+            cursor: zoom-in;
+            overflow: visible !important;
+            box-shadow: none !important;
+        }
+
+        .media-item:hover { transform: scale(1.02); }
+
+        .media-caption {
+            padding: 0 0.5rem;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .mockup-browser img.media-content {
+            width: 100% !important;
+            height: auto !important;
+            aspect-ratio: auto !important;
+            object-fit: contain !important;
+            display: block !important;
+            border-radius: 0;
+        }
+
+        .mockup-phone img.media-content {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 0;
+            aspect-ratio: auto;
+        }
+
+        .media-item:hover .media-content { transform: scale(1.02); }
+        .hero-shot.media-item:hover,
+        .hero-shot.media-item:hover .media-content { transform: none; }
+
+        /* Pipeline de despliegue */
+        .pipeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.8rem;
+            margin-top: 2rem;
+        }
+
+        .paso {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            background: rgba(14, 20, 60, 0.55);
+            position: relative;
+        }
+
+        .paso small { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.12em; color: var(--accent-alt); }
+        .paso b { display: block; margin: 0.3rem 0; font-size: 0.95rem; }
+        .paso p { font-size: 0.8rem; opacity: 0.6; line-height: 1.5; }
+
+        @media (max-width: 900px) {
+            .pipeline { grid-template-columns: 1fr 1fr; }
+        }
+        </style>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XQ78P8968"></script>
@@ -20,205 +377,269 @@
 </head>
 <body>
     <div class="project-container">
-
         <header class="project-header">
             <div class="header-content">
-
-                <h1>Lámpara<br>Aquarium<span class="dot">.</span></h1>
-                <p class="header-desc">Sistema inteligente de iluminación LED para acuarios controlado mediante ESP32, con interfaz web en tiempo real para programar ciclos de luz personalizados.</p>
+                <span class="tag">// HARDWARE · IOT · PROYECTO PERSONAL</span>
+                <h1>Lámpara para acuario</h1>
+                <p class="lead">Una lámpara LED de cinco canales que diseñé, monté y programé yo. Un ESP32 reproduce un día completo de luz, vigila la temperatura de los LEDs y sirve su propia app al móvil, sin nada que instalar.</p>
                 <div class="header-actions">
                     <a href="/proyectos/demo-lampara-led/index.html" target="_blank" rel="noopener noreferrer" class="btn-action">
-                        <span class="btn-icon">🕹️</span>
-                        Probar Demo
+                        <span>💡</span> PROBAR EL SIMULADOR
                     </a>
                 </div>
             </div>
-
-            <div class="header-image-container" id="header-3d">
-                <div id="custom-loader" class="loader-overlay">
-                    <!-- Pantalla Inicial con Botón -->
-                    <div class="loader-content" id="start-screen">
-                        <button id="btn-load-3d" class="btn-action">
-                            <span class="btn-icon">📦</span>
-                            Cargar Modelo 3D
-                        </button>
-                        <div class="loader-text" style="animation: none; opacity: 0.7; margin-top: 10px;">Requiere recursos gráficos</div>
-                    </div>
-                    <!-- Pantalla de Carga (Oculta al inicio) -->
-                    <div class="loader-content" id="loading-screen" style="display: none;">
-                        <div class="loader-text">// CARGANDO MODELO 3D</div>
-                        <div class="loader-bar-container">
-                            <div class="loader-bar-fill" id="loader-bar-fill"></div>
-                        </div>
-                        <div class="loader-percentage">0%</div>
-                    </div>
-                </div>
-                <model-viewer
-                    id="lamp-model"
-                    camera-controls
-                    shadow-intensity="2.0"
-                    exposure="0.5"
-                    environment-image="neutral"
-                    camera-orbit="45deg 70deg 2.5m"
-                    min-camera-orbit="auto auto 1m"
-                    max-camera-orbit="auto auto 5m"
-                    style="width: 100%; height: 100%; background: transparent;"
-                    interaction-prompt="none"
-                >
-                    <div class="model-hints">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;"><path d="M12 1v22M5 12h14"></path><path d="M12 23l-4-4m8 0l-4 4M12 1l4 4m-8 0l4-4"></path></svg>
-                        ARRASTRA PARA ROTAR · ZOOM CON Rueda
-                    </div>
-                </model-viewer>
-            </div>
         </header>
 
-        <main>
-            <div class="project-grid">
+        <div class="hero-shot media-item">
+            <img src="assets/lampara.webp" class="media-content" alt="La lámpara colgada sobre el acuario, encendida en azul y ultravioleta">
+        </div>
 
-                <section class="info-block">
-                    <h2>EL RETO</h2>
-                    <p>Los sistemas de iluminación LED para acuarios disponibles en el mercado son caros, propietarios y no permiten personalización. El objetivo era construir una solución desde cero que permitiera control total del espectro lumínico adaptado a las necesidades de cada especie acuática.</p>
-                </section>
+        <div class="cifras">
+            <div class="cifra"><b>5</b><span>Canales de luz</span></div>
+            <div class="cifra"><b>1.024</b><span>Niveles por canal</span></div>
+            <div class="cifra"><b>12</b><span>Perfiles de luz</span></div>
+            <div class="cifra"><b>24</b><span>Puntos por canal</span></div>
+            <div class="cifra"><b>0</b><span>Apps que instalar</span></div>
+            <div class="cifra"><b>1</b><span>Persona detrás</span></div>
+        </div>
 
-                <section class="info-block">
-                    <h2>STACK TÉCNICO</h2>
-                    <ul>
-                        <li><span>Hardware</span>ESP32 + Módulos LED PWM de alta potencia</li>
-                        <li><span>Firmware</span>Arduino IDE (C++)</li>
-                        <li><span>Interfaz</span>App móvil React Native</li>
-                        <li><span>Protocolo</span>WebSocket en tiempo real</li>
-                        <li><span>Diseño 3D</span>Fusion 360 + Impresión FDM</li>
-                    </ul>
-                </section>
+        <main class="project-grid">
+            <section class="info-block">
+                <h2>EL PRODUCTO</h2>
+                <p>Las lámparas de acuario que encontraba no se podían ajustar a mi gusto. Yo quería mover cada color por separado, programar un día entero con su amanecer y su atardecer, y controlarlo desde el móvil sin depender de la app de un fabricante. Así que la hice yo: la diseñé en 3D, repartí los LEDs en cinco canales, monté los drivers y el ESP32, y escribí el firmware y la app. Está montada y funcionando sobre el acuario.</p>
+            </section>
 
-                <section class="info-block">
-                    <h2>SOLUCIÓN</h2>
-                    <p>Diseño y fabricación de una lámpara LED de espectro completo controlada por ESP32 con comunicación WiFi. La interfaz web permite configurar ciclos de amanecer/atardecer, intensidad por canal RGB+W y perfiles personalizados guardados en memoria.</p>
-                </section>
+            <section class="info-block specs">
+                <h2>INFRAESTRUCTURA TÉCNICA</h2>
+                <ul>
+                    <li><span>PLACA:</span> ESP32 con cinco salidas PWM de 10 bits a 1 kHz, una por driver de LED.</li>
+                    <li><span>FIRMWARE:</span> C++ con el entorno de Arduino; versión 4.1.</li>
+                    <li><span>APP:</span> HTML, CSS y JavaScript guardados en la memoria del ESP32 y servidos por HTTP.</li>
+                    <li><span>SENSORES:</span> sonda de temperatura digital (bus OneWire) y ventilador regulado por PWM.</li>
+                    <li><span>DISEÑO:</span> modelo 3D completo en SketchUp y esquema de cableado propio.</li>
+                </ul>
+            </section>
 
-                <section class="info-block">
-                    <h2>APRENDIZAJE</h2>
-                    <ul>
-                        <li><span>01</span>Control PWM multi-canal con ESP32</li>
-                        <li><span>02</span>Diseño e impresión 3D de disipador de calor</li>
-                        <li><span>03</span>Comunicación WebSocket hardware-software</li>
-                        <li><span>04</span>Gestión térmica en electrónica de potencia</li>
-                    </ul>
-                </section>
+            <!-- 01 · Hardware -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px;">
+                    <h3>01 / HARDWARE</h3>
+                    <h4>Cinco canales, cada uno con su driver</h4>
+                    <p>Cada canal tiene su propio driver y su propia salida en el ESP32, así que se regula por separado. Los colores mezclan LEDs de distinto tipo: azul real, azul, rojo, ultravioleta de 395 y 420 nm y blanco de 6500 K y 3000 K. Antes de soldar nada, dibujé qué LED iba a cada driver.</p>
+                </div>
+                <ul class="canales">
+                    <li style="--c: #3d4dff"><b>Azul izquierda</b><small>Azul real, mitad izquierda de la barra.</small></li>
+                    <li style="--c: #2a66ff"><b>Azul derecha</b><small>Azul real, mitad derecha.</small></li>
+                    <li style="--c: #2fd2ff"><b>Ambiente marino</b><small>El canal de «azul extra» del esquema.</small></li>
+                    <li style="--c: #9a4dff"><b>Ultravioleta</b><small>LEDs de 395 y 420 nm.</small></li>
+                    <li style="--c: #fff6dc"><b>Blancos</b><small>6500 K (fríos) y 3000 K (cálidos).</small></li>
+                </ul>
+                <div class="media-item">
+                    <div class="esquema"><img src="assets/esquema electrico.svg" class="media-content" alt="Esquema de cableado: cinco drivers conectados a los LEDs de la barra por colores"></div>
+                    <p class="media-caption">// Esquema: cada color de cable es un canal; arriba, los cinco drivers.</p>
+                </div>
+            </section>
 
-            </div>
-
-            <section class="info-block full-width" id="galeria">
-                <h2>REGISTRO VISUAL</h2>
-                <div class="media-grid">
-                    <div class="media-item">
-                        <img src="assets/esquema electrico.svg" alt="Esquema eléctrico original" class="media-content">
-                        <p class="media-caption">// Boceto inicial: Lógica del sistema</p>
+            <!-- 02 · App -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid">
+                    <div class="ecosystem-content">
+                        <h3>02 / LA APP</h3>
+                        <h4>La sirve la propia lámpara</h4>
+                        <p>No hay nada que descargar. El ESP32 lleva dentro un servidor web con la app: se abre en el navegador del móvil y se puede añadir a la pantalla de inicio, donde se abre a pantalla completa como una app más.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Manual o automático:</span> en manual, un deslizador por canal; en automático, la lámpara sigue el día programado con la hora de internet (NTP).</li>
+                            <li><span>12 perfiles:</span> cada uno con nombre propio y hasta 24 puntos de hora y brillo por canal. Entre punto y punto, la luz cambia poco a poco.</li>
+                            <li><span>Vista previa:</span> al editar un perfil, mueves la hora y ves en la lámpara real cómo quedaría la luz.</li>
+                            <li><span>Efecto nubes:</span> cada 4 a 12 segundos el brillo baja al azar hasta un 15 % y vuelve despacio.</li>
+                        </ul>
                     </div>
                     <div class="media-item">
-                        <img src="assets/lampara encendida.JPG" alt="Lámpara real en funcionamiento" class="media-content">
-                        <p class="media-caption">// Resultado: Iluminación de alto rendimiento</p>
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-header">
+                                <div class="mockup-browser-dots"><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span><span class="mockup-browser-dot"></span></div>
+                                <div class="mockup-browser-address">ronaldherrera.es/proyectos/demo-lampara-led</div>
+                            </div>
+                            <img src="assets/demo.webp" class="media-content" alt="Simulador: la lámpara sobre una pecera dibujada y, al lado, la app con un deslizador por canal">
+                        </div>
+                        <p class="media-caption">// Simulador del portfolio: la misma app, pintando la luz sobre una pecera.</p>
                     </div>
                 </div>
             </section>
 
-            <section class="info-block full-width conclusion">
-                <h2>CONCLUSIÓN</h2>
-                <p>Este proyecto demostró que es posible construir hardware profesional de alta precisión con componentes de bajo coste y código abierto. La combinación de ESP32 con PWM multi-canal y una interfaz web reactiva ofrece una experiencia de usuario comparable a productos comerciales de gama alta, a una fracción del precio.</p>
+            <!-- 03 · Primer arranque -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px;">
+                    <h3>03 / PRIMER ARRANQUE</h3>
+                    <h4>Conectarla sin tocar código</h4>
+                    <p>Quien la enchufa no tiene que saber qué es un ESP32 ni buscar su IP. La lámpara se configura desde el móvil y, si se va la luz, vuelve sola a como estaba: canales, perfiles, red y límites se guardan en la memoria flash.</p>
+                </div>
+                <div class="pipeline">
+                    <div class="paso"><small>01 · SU RED</small><b>Punto de acceso</b><p>Al arrancar, la lámpara crea su propia red Wi-Fi para configurarla.</p></div>
+                    <div class="paso"><small>02 · ESCANEO</small><b>Redes cercanas</b><p>El móvil muestra las redes que ve la lámpara; eliges la de casa.</p></div>
+                    <div class="paso"><small>03 · CONEXIÓN</small><b>Red de casa</b><p>Se conecta y sigue ofreciendo su red por si hay que cambiarla.</p></div>
+                    <div class="paso"><small>04 · NOMBRE</small><b>lampara.local</b><p>Con mDNS se encuentra por nombre, sin buscar la IP.</p></div>
+                </div>
+            </section>
+
+            <!-- 04 · Térmica -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-grid reversed">
+                    <div class="ecosystem-content">
+                        <h3>04 / PROTECCIÓN TÉRMICA</h3>
+                        <h4>El calor manda sobre el diseño</h4>
+                        <p>Los LEDs de potencia se calientan, y el calor les acorta la vida. La sonda mide la temperatura cada dos segundos y la lámpara reacciona sola. La app muestra la temperatura y la velocidad del ventilador, y deja ajustar todos los límites.</p>
+                        <ul class="ecosystem-specs">
+                            <li><span>Ventilador con histéresis:</span> arranca a 28 °C, no se apaga hasta bajar a 26 °C y llega al 100 % a 38 °C. Así no se enciende y apaga sin parar.</li>
+                            <li><span>Potencia mínima:</span> cuando gira, nunca baja del 30 %, porque por debajo zumbaba sin moverse.</li>
+                            <li><span>Límite de brillo:</span> a partir de 45 °C el brillo máximo baja al 50 % poco a poco, y se recupera al bajar de 40 °C.</li>
+                        </ul>
+                    </div>
+                    <div class="media-item">
+                        <div class="mockup-phone"><img src="assets/app-movil.webp" class="media-content" alt="App de la lámpara en el móvil: estado, ventilador al 15 %, 26,4 °C y un deslizador por canal"></div>
+                        <p class="media-caption">// Arriba, ventilador y temperatura en vivo.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 05 · Modelo 3D -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px; margin-bottom: 2rem;">
+                    <h3>05 / DISEÑO 3D</h3>
+                    <h4>Antes de montarla, la modelé</h4>
+                    <p>Modelé la lámpara completa en SketchUp, con sus perfiles, colgantes y tornillos, para ver medidas y montaje antes de construirla. Puedes girarla aquí.</p>
+                </div>
+                <div class="visor" id="visor">
+                    <div class="visor-capa">
+                        <button class="btn-action" id="cargar-3d" type="button">CARGAR EL MODELO 3D</button>
+                        <p id="visor-texto">Pesa unos 21 MB.</p>
+                        <div class="barra" hidden id="visor-barra"><i></i></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TECNICA -->
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px;">
+                    <h3>06 / ARQUITECTURA</h3>
+                    <h4>Cómo encajan las piezas</h4>
+                </div>
+                <ul class="datos-tecnicos"><li><b>3.211</b>líneas de firmware</li><li><b>17</b>rutas HTTP</li><li><b>5</b>canales PWM de 10 bits</li><li><b>12</b>perfiles en flash</li><li><b>2 s</b>entre lecturas de temperatura</li><li><b>4.1</b>versión del firmware</li></ul>
+                <div class="capas">
+                    <div class="capa"><h5>Móvil<small>lo que ve quien la usa</small></h5><div class="nodos"><div class="nodo">App web<small>deslizadores y editor de perfiles</small></div><div class="nodo">Pantalla de inicio<small>se abre como una app</small></div><div class="nodo">Consulta /status<small>cada 2 segundos</small></div></div></div>
+                    <div class="capa"><h5>ESP32: red<small>cómo se llega a ella</small></h5><div class="nodos"><div class="nodo">WebServer<small>17 rutas HTTP</small></div><div class="nodo">Wi-Fi AP + STA<small>su red y la de casa a la vez</small></div><div class="nodo">mDNS<small>lampara.local</small></div><div class="nodo">NTP<small>la hora para el modo automático</small></div></div></div>
+                    <div class="capa"><h5>ESP32: control<small>el bucle principal</small></h5><div class="nodos"><div class="nodo">Interpolación<small>brillo de cada canal a cada minuto</small></div><div class="nodo">Nubes y límite térmico<small>atenuaciones suaves</small></div><div class="nodo">Corrección gamma<small>brillo percibido uniforme</small></div><div class="nodo">Preferences<small>todo guardado en flash</small></div></div></div>
+                    <div class="capa"><h5>Hardware<small>lo que se calienta</small></h5><div class="nodos"><div class="nodo">5 drivers de LED<small>uno por canal</small></div><div class="nodo">Sonda OneWire<small>temperatura de los LEDs</small></div><div class="nodo">Ventilador PWM<small>velocidad según el calor</small></div></div></div>
+                </div>
+                <p class="decisiones-cabecera">// Decisiones técnicas y por qué</p>
+                <div class="decisiones">
+                    <div class="decision"><div><small>Problema</small>Con el ahorro de energía del Wi-Fi, la luz daba microcortes.</div><div><small>Decisión</small>Desactivarlo con <code>WiFi.setSleep(false)</code>: el PWM deja de parpadear.</div><div><small>En vez de</small>Dejar la configuración por defecto y vivir con el parpadeo.</div></div>
+                    <div class="decision"><div><small>Problema</small>Instalar una app y mantenerla en dos tiendas para una sola lámpara.</div><div><small>Decisión</small>La app vive en la memoria del ESP32 y se sirve por HTTP; basta un navegador.</div><div><small>En vez de</small>Una app nativa que habría que publicar y actualizar aparte.</div></div>
+                    <div class="decision"><div><small>Problema</small>Configurar la red sin cables ni código.</div><div><small>Decisión</small>Modo doble: la lámpara ofrece su propia red y a la vez se conecta a la de casa; se encuentra como <code>lampara.local</code>.</div><div><small>En vez de</small>Escribir el nombre y la contraseña del Wi-Fi en el firmware.</div></div>
+                    <div class="decision"><div><small>Problema</small>El ojo no ve el brillo de forma lineal.</div><div><small>Decisión</small>Corrección gamma con exponente 1,5 antes de escribir el PWM, para que el deslizador se sienta uniforme.</div><div><small>En vez de</small>Pasar el porcentaje tal cual, con saltos bruscos en la parte baja.</div></div>
+                    <div class="decision"><div><small>Problema</small>Cambios bruscos al arrancar, al cambiar de modo o al calentarse.</div><div><small>Decisión</small>Todo se mueve en rampas: la luz sube desde cero al encender y el límite térmico baja poco a poco.</div><div><small>En vez de</small>Aplicar cada cambio de golpe.</div></div>
+                </div>
+            </section>
+
+            <section class="ecosystem-section">
+                <div class="ecosystem-content" style="max-width: 760px; margin-bottom: 3rem;">
+                    <h3>07 / EN EL CÓDIGO</h3>
+                    <h4>Fragmentos reales del firmware</h4>
+                </div>
+                <div class="codigo">
+                    <div>
+                        <h5>Brillo a cualquier hora</h5>
+                        <p>Cada canal guarda puntos de hora y brillo. Esta función busca entre qué dos puntos está la hora actual e interpola. Si el tramo cruza la medianoche (por ejemplo, de 22:00 a 07:00), suma 24 horas para que la cuenta salga bien.</p><p>La usan tanto el modo automático, con la hora de NTP, como la vista previa, con la hora que eliges en la app.</p>
+                    </div>
+                    <div class="editor">
+                        <div class="editor-pestana"><b>Lampara-Led.ino · getTargetFromSchedule()</b><span>C++</span></div>
+                        <pre><code>int currentMinutes = h * 60 + m;
+<i>// … busca p1 (último punto antes de ahora) y p2 (el siguiente)</i>
+
+<i>// Ajuste para el ciclo de 24h</i>
+if (m2 &lt; m1) m2 += 1440;
+int adjustedCurrent = currentMinutes;
+if (adjustedCurrent &lt; m1) adjustedCurrent += 1440;
+
+float diff = m2 - m1;
+float pos = (float)(adjustedCurrent - m1) / diff;
+
+int briPercent = pt1.bri + (int)(pos * (pt2.bri - pt1.bri));
+
+if (briPercent &lt;= 0) return 0;
+return map(briPercent, 1, 100, 30, PWM_MAX);</code></pre>
+                    </div>
+                </div>
+                <div class="codigo">
+                    <div>
+                        <h5>Del brillo al pin</h5>
+                        <p>En cada vuelta del bucle, el valor de cada canal pasa por las nubes, el límite térmico y la corrección gamma antes de llegar al pin. El límite (<code>safetyMultiplier</code>) se mueve poco a poco, así que nunca hay un apagón brusco.</p><p>La salida va invertida porque los drivers apagan la luz con la señal alta.</p>
+                    </div>
+                    <div class="editor">
+                        <div class="editor-pestana"><b>Lampara-Led.ino · loop()</b><span>C++</span></div>
+                        <pre><code><i>// Aplicar el límite máximo de seguridad (Hard Cap)</i>
+int maxAllowed = (int)((float)PWM_MAX * safetyMultiplier);
+int limitedValue = (finalValue &gt; maxAllowed) ? maxAllowed : finalValue;
+
+double input = (double)limitedValue / (double)PWM_MAX;
+double output = pow(input, 1.5);
+int valorGamma = (int)(output * PWM_MAX);
+if (limitedValue == 0) valorGamma = 0;
+
+int pwmFinal = PWM_MAX - valorGamma;
+<i>// … recorta pwmFinal entre 0 y PWM_MAX</i>
+ledcWrite(channels[i].pin, pwmFinal);</code></pre>
+                    </div>
+                </div>
+            </section>
+            <!-- /TECNICA -->
+
+            <section class="info-block full-width conclusion" data-indice="Resumen" style="margin-top: 4rem;">
+                <h2>RESUMEN DEL IMPACTO</h2>
+                <p>La lámpara es el proyecto donde mejor se ve cómo trabajo de principio a fin: una necesidad propia, un diseño en 3D, electrónica montada a mano y un software que esconde la complejidad. Quien la usa solo ve un deslizador por color y un día de luz que se repite solo; debajo hay control térmico, transiciones suaves y una app servida desde una placa de pocos euros.</p>
             </section>
         </main>
 
+        <nav class="seguir" aria-label="Seguir viendo">
+            <a href="/proyectos/demo-lampara-led/index.html" target="_blank" rel="noopener"><small>Pruébalo</small><b>El simulador de la lámpara</b></a>
+            <a href="../tankily/index.html"><small>Otro proyecto de acuarios</small><b>Tankily</b></a>
+        </nav>
+
         <footer class="project-footer">
             <div class="status-badge">
-                <span class="status-dot"></span>
-                COMPILACIÓN_ESTABLE_V2.0
+                <span class="status-dot" style="background-color: #5c6cff; box-shadow: 0 0 10px rgba(92, 108, 255, 0.6);"></span>
+                ESTADO_PROYECTO_MONTADO_Y_FUNCIONANDO
             </div>
         </footer>
     </div>
 
-    <!-- Soporte 3D Diferido -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <script>
-        const modelViewer = document.getElementById('lamp-model');
-        const loader = document.getElementById('custom-loader');
-        const startScreen = document.getElementById('start-screen');
-        const loadingScreen = document.getElementById('loading-screen');
-        const percentageText = loader.querySelector('.loader-percentage');
-        const btnLoad3d = document.getElementById('btn-load-3d');
-
-        let targetProgress = 0;
-        let animatedProgress = 0;
-        let lastTime = 0;
-        let isLoaded = false;
-        let isAnimating = false;
-
-        function animate() {
-            if(!isAnimating) return;
-            const now = performance.now();
-            const delta = (now - lastTime) / 1000;
-            lastTime = now;
-
-            const limit = isLoaded ? 100 : 99;
-            
-            if (animatedProgress < limit) {
-                const diff = targetProgress - animatedProgress;
-                animatedProgress += Math.max(0.1, diff * 0.1); 
-            }
-
-            if (isLoaded && animatedProgress > 99.5) {
-                animatedProgress = 100;
-            }
-
-            const displayValue = Math.floor(animatedProgress);
-            percentageText.textContent = `${displayValue}%`;
-            loader.style.setProperty('--progress', `${animatedProgress}%`);
-
-            if (animatedProgress < 100) {
-                requestAnimationFrame(animate);
-            } else {
-                setTimeout(() => {
-                    loader.classList.add('hidden');
-                }, 800);
-            }
-        }
-
-        btnLoad3d.addEventListener('click', () => {
-            startScreen.style.display = 'none';
-            loadingScreen.style.display = 'flex';
-            
-            // Iniciar animación
-            isAnimating = true;
-            lastTime = performance.now();
-            requestAnimationFrame(animate);
-
-            // Cargar modelo
-            modelViewer.setAttribute('src', 'assets/lampara pecera.glb');
-        });
-
-        modelViewer.addEventListener('progress', (event) => {
-            const p = event.detail.totalProgress * 100;
-            if (p > targetProgress) {
-                targetProgress = p;
-            }
-        });
-
-        modelViewer.addEventListener('load', () => {
-            isLoaded = true;
-            targetProgress = 100;
-        });
-
-    </script>
-
-    <!-- Scripts Universales -->
-    <script src="../0.plantilla/back-button.js"></script>
-    <script src="../0.plantilla/lightbox.js"></script>
-
-    <script>
-        // Notificar al padre que NO estamos en modo prototipo interactivo (para mostrar el botón LAB)
+        // Dentro del Lab: el Lab muestra su propio botón
         if (window.parent !== window) {
             window.parent.postMessage({ type: 'AQUARIUM_PROTOTYPE_STATE', active: false }, '*');
         }
+
+        // Modelo 3D: la librería y los 21 MB solo se cargan si se pide
+        document.getElementById('cargar-3d').addEventListener('click', e => {
+            e.currentTarget.hidden = true;
+            const texto = document.getElementById('visor-texto');
+            const barra = document.getElementById('visor-barra');
+            texto.textContent = 'Cargando el modelo…';
+            barra.hidden = false;
+            const s = document.createElement('script');
+            s.type = 'module';
+            s.src = 'https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js';
+            document.head.appendChild(s);
+            const mv = document.createElement('model-viewer');
+            Object.entries({
+                src: 'assets/lampara pecera.glb', alt: 'Modelo 3D de la lámpara', 'camera-controls': '', 'shadow-intensity': '1.5',
+                exposure: '1.2', 'environment-image': 'neutral', 'camera-orbit': '35deg 65deg auto', 'interaction-prompt': 'none',
+            }).forEach(([k, v]) => mv.setAttribute(k, v));
+            mv.addEventListener('progress', ev => { barra.firstElementChild.style.width = `${Math.round(ev.detail.totalProgress * 100)}%`; });
+            mv.addEventListener('load', () => document.getElementById('visor').classList.add('cargado'));
+            mv.addEventListener('error', () => { texto.textContent = 'No se ha podido cargar el modelo.'; barra.hidden = true; });
+            document.getElementById('visor').appendChild(mv);
+        });
     </script>
 </body>
 </html>
