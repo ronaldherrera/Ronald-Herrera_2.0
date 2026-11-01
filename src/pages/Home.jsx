@@ -5,6 +5,7 @@ import ValueProposition from '../components/ValueProposition';
 import PortfolioTransition from '../components/PortfolioTransition';
 import Projects from '../components/Projects';
 import AboutMe from '../components/AboutMe';
+import Studio from '../components/Studio';
 import FinalCTA from '../components/FinalCTA';
 
 const Home = () => {
@@ -16,6 +17,7 @@ const Home = () => {
       <PortfolioTransition />
       <Projects />
       <AboutMe />
+      <Studio />
       <FinalCTA />
     </>
   );

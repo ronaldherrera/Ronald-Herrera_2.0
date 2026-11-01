@@ -122,7 +122,7 @@ const ContactPage = () => {
             <div className="contact-info-lateral">
               <div className="info-block">
                 <h3>CONECTAR</h3>
-                <a href="https://linkedin.com/in/ronald-herrera" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://linkedin.com/in/ronald-sc-herrera" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                 <a href="https://github.com/ronaldherrera" target="_blank" rel="noopener noreferrer">GitHub</a>
                 <a href="https://behance.net/ronald-herrera" target="_blank" rel="noopener noreferrer">Behance</a>
               </div>

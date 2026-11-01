@@ -51,7 +51,7 @@ export const CONTACT = {
 // - LinkedIn: confirmado por el propietario (29/10/2026).
 // - Behance: perfil «Ronald Herrera, Santander» comprobado el 31/10/2026.
 export const SOCIAL_LINKS = [
-  { id: 'linkedin', label: 'LinkedIn', href: 'https://linkedin.com/in/ronald-herrera', verified: true },
+  { id: 'linkedin', label: 'LinkedIn', href: 'https://linkedin.com/in/ronald-sc-herrera', verified: true },
   { id: 'github', label: 'GitHub', href: 'https://github.com/ronaldherrera', verified: true },
   { id: 'behance', label: 'Behance', href: 'https://behance.net/ronald-herrera', verified: true },
 ];

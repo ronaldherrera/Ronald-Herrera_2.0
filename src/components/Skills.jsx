@@ -482,7 +482,7 @@ const Skills = () => {
                 </button>
                 <button 
                   className="btn-start-game secondary-action" 
-                  onClick={() => window.open('https://linkedin.com/in/ronald-herrera', '_blank')}
+                  onClick={() => window.open('https://linkedin.com/in/ronald-sc-herrera', '_blank')}
                 >
                   LINKEDIN
                 </button>

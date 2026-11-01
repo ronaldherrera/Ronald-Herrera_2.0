@@ -323,6 +323,16 @@ const LabPage = () => {
           description: "Web para una red de instaladores solares: una página por cada uno de los 102 municipios de Cantabria con datos reales de producción, 6 calculadoras y 25 artículos con fuentes oficiales.",
           url: "/presentacion/esolar/index.html",
           image: "/presentacion/esolar/assets/portada.webp"
+        },
+        {
+          id: 103,
+          title: "RONALDHERRERA.STUDIO",
+          category: "MI ESTUDIO / WEBS PARA PYMES",
+          tags: ["NEXT.JS", "SUPABASE", "SEO", "IA"],
+          description: "Mi estudio de webs y herramientas a medida para pymes de toda España. Web estática con Next.js, más de 40 páginas pensadas para Google (sectores, servicios y guías) y DeD, un asistente con IA que atiende a quien entra.",
+          url: "https://ronaldherrera.studio",
+          image: "/proyectos/studio/portada.webp",
+          external: true
         }
       ]
     },
