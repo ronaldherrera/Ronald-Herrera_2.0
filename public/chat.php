@@ -19,7 +19,7 @@ function responder(int $codigo, array $datos): void {
     exit;
 }
 
-const RESPUESTA_FALLO = 'Ahora mismo no puedo responder. Escríbeme desde la página de contacto (/contacto) o por LinkedIn y te contesto yo, el Ronald de verdad, en menos de 24 horas.';
+const RESPUESTA_FALLO = 'Ahora mismo no puedo responder. Escríbeme desde [la página de contacto](/contacto) o por [LinkedIn](https://www.linkedin.com/in/ronald-sc-herrera) y te contesto yo en persona en menos de 24 horas.';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') responder(405, ['ok' => false, 'error' => 'Método no permitido']);
 
@@ -63,13 +63,13 @@ foreach (array_slice($historial, -$maxMensajes) as $m) {
 while ($mensajes && $mensajes[0]['role'] !== 'user') array_shift($mensajes);
 if (!$mensajes || end($mensajes)['role'] !== 'user') responder(400, ['ok' => false, 'error' => 'Mensaje vacío']);
 if (count($historial) > $maxMensajes) {
-    responder(200, ['ok' => true, 'respuesta' => 'Esta conversación ya es larga y prefiero seguirla en persona. Escríbeme desde /contacto o por LinkedIn y lo hablamos.']);
+    responder(200, ['ok' => true, 'respuesta' => 'Esta conversación ya es larga y prefiero seguirla en persona. Escríbeme desde [la página de contacto](/contacto) o por [LinkedIn](https://www.linkedin.com/in/ronald-sc-herrera) y lo hablamos.']);
 }
 
 // --- Límites de gasto: por IP y hora, y tope diario total ---------------------
 $ip = $_SERVER['REMOTE_ADDR'] ?? 'desconocida';
 if (!contador('ip-' . $ip, 3600, $porHora)) {
-    responder(429, ['ok' => true, 'respuesta' => 'Me has escrito muchos mensajes en poco tiempo. Si quieres, escríbeme desde /contacto y te respondo yo personalmente.']);
+    responder(429, ['ok' => true, 'respuesta' => 'Me has escrito muchos mensajes en poco tiempo. Si quieres, escríbeme desde [la página de contacto](/contacto) y te respondo yo personalmente.']);
 }
 if (!contador('dia-' . date('Y-m-d'), 86400, $topeDiario)) {
     responder(429, ['ok' => true, 'respuesta' => RESPUESTA_FALLO]);
@@ -291,7 +291,7 @@ try {
     ]);
 } catch (RateLimitException $e) {
     registrar('Límite de la API: ' . $e->getMessage());
-    responder(200, ['ok' => true, 'respuesta' => 'Ahora mismo hay mucha gente preguntando. Prueba en un minuto o escríbeme desde /contacto.']);
+    responder(200, ['ok' => true, 'respuesta' => 'Ahora mismo hay mucha gente preguntando. Prueba en un minuto o escríbeme desde [la página de contacto](/contacto).']);
 } catch (AuthenticationException $e) {
     registrar('Clave de la API no válida: ' . $e->getMessage());
     responder(200, ['ok' => true, 'respuesta' => RESPUESTA_FALLO]);

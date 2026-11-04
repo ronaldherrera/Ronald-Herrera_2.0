@@ -143,6 +143,8 @@ export default function PanelClon({ onCerrar, saliendo = false, sugerencias: tem
   const [pensando, setPensando] = useState(false);
   // Voz de Ronald: apagada hasta que el visitante la activa (se recuerda en este navegador)
   const [conVoz, setConVoz] = useState(() => leerPreferencia(VOZ, false));
+  // ¿Ha elegido ya si quiere mi voz? Si no, se le invita una vez (el altavoz de la cabecera solo no se entiende)
+  const [vozElegida, setVozElegida] = useState(() => { try { return localStorage.getItem(VOZ) !== null; } catch { return true; } });
   // El avatar grande encima de la conversación: se puede plegar (se recuerda)
   const [conEscena, setConEscena] = useState(() => leerPreferencia(ESCENA, true));
   const [habla, setHabla] = useState(null);
@@ -257,6 +259,7 @@ export default function PanelClon({ onCerrar, saliendo = false, sugerencias: tem
   }
 
   function cambiarVoz() {
+    setVozElegida(true);
     const nueva = !conVoz;
     setConVoz(nueva);
     if (nueva) desbloquearAltavoz();
@@ -609,6 +612,8 @@ export default function PanelClon({ onCerrar, saliendo = false, sugerencias: tem
 
   // A pantalla completa el avatar se ve siempre, aunque estuviera plegado
   const verEscena = conEscena || completa;
+  // La invitación a la voz: hasta que elige (o escribe su primera pregunta)
+  const invitarVoz = !conVoz && !vozElegida && !mensajes.some((m) => m.rol === 'visitante');
   const avatar = { pensando, respuesta: ultimaRespuesta, escuchando: escuchando || Boolean(texto.trim()), conVoz, habla };
   // Qué está haciendo: escuchándote, pensando la respuesta o generando su voz
   const [fase, tipoFase] = escuchando ? ['Te escucho', 'escuchando'] : preparandoVoz ? ['Preparando mi voz', 'voz'] : pensando ? ['Pensando', 'pensando'] : ['', ''];
@@ -638,6 +643,7 @@ export default function PanelClon({ onCerrar, saliendo = false, sugerencias: tem
             <button
               type="button"
               onClick={cambiarVoz}
+              className={invitarVoz ? 'clon-llamativo' : undefined}
               aria-pressed={conVoz}
               aria-label={conVoz ? 'Silenciar mi voz' : 'Escuchar mis respuestas con mi voz'}
               title={conVoz ? 'Silenciar mi voz' : 'Escuchar con mi voz'}
@@ -686,6 +692,11 @@ export default function PanelClon({ onCerrar, saliendo = false, sugerencias: tem
           ))}
           {pensando && <p className="clon-msj clon-msj-asistente clon-escribiendo" aria-label="Escribiendo"><span /><span /><span /></p>}
           {avisado && <p className="clon-aviso">✓ Hecho: el Ronald de verdad ya tiene tu contacto y te escribirá personalmente.</p>}
+          {invitarVoz && (
+            <button type="button" className="clon-voz-invitacion" onClick={cambiarVoz}>
+              <Icono nombre="vozSi" /> Contéstame con tu voz
+            </button>
+          )}
           {!pensando && sugerencias.length > 0 && (
             <div className="clon-sugerencias">
               {sugerencias.map((s) => <button key={s} type="button" onClick={() => enviar(s)}>{s}</button>)}

@@ -719,6 +719,30 @@ html:has(.project-viewer-overlay) .clon-llamada { z-index: 20010; }
 html:has(.project-viewer-overlay) .clon-fondo { z-index: 20011; }
 html:has(.project-viewer-overlay) .clon-panel { z-index: 20012; }
 
+/* Invitación a escuchar mi voz (la primera vez, hasta que elige) */
+.clon-voz-invitacion {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.95rem;
+  border: 1px solid var(--color-accent-gold);
+  border-radius: 999px;
+  background: rgba(196, 171, 87, 0.12);
+  color: var(--color-accent-gold);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, scale 0.52s var(--clon-muelle);
+}
+.clon-voz-invitacion:hover { background: rgba(196, 171, 87, 0.22); }
+.clon-voz-invitacion:active { scale: 0.95; transition-duration: 0.08s; }
+.clon-voz-invitacion svg { width: 16px; height: 16px; }
+/* Y el altavoz de la cabecera brilla suave mientras tanto, para que se asocie */
+.clon-acciones button.clon-llamativo { color: var(--color-accent-gold); animation: clon-brillo 2.2s ease-in-out infinite; }
+@keyframes clon-brillo { 50% { box-shadow: 0 0 0 5px rgba(196, 171, 87, 0.18); } }
+
 /* En el móvil: botón solo con la cara y panel como tarjeta que sube desde abajo */
 @media (max-width: 560px) {
   .clon-boton {
@@ -848,4 +872,5 @@ html:has(.project-viewer-overlay) .clon-panel { z-index: 20012; }
   .clon-puntos i { animation: none; opacity: 0.8; }
   .clon-escribiendo span { animation: none; }
   .clon-form .clon-mic.escuchando, .clon-form .clon-en-conversacion.escuchando { animation: none; }
+  .clon-acciones button.clon-llamativo { animation: none; }
 }
