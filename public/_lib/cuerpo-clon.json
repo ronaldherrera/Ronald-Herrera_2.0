@@ -1,0 +1,32 @@
+{
+  "_nota": "Lo que la IA puede hacer con el avatar mediante marcas {tipo:valor} en su respuesta. Lo leen chat.php (_lib/cuerpo.php) y el chat de desarrollo de vite.config.js. cara: nombre para la IA -> expresión del avatar (escena3d.js EXPRESIONES). cuerpo: animaciones de public/avatar/animaciones. camara: encuadres de escena3d.js ENCUADRES.",
+  "cara": {
+    "neutral": "neutral",
+    "sonrisa": "sonrisa",
+    "alegre": "alegre",
+    "atento": "atento",
+    "duda": "duda",
+    "sorpresa": "sorpresa",
+    "preocupado": "preocupado",
+    "pensativo": "🤔",
+    "guino": "😉",
+    "picaro": "😏",
+    "risa": "😂",
+    "esceptico": "🤨",
+    "resignado": "🙄",
+    "apurado": "😬",
+    "verguenza": "😳",
+    "ilusion": "🤩",
+    "triste": "😢",
+    "chulo": "😎"
+  },
+  "gesto": ["asentir", "negar", "ladear", "encogerse"],
+  "cuerpo": [
+    "asentir", "asentir-fuerte", "asentir-largo", "de-acuerdo", "entendido", "negar", "negar-pensativo", "encogerse",
+    "gracias", "saludar", "saludo-formal", "reverencia", "gesto-alegre", "emocionado", "celebrar",
+    "aplaudir", "reir", "alivio", "chulesco", "quitar-importancia", "decepcionado", "triste", "mirar-a-otro-lado",
+    "baile-hiphop", "baile-samba", "baile-gangnam", "baile-escritorio"
+  ],
+  "accion": ["gafas", "reir", "saludar", "taparse", "cara-palma", "bostezar"],
+  "camara": ["cara", "busto", "medio", "completo"]
+}

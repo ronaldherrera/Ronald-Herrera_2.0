@@ -23,6 +23,13 @@ jobs:
           npm install
           npm run build
 
+      # SDK oficial de Anthropic para el chat con la versión IA (PHP 8.1, como el Hostinger).
+      # Va a _lib/vendor, que el .htaccess de _lib protege: PHP lo usa, pero no se abre desde el navegador.
+      - name: Dependencias PHP del chat
+        run: |
+          composer install --no-dev --no-interaction --prefer-dist --working-dir=servidor
+          cp -r servidor/vendor dist/_lib/vendor
+
       - name: Deploy 🚀
         uses: peaceiris/actions-gh-pages@v4
         with:

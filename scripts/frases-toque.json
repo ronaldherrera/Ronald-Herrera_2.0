@@ -1,0 +1,17 @@
+{
+  "_nota": "Frases que el avatar dice al tocarle (escena3d.js, tocar). Se graban una vez con npm run frases-toque.",
+  "ojo": ["¡Ay, el ojo!", "¡Eh, que con ese veo!", "Uf, eso no se toca.", "¡Au! Ahora veo borroso.", "Los ojos, mejor de lejos."],
+  "nariz": ["¿Qué pasa, tengo algo en la nariz?", "¡Oye, la nariz no!", "Achís… casi estornudo.", "Pip, pip. ¿Era un timbre?"],
+  "boca": ["Mmm… ¿y eso?", "Vaya, qué confianza.", "¿Me estás mandando callar?", "Shhh, que estoy hablando yo."],
+  "mejilla": ["Me vas a sacar los colores.", "Ay, qué detalle.", "Uy, qué cariñoso todo.", "Me estoy poniendo rojo, ¿eh?"],
+  "oreja": ["Te oigo, te oigo.", "¡Eh, que eso hace cosquillas!", "¿Qué? No te oigo, que me tapas la oreja.", "Dime, soy todo oídos."],
+  "cabeza": ["Cuidado con el peinado.", "Que me despeinas.", "Toc, toc. Sí, hay alguien dentro.", "Esto me ha costado diez minutos de peinarme."],
+  "barbilla": ["Mmm, déjame pensar…", "Buena pregunta, sí señor.", "Ahora parezco un filósofo, ¿no?"],
+  "cosquillas": ["¡Para, para, que tengo cosquillas!", "¡Ahí no, que no aguanto!", "¡No, no, cosquillas no!", "¡Vale, vale, me rindo!", "¡Eso es trampa!"],
+  "pecho": ["¡Eh! ¿Qué pasa?", "Sigo aquí, sigo aquí.", "¿Comprobando si soy de verdad?", "Tranquilidad, que no me voy a ninguna parte."],
+  "brazo": ["¿Sí? Dime.", "Aquí estoy, ¿qué necesitas?", "¿Me llamabas?", "Ojo, que el brazo lo tengo sensible."],
+  "mano": ["¡Choca esos cinco!", "¡Hola, hola!", "Encantado, de verdad.", "Buen apretón de manos, sí."],
+  "piernas": ["Oye, que me haces tropezar.", "Por ahí abajo no hay mucho que ver.", "Las piernas las uso para huir de los bugs."],
+  "harto": ["Vale, vale, ya está bien.", "¿Qué tal si mejor te cuento mis proyectos?", "Me vas a gastar de tanto tocar.", "Oye, que soy un clon, no un muñeco antiestrés."],
+  "para": ["Para ya de hacer eso, por favor.", "En serio, para de tocarme, que así no hay quien trabaje.", "Ya está, ¿eh? Para de hacer eso y hablamos."]
+}

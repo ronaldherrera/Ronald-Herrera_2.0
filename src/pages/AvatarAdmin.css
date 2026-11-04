@@ -1,0 +1,92 @@
+/* Panel del clon (/avatar-admin): herramienta de uso propio, sobria y densa, con los colores del banco de pruebas */
+.aa {
+  --aa-barra: 52px;
+  --aa-fondo: #121211;
+  --aa-superficie: #1b1b19;
+  --aa-borde: #2e2d29;
+  --aa-texto: var(--color-text, #eae5ca);
+  --aa-suave: #a29f8c;
+  --aa-oro: var(--color-accent-gold, #c4ab57);
+  --aa-peligro: #c2453a;
+  min-height: 100dvh;
+  background: var(--aa-fondo);
+  color: var(--aa-texto);
+  font-family: var(--font-body, system-ui, sans-serif);
+  font-size: 0.95rem;
+}
+.aa-centro { display: grid; place-items: center; padding: 1rem; }
+.aa button { font: inherit; color: inherit; background: transparent; border: 1px solid var(--aa-borde); border-radius: 8px; padding: 0.45rem 0.85rem; cursor: pointer; }
+.aa button:hover:not(:disabled) { border-color: var(--aa-suave); }
+.aa button:disabled { opacity: 0.45; cursor: default; }
+.aa button:focus-visible, .aa textarea:focus-visible, .aa input:focus-visible { outline: 2px solid var(--aa-oro); outline-offset: 2px; }
+.aa .aa-primario { background: var(--aa-oro); border-color: var(--aa-oro); color: #121211; font-weight: 600; }
+.aa .aa-peligro { background: var(--aa-peligro); border-color: var(--aa-peligro); color: #fff; }
+.aa .aa-enlace { border: 0; padding: 0 0.3rem; color: var(--aa-suave); text-decoration: underline; }
+.aa textarea, .aa input { width: 100%; box-sizing: border-box; font: inherit; font-size: 16px; color: inherit; background: var(--aa-fondo); border: 1px solid var(--aa-borde); border-radius: 8px; padding: 0.6rem 0.75rem; resize: vertical; }
+.aa h1 { font-size: 1.4rem; margin: 0 0 0.3rem; }
+.aa h2 { font-size: 1rem; margin: 1.6rem 0 0.6rem; color: var(--aa-suave); font-weight: 600; }
+
+/* Barra superior con las secciones */
+.aa-barra { position: sticky; top: 0; z-index: 9600; height: var(--aa-barra); box-sizing: border-box; display: flex; align-items: center; gap: 1rem; padding: 0 1rem; background: var(--aa-fondo); border-bottom: 1px solid var(--aa-borde); }
+.aa-pestanas { display: flex; gap: 0.25rem; overflow-x: auto; scrollbar-width: none; flex: 1; }
+.aa-pestanas::-webkit-scrollbar { display: none; }
+.aa .aa-pestanas button { border: 0; white-space: nowrap; color: var(--aa-suave); display: inline-flex; align-items: center; gap: 0.35rem; }
+.aa .aa-pestanas button.activa { color: var(--aa-texto); background: var(--aa-superficie); }
+.aa-globo { background: var(--aa-oro); color: #121211; border-radius: 999px; font-size: 0.72rem; font-weight: 700; min-width: 1.2rem; padding: 0 0.3rem; text-align: center; }
+.aa .aa-salir { margin-left: auto; }
+
+.aa-contenido { max-width: 760px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+.aa-nota { color: var(--aa-suave); margin: 0.3rem 0 0.8rem; line-height: 1.5; }
+.aa-vacio { color: var(--aa-suave); padding: 1.2rem; border: 1px dashed var(--aa-borde); border-radius: 10px; text-align: center; }
+.aa-error { color: #f08a80; margin: 0.4rem 0; }
+.aa-aviso { background: rgba(196, 171, 87, 0.12); border: 1px solid rgba(196, 171, 87, 0.4); border-radius: 8px; padding: 0.6rem 0.8rem; }
+.aa-fila-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 0.7rem 0; }
+.aa-tarjeta { background: var(--aa-superficie); border: 1px solid var(--aa-borde); border-radius: 12px; padding: 1rem; margin: 1rem 0; display: grid; gap: 0.6rem; }
+.aa-etiqueta { display: inline-block; font-size: 0.75rem; padding: 0.1rem 0.5rem; border-radius: 999px; border: 1px solid var(--aa-borde); color: var(--aa-suave); margin-left: 0.4rem; }
+.aa-etiqueta:first-child { margin-left: 0; }
+.aa-etiqueta-oro { border-color: rgba(196, 171, 87, 0.5); color: var(--aa-oro); }
+.aa-lista-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.2rem; color: var(--aa-suave); font-size: 0.82rem; }
+
+/* Conversaciones */
+.aa-lista { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: 0.4rem; }
+.aa .aa-lista button { width: 100%; text-align: left; display: grid; gap: 0.3rem; padding: 0.75rem 0.9rem; background: var(--aa-superficie); }
+.aa-lista-texto { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.aa-charla { display: grid; gap: 0.5rem; margin-top: 1rem; }
+.aa-charla p { margin: 0; padding: 0.6rem 0.85rem; border-radius: 12px; max-width: 85%; line-height: 1.45; white-space: pre-wrap; }
+.aa-visitante { justify-self: end; background: #2b3a44; }
+.aa-clon { justify-self: start; background: var(--aa-superficie); border: 1px solid var(--aa-borde); }
+
+/* Enséñale y evolución */
+.aa-segmentos { display: inline-flex; gap: 0.25rem; padding: 0.2rem; border: 1px solid var(--aa-borde); border-radius: 10px; justify-self: start; }
+.aa .aa-segmentos button { border: 0; color: var(--aa-suave); }
+.aa .aa-segmentos button.activo { background: var(--aa-oro); color: #121211; font-weight: 600; }
+.aa-datos { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+.aa-datos > li:not(.aa-tarjeta) { padding: 0.7rem 0.9rem; background: var(--aa-superficie); border: 1px solid var(--aa-borde); border-radius: 10px; }
+.aa-datos p { margin: 0 0 0.35rem; line-height: 1.45; }
+.aa-datos .aa-tarjeta { margin: 0; }
+
+/* Entrevista */
+.aa-pregunta { font-size: 1.15rem; line-height: 1.4; margin: 0; }
+.aa .aa-dictando { border-color: var(--aa-peligro); color: #f08a80; }
+
+/* Entrar */
+.aa-entrar { width: min(340px, 100%); display: grid; gap: 0.6rem; }
+.aa-entrar h1 { margin-bottom: 0.6rem; }
+
+/* Banco de pruebas: el avatar ocupa la pantalla bajo la barra */
+.aa-banco .ap { top: var(--aa-barra); }
+.aa:has(.aa-banco) { overflow: hidden; height: 100dvh; }
+
+@media (max-width: 560px) {
+  .aa-barra { gap: 0.5rem; padding: 0 0.5rem; }
+  .aa-barra > strong { display: none; }
+  .aa-contenido { padding-top: 1rem; }
+}
+.aa-tarjeta > .aa-etiqueta { justify-self: start; }
+
+/* Lo que sabe de base: plegado, para leer */
+.aa-base { margin: 0.6rem 0 0; border: 1px solid var(--aa-borde); border-radius: 10px; padding: 0.2rem 0.9rem; }
+.aa-base summary { cursor: pointer; padding: 0.55rem 0; color: var(--aa-suave); }
+.aa-base[open] summary { color: var(--aa-texto); }
+.aa-base h3 { font-size: 0.9rem; margin: 0.9rem 0 0.3rem; color: var(--aa-oro); }
+.aa-base ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.3rem; line-height: 1.45; }

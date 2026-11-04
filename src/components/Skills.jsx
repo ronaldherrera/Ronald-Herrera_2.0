@@ -32,6 +32,11 @@ const Skills = () => {
     constraintIterations: 10
   }));
   const [isGameActive, setIsGameActive] = useState(false);
+  // Mientras se juega, el clon no aparece ni llama la atención (ver Clon.css y clon/llamadas.js)
+  useEffect(() => {
+    document.documentElement.toggleAttribute('data-jugando', isGameActive);
+    return () => document.documentElement.removeAttribute('data-jugando');
+  }, [isGameActive]);
   const [chipPositions, setChipPositions] = useState({});
   const [injectedSkills, setInjectedSkills] = useState(new Set());
   const [showContactModal, setShowContactModal] = useState(false);

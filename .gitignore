@@ -25,3 +25,10 @@ dist-ssr
 
 # Contraseña del correo (va en el servidor, fuera de public_html)
 config-correo.php
+
+# Clave de la API del chat (va en el servidor, fuera de public_html)
+config-chat.php
+
+# Dependencias PHP del chat: se instalan en el despliegue
+servidor/vendor
+servidor/composer.lock

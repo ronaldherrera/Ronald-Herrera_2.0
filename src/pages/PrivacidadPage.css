@@ -1,0 +1,36 @@
+.privacidad-page {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  padding: 140px 0 6rem;
+}
+
+.privacidad {
+  max-width: 44rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.privacidad h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  color: var(--color-text);
+  margin: 0 0 1.5rem;
+}
+
+.privacidad h2 {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  color: var(--color-text);
+  margin: 2.5rem 0 0.6rem;
+}
+
+.privacidad p { margin: 0 0 1rem; }
+
+.privacidad a { color: var(--color-accent-blue); }
+
+.privacidad-fecha {
+  margin-top: 3rem !important;
+  font-size: 0.85rem;
+}

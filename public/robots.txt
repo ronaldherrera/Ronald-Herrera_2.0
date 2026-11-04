@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /avatar-admin
 
 Sitemap: https://ronaldherrera.es/sitemap.xml
